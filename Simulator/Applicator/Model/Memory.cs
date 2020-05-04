@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 
-namespace Applicator.Model
+namespace Application.Model
 {
     public class Memory
     {

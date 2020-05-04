@@ -3,7 +3,6 @@ using GalaSoft.MvvmLight.CommandWpf;
 using System.ComponentModel;
 using Application.Model;
 using Application.Services;
-using Applicator.Model;
 
 namespace Application.ViewModel
 {

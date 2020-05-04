@@ -5,5 +5,5 @@ using System.Threading.Tasks;
 
 public interface ICommandService
 {
-    Task AnalyzeCommand (Memory Memory, List<int> breakpointList);
+    Task Run (Memory Memory, List<int> breakpointList);
 }

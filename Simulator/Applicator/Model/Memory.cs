@@ -92,7 +92,7 @@ namespace Application.Model
 
         public void PowerReset()
         {
-            //Initialzustand von RAM wiederherstellen
+           /* //Initialzustand von RAM wiederherstellen
             //Bank 1
             RAM[Constants.INDF_B1] = 0x00;
             RAM[Constants.TMR0] = 0x00;
@@ -118,10 +118,10 @@ namespace Application.Model
             RAM[Constants.PCLATH_B2] = 0x00;
             RAM[Constants.INTCON_B2] = 0x00;
 
-            Reset_GPR();
+            Reset_GPR();*/
         }
 
-        public void OtherReset()
+       /* public void OtherReset()
         {
             //Bank 1
             RAM[Constants.INDF_B1] = 0x00;
@@ -167,6 +167,6 @@ namespace Application.Model
             {
                 RAM[i] = 0x00;
             }
-        }
+        }*/
     }
 }

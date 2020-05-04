@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using System.ComponentModel;
 using Application.Model;
 using Application.Services;
+using System.Collections.Generic;
 
 namespace Application.ViewModel
 {
@@ -60,6 +61,7 @@ namespace Application.ViewModel
         }
 
         private IDialogService _dialogService;
+        private ICommandService _commandService;
         private IFileService _fileService;
 
         #endregion
@@ -82,6 +84,37 @@ namespace Application.ViewModel
                         }));
             }
         }
+
+        private RelayCommand _runCommand;
+
+        public RelayCommand RunCommand
+        {
+            get
+            {
+                return _runCommand
+                    ?? (_runCommand = new RelayCommand(
+                        () =>
+                        {
+                            _commandService.Run(_memory, new List<int>());
+                            //TODO: funktioniert nicht
+                        }));
+            }
+        }
+
+        private RelayCommand _stopCommand;
+
+        public RelayCommand StopCommand
+        {
+            get
+            {
+                return _stopCommand
+                    ?? (_stopCommand = new RelayCommand(
+                        () =>
+                        {
+                            //TODO: was passiert?
+                        }));
+            }
+        }
         #endregion
 
         #region Methoden
@@ -94,17 +127,19 @@ namespace Application.ViewModel
             SourceFileModel sourceFileModel,
             Memory memory,
             IFileService fileService,
-            IDialogService dialogService
+            IDialogService dialogService,
+            ICommandService commandService
             /* hier werden services injected-> Service ist Interface im Helpers ordner*/)
         {
             _memory = memory;
             _srcFileModel = sourceFileModel;
             _fileService = fileService;
             _dialogService = dialogService;
+            _commandService = commandService;
         }
 
         public MainViewModel() : 
-            this(new SourceFileModel(), new Memory(), new FileService(), new DialogService()) 
+            this(new SourceFileModel(), new Memory(), new FileService(), new DialogService(), new CommandService()) 
         {
 
         }

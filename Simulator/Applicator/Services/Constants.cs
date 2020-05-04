@@ -12,6 +12,13 @@ namespace Applicator.Services
         public static readonly short PROGRAM_MEMORY_SIZE = 1024;
         public static readonly short PERIPHERAL_INTERRUPT_VECTOR_ADDRESS = 0x04;
         #endregion
+        #region RAM
+        public static readonly short RAM_SIZE = 256;
+        public static readonly short GPR_START_B1 = 0x0C;
+        public static readonly short GPR_END_B1 = 0x7F;
+        public static readonly short GPR_START_B2 = 0x8C;
+        public static readonly short GPR_END_B2 = 0xFF;
+        #endregion
         #region Bank 1 data memory SFR
         public static readonly short INDF_B1 = 0x00;
         public static readonly short TMR0 = 0x01;
@@ -29,7 +36,7 @@ namespace Applicator.Services
         public static readonly short INDF_B2 = 0x80;
         public static readonly short OPTION_REG = 0x81;
         public static readonly short PCL_B2 = 0x82;
-        public static readonly short STATUS_B3 = 0x83;
+        public static readonly short STATUS_B2 = 0x83;
         public static readonly short FSR_B2 = 0x84;
         public static readonly short TRISA = 0x85;
         public static readonly short TRISB = 0x86;

@@ -8,6 +8,6 @@ namespace Application.Services
 {
     public interface IFileService
     {
-        void ParseFile(string file, short[] array);
+         short[] ParseFile(string file, short[] array);
     }
 }

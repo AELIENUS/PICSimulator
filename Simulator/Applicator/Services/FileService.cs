@@ -6,7 +6,7 @@ namespace Application.Services
 {
     class FileService : IFileService
     {
-        public void ParseFile(string file, short[] array)
+        public short[] ParseFile(string file, short[] array)
         {
             array = new short[Constants.PROGRAM_MEMORY_SIZE];
             //regex Pattern
@@ -24,6 +24,7 @@ namespace Application.Services
                 short adressAsInt = short.Parse(adress, NumberStyles.HexNumber);
                 array[adressAsInt] = comAsInt;
             }
+            return array;
         }
 
         public FileService()

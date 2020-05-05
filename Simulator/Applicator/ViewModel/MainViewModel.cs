@@ -79,7 +79,7 @@ namespace Application.ViewModel
                         () =>
                         {
                             SrcFileModel.SourceFile = _dialogService.Open();
-                            _fileService.ParseFile(SrcFileModel.SourceFile, Memory.Program);
+                            Memory.Program = _fileService.ParseFile(SrcFileModel.SourceFile, Memory.Program);
                             //TODO: was passiert wenn ein SrcFileModel überschrieben wird?
                         }));
             }
@@ -95,8 +95,7 @@ namespace Application.ViewModel
                     ?? (_runCommand = new RelayCommand(
                         () =>
                         {
-                            _commandService.Run(_memory, new List<int>());
-                            //TODO: funktioniert nicht
+                            _commandService.Run(Memory, new List<int>());
                         }));
             }
         }

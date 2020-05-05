@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
+using Application.ViewModel;
 
 public class CommandService : ICommandService
 {
@@ -126,7 +127,7 @@ public class CommandService : ICommandService
     #region literal and control operations
     private void ADDLW (int literal) //add literal and w
     {
-
+        Console.WriteLine("addlw {0}", literal);
     }
 
     private void ANDLW(int literal) //and literal and w
@@ -136,7 +137,11 @@ public class CommandService : ICommandService
 
     private void CALL(int address) // call subroutine
     {
-
+        //TODO stack  = Memory.RAM[Constants.PCL_B1] + 1;
+        /*MainViewModel.Memory
+        Memory.RAM[Constants.PCL_B1] = (int)address & 0b_0000_0111_1111_1111;
+        Memory.RAM[Constants.PCLATH_B1] = (int)address & 0b_0000_0111_1111_1111;*/
+        Console.WriteLine("call {0}", address);
     }
 
     private void CLRWDT() //clear watchdog timer
@@ -146,7 +151,8 @@ public class CommandService : ICommandService
 
     private void GOTO (int address) //go to address
     {
-
+        Console.WriteLine("goto {0}", address);
+        //cycles:2
     }
 
     private void IORLW (int literal) //inclusive OR literal with w
@@ -156,7 +162,7 @@ public class CommandService : ICommandService
 
     private void MOVLW (int literal) //move literal to w
     {
-
+        Console.WriteLine("movlw {0}", literal);
     }
 
     private void RETFIE() //return from interrupt
@@ -166,12 +172,12 @@ public class CommandService : ICommandService
 
     private void RETLW (int literal) //return with literal in w 
     {
-
+        Console.WriteLine("retlw {0}", literal);
     }
 
-    private void RETURN() //return from subroutine
+    private async Task RETURN() //return from subroutine
     {
-
+        Console.WriteLine("return");
     }
 
     private void SLEEP() // go into standby mode
@@ -193,12 +199,13 @@ public class CommandService : ICommandService
 
     public async Task Run(Memory Memory, List<int> breakpointList)
     {
-        for (int i = 0; i < Constants.PROGRAM_MEMORY_SIZE; i++)
+        int i = 0;
+        while ( i < Constants.PROGRAM_MEMORY_SIZE) //i durch Memory.RAM[Constants.PCL_B1] ersetzen
         {
             switch (Memory.Program[i])
             {
                 case 0b_0000_0000_0000_1000:
-                    RETURN(); //Return from Subroutine
+                    await RETURN(); //Return from Subroutine
                     break;
                 case 0b_0000_0000_0000_1001:
                     RETFIE(); //return from interrupt
@@ -233,7 +240,7 @@ public class CommandService : ICommandService
             case 0b_0010_0000_0000_0000:
                 int bit12 = (int)befehl & 0b_0000_1000_0000_0000;
                 int address = (int)befehl & 0b_0000_0111_1111_1111;
-                if (bit12 == 1)
+                if (bit12 == 0b_0000_1000_0000_0000)
                 {
                     GOTO(address);
                 }

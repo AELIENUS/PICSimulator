@@ -23,15 +23,10 @@ namespace Application.Model
         }
         #endregion
 
-        private byte[] _ram = new byte[Constants.RAM_SIZE];
+        private ObservableCollection<byte> _ram;
 
 
-        ObservableCollection<byte> RAM
-        {
-            get;
-            set;
-        }
-        /*public byte[] RAM
+        public ObservableCollection<byte> RAM
         {
             get
             {
@@ -39,14 +34,11 @@ namespace Application.Model
             }
             set
             {
-                if(value.Equals(_ram))
-                {
-                    return;
-                }
                 _ram = value;
                 RaisePropertyChanged();
             }
-        }*/
+        }
+
 
         private byte[] _dataEEPROM;
 
@@ -87,12 +79,13 @@ namespace Application.Model
         public Memory()
         {
             Program = new short[Constants.PROGRAM_MEMORY_SIZE];
+            _ram = new ObservableCollection<byte>(new byte[256]);
             PowerReset();
         }
 
         public void PowerReset()
         {
-           /* //Initialzustand von RAM wiederherstellen
+            //Initialzustand von RAM wiederherstellen
             //Bank 1
             RAM[Constants.INDF_B1] = 0x00;
             RAM[Constants.TMR0] = 0x00;
@@ -118,10 +111,10 @@ namespace Application.Model
             RAM[Constants.PCLATH_B2] = 0x00;
             RAM[Constants.INTCON_B2] = 0x00;
 
-            Reset_GPR();*/
+            Reset_GPR();
         }
 
-       /* public void OtherReset()
+       public void OtherReset()
         {
             //Bank 1
             RAM[Constants.INDF_B1] = 0x00;
@@ -167,6 +160,6 @@ namespace Application.Model
             {
                 RAM[i] = 0x00;
             }
-        }*/
+        }
     }
 }

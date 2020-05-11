@@ -1,5 +1,4 @@
-﻿using Applicator.Model;
-using Applicator.Services;
+﻿using Applicator.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,6 +22,27 @@ namespace Application.Model
             }
         }
         #endregion
+
+        #region properties
+        private short _W_Reg;
+
+        public short W_Reg
+        {
+            get
+            {
+                return _W_Reg;
+            }
+            set
+            {
+                if (value == _W_Reg)
+                {
+                    return;
+                }
+                _W_Reg = value;
+                RaisePropertyChanged();
+            }
+        }
+
         private RAMModel _ram = new RAMModel();
 
         public RAMModel RAM
@@ -78,6 +98,8 @@ namespace Application.Model
                 RaisePropertyChanged();
             }
         }
+        #endregion
+
         public Memory()
         {
             Program = new short[Constants.PROGRAM_MEMORY_SIZE];

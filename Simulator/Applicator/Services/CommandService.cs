@@ -160,15 +160,15 @@ public class CommandService : ICommandService
     #region literal and control operations
     private void ADDLW (Memory memory, int literal) //add literal and w
     {
-        int result = literal + memory.W_reg;
-        check_DC_C(memory, literal, memory.W_reg, "+");        
+        int result = literal + memory.W_Reg;
+        check_DC_C(memory, literal, memory.W_Reg, "+");        
         checkZ(memory, result);
 
         if (result > 255)
 	    {
             result = result -255;
 	    }
-        memory.W_reg = result;
+        memory.W_Reg = (short)result;
 
         //cycles: 1
     }
@@ -242,8 +242,8 @@ public class CommandService : ICommandService
 
     private void SUBLW(Memory memory, int literal) // subtract w from literal
     {
-        int result = literal - memory.W_reg; 
-        check_DC_C(memory, literal, memory.W_reg, "-");        
+        int result = literal - memory.W_Reg; 
+        check_DC_C(memory, literal, memory.W_Reg, "-");        
         checkZ(memory, result);
 
         if (result < 0)
@@ -251,7 +251,7 @@ public class CommandService : ICommandService
             result = result + 255;
 	    }
 
-        memory.W_reg = result;
+        memory.W_Reg = (short)result;
 
         //cycles: 1
     }

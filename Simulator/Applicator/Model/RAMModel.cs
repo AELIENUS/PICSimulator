@@ -260,18 +260,17 @@ namespace Application.Model
                 //index auf Bereich ist SourceIndex modulo durch 16
                 //Bank wird ermittelt durch das ganzzahlige abgerundete Ergebnis von SourceIndex durch 16
                 int sliceIndex;
-                double tempSlice;
+                int slice;
                 if (index < 16)
                 {
                     sliceIndex = 0;
-                    tempSlice = index;
+                    slice = index;
                 }
                 else
                 {
-                    sliceIndex = index % 16;
-                    tempSlice = index / 16;
+                    slice = index % 16;
+                    sliceIndex = (int)Math.Floor(((double)index / 16));
                 }
-                int slice = (int)Math.Floor(tempSlice);
                 //umrechnung auf Rambereiche und zugriff
 
                 switch (slice)
@@ -319,18 +318,17 @@ namespace Application.Model
                 //Bank wird ermittelt durch das ganzzahlige abgerundete Ergebnis von SourceIndex durch 16
                 //Ausnahme: der mitgegebene Index ist kleiner als 16
                 int sliceIndex;
-                double tempSlice;
+                int slice;
                 if (index<16)
                 {
                     sliceIndex = 0;
-                    tempSlice = index; 
+                    slice = index; 
                 }
                 else
                 {
-                    sliceIndex = index % 16;
-                    tempSlice = index / 16;
+                    slice = index % 16;
+                    sliceIndex = (int)Math.Floor(((double)index / 16));
                 }    
-                int slice = (int)Math.Floor(tempSlice);
                 //umrechnung auf Rambereiche und zugriff
 
                 switch (slice)

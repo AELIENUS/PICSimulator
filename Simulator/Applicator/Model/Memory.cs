@@ -1,4 +1,5 @@
-﻿using Applicator.Services;
+﻿using Applicator.Model;
+using Applicator.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,10 +23,9 @@ namespace Application.Model
             }
         }
         #endregion
+        private RAMModel _ram = new RAMModel();
 
-        private ObservableCollection<byte> _ram;
-
-        public ObservableCollection<byte> RAM
+        public RAMModel RAM
         {
             get
             {
@@ -33,6 +33,10 @@ namespace Application.Model
             }
             set
             {
+                if (value.Equals(_ram))
+                {
+                    return;
+                }
                 _ram = value;
                 RaisePropertyChanged();
             }
@@ -77,7 +81,7 @@ namespace Application.Model
         public Memory()
         {
             Program = new short[Constants.PROGRAM_MEMORY_SIZE];
-            RAM = new ObservableCollection<byte>(new byte[256]);
+            RAM = new RAMModel();
             PowerReset();
         }
 

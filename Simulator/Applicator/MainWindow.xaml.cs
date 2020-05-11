@@ -11,7 +11,6 @@ namespace Application
     {
         public MainWindow()
         {
-            //Anzeigen der Elemente im DataGrid
             InitializeComponent();
         }
     }

@@ -5,10 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Application"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+        Title="MainWindow" Height="800" Width="1500"
         DataContext="{Binding Source={StaticResource Main}}">
+    <Window.Resources>
+        <CompositeCollection x:Key="RAMS">
+            <CollectionContainer Collection="{Binding Memory.RAM}"/>
+        </CompositeCollection>
+    </Window.Resources>
     <DockPanel>
-        <Menu DockPanel.Dock="Top">
+        <Menu DockPanel.Dock="Top" ClipToBounds="True">
             <MenuItem Header="_File">
                 <MenuItem Header="_Open" Command="{Binding OpenCommand}"/>
             </MenuItem>
@@ -21,26 +26,87 @@
                  Text="{Binding SrcFileModel.SourceFile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  >
         </TextBox>
-        <DataGrid x:Name="memoryGrid" ItemsSource="{Binding Memory.RAM, Mode=TwoWay, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <!-- wird im code-behind gemacht weils einfacher ist-->
-                <DataGridTextColumn Header="0xR0" Binding="{Binding}"/>
-                <DataGridTextColumn Header="0xR1"/>
-                <DataGridTextColumn Header="0xR2"/>
-                <DataGridTextColumn Header="0xR3"/>
-                <DataGridTextColumn Header="0xR4"/>
-                <DataGridTextColumn Header="0xR5"/>
-                <DataGridTextColumn Header="0xR6"/>
-                <DataGridTextColumn Header="0xR7"/>
-                <DataGridTextColumn Header="0xR8"/>
-                <DataGridTextColumn Header="0xR9"/>
-                <DataGridTextColumn Header="0xRA"/>
-                <DataGridTextColumn Header="0xRB"/>
-                <DataGridTextColumn Header="0xRC"/>
-                <DataGridTextColumn Header="0xRD"/>
-                <DataGridTextColumn Header="0xRE"/>
-                <DataGridTextColumn Header="0xRF"/>
-            </DataGrid.Columns>
-        </DataGrid>
-    </DockPanel>
+        <DockPanel DockPanel.Dock="Right" Width="608" Height="350" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <DataGrid ItemsSource="{Binding Memory.RAM.RAM0}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="0xR0" Binding="{Binding}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid ItemsSource="{Binding Memory.RAM.RAM1}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="0xR1" Binding="{Binding}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid ItemsSource="{Binding Memory.RAM.RAM2}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="0xR2" Binding="{Binding}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid ItemsSource="{Binding Memory.RAM.RAM3}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="0xR3" Binding="{Binding}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid ItemsSource="{Binding Memory.RAM.RAM4}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="0xR4" Binding="{Binding}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid ItemsSource="{Binding Memory.RAM.RAM5}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="0xR5" Binding="{Binding}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid ItemsSource="{Binding Memory.RAM.RAM6}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="0xR6" Binding="{Binding}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid ItemsSource="{Binding Memory.RAM.RAM7}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="0xR7" Binding="{Binding}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid ItemsSource="{Binding Memory.RAM.RAM8}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="0xR8" Binding="{Binding}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid ItemsSource="{Binding Memory.RAM.RAM9}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False"> 
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="0xR9" Binding="{Binding}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid ItemsSource="{Binding Memory.RAM.RAM10}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="0xRA" Binding="{Binding}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid ItemsSource="{Binding Memory.RAM.RAM11}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="0xRB" Binding="{Binding}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid ItemsSource="{Binding Memory.RAM.RAM12}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="0xRC" Binding="{Binding}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid ItemsSource="{Binding Memory.RAM.RAM13}" AutoGenerateColumns="False" RowHeaderWidth="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="0xRD" Binding="{Binding}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid ItemsSource="{Binding Memory.RAM.RAM14}" AutoGenerateColumns="False" RowHeaderWidth="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="0xRE" Binding="{Binding}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid ItemsSource="{Binding Memory.RAM.RAM15}" AutoGenerateColumns="False" RowHeaderWidth="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="0xRF" Binding="{Binding}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+     </DockPanel>
 </Window>

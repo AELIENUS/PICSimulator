@@ -4,6 +4,7 @@ using System.ComponentModel;
 using Application.Model;
 using Application.Services;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Application.ViewModel
 {
@@ -95,7 +96,7 @@ namespace Application.ViewModel
                     ?? (_runCommand = new RelayCommand(
                         () =>
                         {
-                            _commandService.Run(Memory, new List<int>());
+                            Task.Run(() => _commandService.Run(Memory, new List<int>()));
                         }));
             }
         }

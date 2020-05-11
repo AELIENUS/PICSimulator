@@ -21,24 +21,25 @@
                  Text="{Binding SrcFileModel.SourceFile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  >
         </TextBox>
-        <DataGrid ItemsSource="{Binding Memory.RAM}">
+        <DataGrid x:Name="memoryGrid" ItemsSource="{Binding Memory.RAM, Mode=TwoWay, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="0x01" Binding="{Binding [0]}"></DataGridTextColumn>
-                <DataGridTextColumn Header="0x02" Binding="{Binding [1]}"></DataGridTextColumn>
-                <DataGridTextColumn Header="0x03" Binding="{Binding [2]}"></DataGridTextColumn>
-                <DataGridTextColumn Header="0x04" Binding="{Binding [3]}"></DataGridTextColumn>
-                <DataGridTextColumn Header="0x05" Binding="{Binding [4]}"></DataGridTextColumn>
-                <DataGridTextColumn Header="0x06" Binding="{Binding [5]}"></DataGridTextColumn>
-                <DataGridTextColumn Header="0x06" Binding="{Binding [6]}"></DataGridTextColumn>
-                <DataGridTextColumn Header="0x07" Binding="{Binding [7]}"></DataGridTextColumn>
-                <DataGridTextColumn Header="0x08" Binding="{Binding [8]}"></DataGridTextColumn>
-                <DataGridTextColumn Header="0x09" Binding="{Binding [9]}"></DataGridTextColumn>
-                <DataGridTextColumn Header="0x0A" Binding="{Binding [10]}"></DataGridTextColumn>
-                <DataGridTextColumn Header="0x0B" Binding="{Binding [11]}"></DataGridTextColumn>
-                <DataGridTextColumn Header="0x0C" Binding="{Binding [12]}"></DataGridTextColumn>
-                <DataGridTextColumn Header="0x0D" Binding="{Binding [13]}"></DataGridTextColumn>
-                <DataGridTextColumn Header="0x0E" Binding="{Binding [14]}"></DataGridTextColumn>
-                <DataGridTextColumn Header="0x0F" Binding="{Binding [15]}"></DataGridTextColumn>
+                <!-- wird im code-behind gemacht weils einfacher ist-->
+                <DataGridTextColumn Header="0xR0" Binding="{Binding}"/>
+                <DataGridTextColumn Header="0xR1"/>
+                <DataGridTextColumn Header="0xR2"/>
+                <DataGridTextColumn Header="0xR3"/>
+                <DataGridTextColumn Header="0xR4"/>
+                <DataGridTextColumn Header="0xR5"/>
+                <DataGridTextColumn Header="0xR6"/>
+                <DataGridTextColumn Header="0xR7"/>
+                <DataGridTextColumn Header="0xR8"/>
+                <DataGridTextColumn Header="0xR9"/>
+                <DataGridTextColumn Header="0xRA"/>
+                <DataGridTextColumn Header="0xRB"/>
+                <DataGridTextColumn Header="0xRC"/>
+                <DataGridTextColumn Header="0xRD"/>
+                <DataGridTextColumn Header="0xRE"/>
+                <DataGridTextColumn Header="0xRF"/>
             </DataGrid.Columns>
         </DataGrid>
     </DockPanel>

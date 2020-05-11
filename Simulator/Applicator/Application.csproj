@@ -71,7 +71,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\Memory.cs" />
+    <Compile Include="Model\RAMModel.cs" />
     <Compile Include="Model\SourceFileModel.cs" />
+    <Compile Include="Services\CollectionConverter.cs" />
+    <Compile Include="Services\ByteConverter.cs" />
     <Compile Include="Services\CommandService.cs" />
     <Compile Include="Services\Constants.cs" />
     <Compile Include="Services\DialogService.cs" />

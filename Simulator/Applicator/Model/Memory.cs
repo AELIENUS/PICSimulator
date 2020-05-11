@@ -25,7 +25,6 @@ namespace Application.Model
 
         private ObservableCollection<byte> _ram;
 
-
         public ObservableCollection<byte> RAM
         {
             get
@@ -38,7 +37,6 @@ namespace Application.Model
                 RaisePropertyChanged();
             }
         }
-
 
         private byte[] _dataEEPROM;
 
@@ -79,7 +77,7 @@ namespace Application.Model
         public Memory()
         {
             Program = new short[Constants.PROGRAM_MEMORY_SIZE];
-            _ram = new ObservableCollection<byte>(new byte[256]);
+            RAM = new ObservableCollection<byte>(new byte[256]);
             PowerReset();
         }
 

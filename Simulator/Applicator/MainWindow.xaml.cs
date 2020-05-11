@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using Application.ViewModel;
 
 namespace Application
@@ -10,6 +11,7 @@ namespace Application
     {
         public MainWindow()
         {
+            //Anzeigen der Elemente im DataGrid
             InitializeComponent();
         }
     }

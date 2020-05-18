@@ -156,5 +156,15 @@ namespace CommandTest
         }
 
         #endregion
+
+        [Test]
+        public void TestBit_SkipClear_True()
+        {
+            int lit1 = 0;
+
+            int result = com.bitTest(lit1, 0);
+
+            Assert.AreEqual(2, result);
+        }
     }
 }

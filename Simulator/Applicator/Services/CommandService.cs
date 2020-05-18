@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using Application.ViewModel;
 using System.Diagnostics;
 
-//todo: methoden wieder public!!!!!!!!!
+//todo: methoden wieder public!!!!!!!!! (für tests public gestellt)
 
 public class CommandService : ICommandService
 {
@@ -159,30 +159,151 @@ public class CommandService : ICommandService
     #endregion byte-oriented file register operations
 
     #region bit-oriented file register operations
-    public async Task BCF (Memory memory, int file, int bits) //bit clear f
+    public async Task BCF (Memory memory, int file, int bit) //bit clear f
     {
+        switch (bit)
+        {
+            case 0:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] & 0b_1111_1110);
+                break;
+            case 1:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] & 0b_1111_1101);
+                break;
+            case 2:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] & 0b_1111_1011);
+                break;
+            case 3:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] & 0b_1111_0111);
+                break;
+            case 4:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] & 0b_1110_1111);
+                break;
+            case 5:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] & 0b_1101_1111);
+                break;
+            case 6:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] & 0b_1011_1111);
+                break;
+            default: // bit = 7
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] & 0b_0111_1111);
+                break;
+        }
+
         //PC hochzählen
         ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+
+        //cycles = 1
     }
 
-    public async Task BSF (Memory memory, int file, int bits)//bit set f
+    public async Task BSF (Memory memory, int file, int bit)//bit set f
     {
+        switch (bit)
+        {
+            case 0:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] | 0b_0000_0001);
+                break;
+            case 1:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] | 0b_0000_0010);
+                break;
+            case 2:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] | 0b_0000_0100);
+                break;
+            case 3:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] | 0b_0000_1000);
+                break;
+            case 4:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] | 0b_0001_0000);
+                break;
+            case 5:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] | 0b_0010_0000);
+                break;
+            case 6:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] | 0b_0100_0000);
+                break;
+            default: // bit = 7
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] | 0b_1000_0000);
+                break;
+        }
+
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+
+        //cycles = 1
     }
 
-    public async Task BTFSC (Memory memory, int file, int bits) //bit test f, skip if clear
+    public async Task BTFSC (Memory memory, int file, int bit) //bit test f, skip if clear
     {
+        int summand;
+        switch (bit)
+        {
+            case 0:
+                summand = bitTest(memory.RAM[file] & 0b_0000_0001, 0);
+                break;
+            case 1:
+                summand = bitTest(memory.RAM[file] & 0b_0000_0010, 0);
+                break;
+            case 2:
+                summand = bitTest(memory.RAM[file] & 0b_0000_0100, 0);
+                break;
+            case 3:
+                summand = bitTest(memory.RAM[file] & 0b_0000_1000, 0);
+                break;
+            case 4:
+                summand = bitTest(memory.RAM[file] & 0b_0001_0000, 0);
+                break;
+            case 5:
+                summand = bitTest(memory.RAM[file] & 0b_0010_0000, 0);
+                break;
+            case 6:
+                summand = bitTest(memory.RAM[file] & 0b_0100_0000, 0);
+                break;
+            default: // bit = 7
+                summand = bitTest(memory.RAM[file] & 0b_1000_0000, 0);
+                break;
+        }
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + summand));
+        
+        //cycles: 1, bei skip 2
     }
 
-    public async Task BTFSS (Memory memory, int file, int bits) //bit test f, skip if set
+    public async Task BTFSS (Memory memory, int file, int bit) //bit test f, skip if set
     {
+        int summand;
+        switch (bit)
+        {
+            case 0:
+                summand = bitTest(memory.RAM[file] & 0b_0000_0001, 1);
+                break;
+            case 1:
+                summand = bitTest(memory.RAM[file] & 0b_0000_0010, 1);
+                break;
+            case 2:
+                summand = bitTest(memory.RAM[file] & 0b_0000_0100, 1);
+                break;
+            case 3:
+                summand = bitTest(memory.RAM[file] & 0b_0000_1000, 1);
+                break;
+            case 4:
+                summand = bitTest(memory.RAM[file] & 0b_0001_0000, 1);
+                break;
+            case 5:
+                summand = bitTest(memory.RAM[file] & 0b_0010_0000, 1);
+                break;
+            case 6:
+                summand = bitTest(memory.RAM[file] & 0b_0100_0000, 1);
+                break;
+            default: // bit = 7
+                summand = bitTest(memory.RAM[file] & 0b_1000_0000, 1);
+                break;
+        }
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +summand ));
+
+        //cycles: 1, bei skip 2
     }
 
+ 
     #endregion
 
     #region literal and control operations
@@ -221,9 +342,10 @@ public class CommandService : ICommandService
         //cycles: 1
     }
 
-    public void CALL(Memory memory, int address) // call subroutine -> stack fehlt
+    public void CALL(Memory memory, int address) // call subroutine -> fertig
     {
-        //memory.PCStack.push(Memory.RAM[Constants.PCL_B1] + 1);
+        int returnAdress = memory.RAM[Constants.PCL_B1] + 1;
+        memory.PCStack.Push((short)returnAdress);
 
         GOTO (memory, address);
 
@@ -267,35 +389,62 @@ public class CommandService : ICommandService
         //cycles: 1
     }
 
-    public void MOVLW (Memory memory, int literal) //move literal to w
+    public void MOVLW (Memory memory, int literal) //move literal to w -> fertig
     {
-        Console.WriteLine("movlw {0}", literal);
-
-
+        memory.W_Reg = Convert.ToByte(literal);
         ///PC hochzählen
         ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+
+        //cycles: 1
     }
 
-    public void RETFIE(Memory memory) //return from interrupt
+    public void RETFIE(Memory memory) //return from interrupt -> fertig
     {
-        //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        //top of stack in PC
+        int returnAddress = memory.PCStack.Pop();
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(returnAddress));
+
+        //GlobalInterruptEnable setzen
+        int wert = memory.RAM[Constants.INTCON_B1] | 0b_1000_0000;
+        ChangeBoth(memory, Constants.INTCON_B1, Convert.ToByte(wert));
+
+        //cycles: 2
     }
 
-    public void RETLW (Memory memory, int literal) //return with literal in w 
+    public void RETLW (Memory memory, int literal) //return with literal in w -> fertig
     {
-        Console.WriteLine("retlw {0}", literal);
+        memory.W_Reg = Convert.ToByte(literal);
+
+        // top of stack in PC
+        int returnAddress = memory.PCStack.Pop();
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(returnAddress));
+
+        //cycles: 2
+    }
+
+    public void RETURN(Memory memory) //return from subroutine -> fertig
+    {
+        //top of stack in PC
+        int returnAddress = memory.PCStack.Pop();
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(returnAddress));
+
+        //cycles: 2
 
     }
 
-    public async Task RETURN(Memory memory) //return from subroutine
+    public void SLEEP(Memory memory) // go into standby mode -> wdt fehlt, sleep modus
     {
-        Console.WriteLine("return");
+        //clear power down status
+        int PD = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_0111);
+        ChangeBoth(memory, Constants.STATUS_B1, Convert.ToByte(PD));
 
-    }
+        //set time out status
+        int TO = Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0001_0000);
+        ChangeBoth(memory, Constants.STATUS_B1, Convert.ToByte(TO));
 
-    public void SLEEP(Memory memory) // go into standby mode
-    {
+        //clear Watchdog and prescaler
+
+        //processor in sleep mode, oscilatoor stopped,  page 14.8
 
     }
 
@@ -318,10 +467,19 @@ public class CommandService : ICommandService
         //cycles: 1
     }
 
-    public void XORLW (Memory memory, int literal) //exclusive OR literal with w
+    public void XORLW (Memory memory, int literal) //exclusive OR literal with w -> fertig
     {
+        int result;
+
+        result = memory.W_Reg ^ literal;
+
+        checkZ(memory, result);
+        memory.W_Reg = (short)result;
+        ;
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+
+        //cycles: 1
     }
     #endregion
 
@@ -340,7 +498,7 @@ public class CommandService : ICommandService
             switch (memory.Program[PC])
             {
                 case 0b_0000_0000_0000_1000:
-                    await RETURN(memory); //Return from Subroutine
+                    RETURN(memory); //Return from Subroutine
                     break;
                 case 0b_0000_0000_0000_1001:
                     RETFIE(memory); //return from interrupt
@@ -574,7 +732,7 @@ public class CommandService : ICommandService
             ChangeBoth(memory, Constants.STATUS_B1, wert);
 	    }
     }
-    
+
     public void check_DC_C(Memory memory, int literal1, int literal2, string op)
     {
         int literal1low = literal1 & 0b_0000_1111;
@@ -629,6 +787,23 @@ public class CommandService : ICommandService
             ChangeBoth(memory, Constants.STATUS_B1, wert);
 
 	    }
+    }
+
+    public int bitTest(int content, int skip)
+    { // wenn skip = 0 soll bei clear geskipped werden, ist skip = 1, soll bei set geskipped werden
+        if (skip == 0)
+        {
+            if (content == 0)
+            {
+                return 2;
+            }
+            return 1;
+        }
+        if (content == 0)
+        {
+            return 1;
+        }
+        return 2;
     }
 
     public CommandService()

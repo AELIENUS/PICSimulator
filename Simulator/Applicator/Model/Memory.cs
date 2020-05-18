@@ -24,6 +24,24 @@ namespace Application.Model
         #endregion
 
         #region properties
+        private Stack<short> _PCStack;
+
+        public Stack<short> PCStack 
+        { 
+            get
+            {
+                if(_PCStack == null)
+                {
+                    _PCStack = new Stack<short>(Constants.PC_STACK_CAPACITY);
+                }
+                return _PCStack;
+            }
+            set
+            {
+                _PCStack = value;
+            }
+        }
+
         private short _W_Reg;
 
         public short W_Reg

@@ -13,100 +13,112 @@
         </CompositeCollection>
     </Window.Resources>
     <DockPanel>
-        <Menu DockPanel.Dock="Top" ClipToBounds="True">
-            <MenuItem Header="_File">
-                <MenuItem Header="_Open" Command="{Binding OpenCommand}"/>
-            </MenuItem>
-            <MenuItem Header="_Run" Command="{Binding RunCommand}"/>
-            <MenuItem Header="_Stop" Command="{Binding StopCommand}"/>
-        </Menu>
-        <TextBox Name="txtEditor" 
-                 Margin="0" Width="400" Height="300" 
-                 VerticalAlignment="Bottom" HorizontalAlignment="Left"
-                 Text="{Binding SrcFileModel.SourceFile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 >
-        </TextBox>
-        <DockPanel DockPanel.Dock="Right" Width="605" Height="350" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-            <DataGrid ItemsSource="{Binding Memory.RAM.RAM0, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="0xR0" Binding="{Binding Path=., Mode=TwoWay}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-            <DataGrid ItemsSource="{Binding Memory.RAM.RAM1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="0xR1" Binding="{Binding Path=., Mode=TwoWay}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-            <DataGrid ItemsSource="{Binding Memory.RAM.RAM2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="0xR2" Binding="{Binding Path=., Mode=TwoWay}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-            <DataGrid ItemsSource="{Binding Memory.RAM.RAM3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="0xR3" Binding="{Binding Path=., Mode=TwoWay}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-            <DataGrid ItemsSource="{Binding Memory.RAM.RAM4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="0xR4" Binding="{Binding Path=., Mode=TwoWay}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-            <DataGrid ItemsSource="{Binding Memory.RAM.RAM5, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="0xR5" Binding="{Binding Path=., Mode=TwoWay}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-            <DataGrid ItemsSource="{Binding Memory.RAM.RAM6, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="0xR6" Binding="{Binding Path=., Mode=TwoWay}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-            <DataGrid ItemsSource="{Binding Memory.RAM.RAM7, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="0xR7" Binding="{Binding Path=., Mode=TwoWay}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-            <DataGrid ItemsSource="{Binding Memory.RAM.RAM8, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="0xR8" Binding="{Binding Path=., Mode=TwoWay}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-            <DataGrid ItemsSource="{Binding Memory.RAM.RAM9, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False"> 
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="0xR9" Binding="{Binding Path=., Mode=TwoWay}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-            <DataGrid ItemsSource="{Binding Memory.RAM.RAM10, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="0xRA" Binding="{Binding Path=., Mode=TwoWay}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-            <DataGrid ItemsSource="{Binding Memory.RAM.RAM11, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="0xRB" Binding="{Binding Path=., Mode=TwoWay}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-            <DataGrid ItemsSource="{Binding Memory.RAM.RAM12, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="0xRC" Binding="{Binding Path=., Mode=TwoWay}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-            <DataGrid ItemsSource="{Binding Memory.RAM.RAM13, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="0xRD" Binding="{Binding Path=., Mode=TwoWay}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-            <DataGrid ItemsSource="{Binding Memory.RAM.RAM14, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="0xRE" Binding="{Binding Path=., Mode=TwoWay}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-            <DataGrid ItemsSource="{Binding Memory.RAM.RAM15, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="0xRF" Binding="{Binding Path=., Mode=TwoWay}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </DockPanel>
-     </DockPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="650"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="350"/>
+            </Grid.RowDefinitions>
+            <Menu DockPanel.Dock="Top" ClipToBounds="True">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Open" Command="{Binding OpenCommand}"/>
+                </MenuItem>
+                <MenuItem Header="_Run" Command="{Binding RunCommand}"/>
+                <MenuItem Header="_Stop" Command="{Binding StopCommand}"/>
+            </Menu>
+            <GroupBox Header="Edit Register" Grid.Row="0" Grid.Column="1">
+                <Label Content="{Binding Memory.RAM.RAM5[0], Converter={StaticResource elementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    
+                </Label>
+            </GroupBox>
+            <TextBox Name="txtEditor" 
+                 Text="{Binding SrcFileModel.SourceFile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="0"
+                 />
+            <DockPanel Grid.Row="1" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DockPanel.Dock="Top">
+                <DataGrid  ItemsSource="{Binding Memory.RAM.RAM0, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="0xR0" Binding="{Binding Path=., Mode=TwoWay}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid ItemsSource="{Binding Memory.RAM.RAM1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="0xR1" Binding="{Binding Path=., Mode=TwoWay}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid ItemsSource="{Binding Memory.RAM.RAM2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="0xR2" Binding="{Binding Path=., Mode=TwoWay}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid ItemsSource="{Binding Memory.RAM.RAM3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="0xR3" Binding="{Binding Path=., Mode=TwoWay}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid ItemsSource="{Binding Memory.RAM.RAM4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="0xR4" Binding="{Binding Path=., Mode=TwoWay}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid ItemsSource="{Binding Memory.RAM.RAM5, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="0xR5" Binding="{Binding Path=., Mode=TwoWay}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid ItemsSource="{Binding Memory.RAM.RAM6, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="0xR6" Binding="{Binding Path=., Mode=TwoWay}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid ItemsSource="{Binding Memory.RAM.RAM7, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="0xR7" Binding="{Binding Path=., Mode=TwoWay}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid ItemsSource="{Binding Memory.RAM.RAM8, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="0xR8" Binding="{Binding Path=., Mode=TwoWay}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid ItemsSource="{Binding Memory.RAM.RAM9, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="0xR9" Binding="{Binding Path=., Mode=TwoWay}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid ItemsSource="{Binding Memory.RAM.RAM10, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="0xRA" Binding="{Binding Path=., Mode=TwoWay}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid ItemsSource="{Binding Memory.RAM.RAM11, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="0xRB" Binding="{Binding Path=., Mode=TwoWay}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid ItemsSource="{Binding Memory.RAM.RAM12, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="0xRC" Binding="{Binding Path=., Mode=TwoWay}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid ItemsSource="{Binding Memory.RAM.RAM13, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="0xRD" Binding="{Binding Path=., Mode=TwoWay}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid ItemsSource="{Binding Memory.RAM.RAM14, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="0xRE" Binding="{Binding Path=., Mode=TwoWay}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid ItemsSource="{Binding Memory.RAM.RAM15, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource collectionConverter}}" AutoGenerateColumns="False" RowHeaderWidth="0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="0xRF" Binding="{Binding Path=., Mode=TwoWay}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
 </Window>

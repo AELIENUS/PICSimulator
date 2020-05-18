@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.SqlServer.Server;
+using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -14,7 +16,8 @@ namespace Application.Services
         {
             if(value!= null)
             {
-                string byteToString = value.ToString();
+                byte temp = (byte)value;
+                string byteToString = Convert.ToString(temp, 2).PadLeft(8, '0');
                 return byteToString;
             }
             else
@@ -26,7 +29,8 @@ namespace Application.Services
 
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            byte b = byte.Parse((string)value);
+            string temp = (string)value;
+            byte b = Convert.ToByte(temp);
             return b;
         }
     }

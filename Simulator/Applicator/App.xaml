@@ -6,6 +6,7 @@
             <vm:MainViewModel x:Key="Main" />
             <converter:ByteConverter x:Key="elementConverter"/>
             <converter:CollectionConverter x:Key="collectionConverter"/>
+            <converter:ByteBitToBoolConverter x:Key="bitToBoolConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -1,4 +1,5 @@
 ﻿using Applicator.Services;
+using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,21 +9,8 @@ using System.Runtime.CompilerServices;
 
 namespace Application.Model
 {
-    public class Memory
+    public class Memory : ObservableObject
     {
-        #region PropertyChanged Teil TODO: gibt es das in MVVM light?
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-        #endregion
-
         #region properties
         private Stack<short> _PCStack;
 
@@ -61,8 +49,8 @@ namespace Application.Model
             }
         }
 
-        private RAMModel _ram = new RAMModel();
-
+        private RAMModel _ram;
+        
         public RAMModel RAM
         {
             get
@@ -181,11 +169,11 @@ namespace Application.Model
             RAM[Constants.TRISB] = 0xFF;
             //Bit 4 konditional
             RAM[Constants.EECON1] = 0x00;
-            RAM[Constants.EECON2] = 0x00;
+            RAM[Constants.EECON2]= 0x00;
             RAM[Constants.PCLATH_B2] = 0x00;
             RAM[Constants.INTCON_B2] &= 0x001;
 
-            //GPR 
+            //GPR
             Reset_GPR();
         }
 

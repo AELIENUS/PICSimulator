@@ -1,4 +1,5 @@
-﻿using Microsoft.SqlServer.Server;
+﻿using Applicator.Model;
+using Microsoft.SqlServer.Server;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -14,17 +15,9 @@ namespace Application.Services
     {
         object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value!= null)
-            {
-                byte temp = (byte)value;
-                string byteToString = Convert.ToString(temp, 2).PadLeft(8, '0');
-                return byteToString;
-            }
-            else
-            {
-                string noValue = "NULL";
-                return noValue;
-            }
+            byte temp = (byte)value;
+            string byteToString = Convert.ToString(temp, 2).PadLeft(8, '0');
+            return byteToString;
         }
 
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

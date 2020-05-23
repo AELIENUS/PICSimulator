@@ -16,7 +16,7 @@ public class CommandService : ICommandService
     #region byte-oriented file register operations
     public void ADDWF(Memory memory, int file, int d) //add w and f 
     {
-        int result = memory.RAM[file] + memory.W_Reg; 
+        int result = memory.RAM[file] + memory.W_Reg;
 
         if (result > 255)
         {
@@ -59,12 +59,12 @@ public class CommandService : ICommandService
     public void CLRW(Memory memory) // clear w
     {
         memory.W_Reg = 0;
-
         // z flag setzen
         checkZ(memory, 0);
 
         //PC hochzählen
         ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+
     }
 
     public void COMF(Memory memory, int file, int d) //complement f
@@ -83,7 +83,7 @@ public class CommandService : ICommandService
     {
         int result = memory.RAM[file] - 1;
 
-        if (result<0)
+        if (result < 0)
         {
             result = result + 256;
         }
@@ -99,7 +99,6 @@ public class CommandService : ICommandService
     public void DECFSZ(Memory memory, int file, int d) //Decrement f, Skip if 0
     {
         int result = memory.RAM[file] - 1;
-
         if (result < 0)
         {
             result = result + 256;
@@ -341,7 +340,6 @@ public class CommandService : ICommandService
 
         //PC hochzählen
         ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
-
         //cycles = 1
     }
 
@@ -466,6 +464,7 @@ public class CommandService : ICommandService
             result = result -256;
 	    }
 
+
         check_DC_C(memory, literal, memory.W_Reg, "+");
         checkZ(memory, result);
 
@@ -501,7 +500,6 @@ public class CommandService : ICommandService
 
         GOTO (memory, address);
 
-
        // 2 cycles
     }
 
@@ -519,7 +517,7 @@ public class CommandService : ICommandService
 
         //bits 11-12 für PCL aus PCLATH 3,4:
         pcl_high = pcl_high + (memory.RAM[Constants.PCLATH_B1] & 0b_0001_1000);
-   
+
         ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(pcl_low));
         ChangeBoth(memory, Constants.PCLATH_B1, Convert.ToByte(pcl_high));
 
@@ -534,7 +532,7 @@ public class CommandService : ICommandService
 
         checkZ (memory, result);
         memory.W_Reg = (short)result;
-;
+
         //PC hochzählen
         ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
 
@@ -735,6 +733,7 @@ public class CommandService : ICommandService
                 break;
         }
     }
+    
     public async Task AnalyzeNibble2Literal(Memory memory) 
     {
         int PC = memory.RAM[Constants.PCL_B1] + memory.RAM[Constants.PCLATH_B1];
@@ -776,6 +775,7 @@ public class CommandService : ICommandService
                 break;
         }
     }
+
     public async Task AnalyzeNibble2Byte(Memory memory) 
     {
         int PC = memory.RAM[Constants.PCL_B1] + memory.RAM[Constants.PCLATH_B1];
@@ -841,7 +841,7 @@ public class CommandService : ICommandService
     public void ChangeBoth(Memory memory, int index, byte wert)
     {
         switch (index)
-	    {
+        {
             case 0x00:
                 memory.RAM[Constants.INDF_B1] = wert;
                 memory.RAM[Constants.INDF_B2] = wert;
@@ -866,23 +866,23 @@ public class CommandService : ICommandService
                 memory.RAM[Constants.INTCON_B1] = wert;
                 memory.RAM[Constants.INTCON_B2] = wert;
                 break;
-		    default:
-            break;
-	    }
+            default:
+                break;
+        }
     }
 
-    public void checkZ (Memory memory, int result)
+    public void checkZ(Memory memory, int result)
     {
         if (result == 0)
-	    {
-            byte  wert = Convert.ToByte( memory.RAM[Constants.STATUS_B1] | 0b_0000_0100);
+        {
+            byte wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0100);
             ChangeBoth(memory, Constants.STATUS_B1, wert);
-	    }
+        }
         else
-	    {
-            byte  wert = Convert.ToByte( memory.RAM[Constants.STATUS_B1] & 0b_1111_1011);
+        {
+            byte wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1011);
             ChangeBoth(memory, Constants.STATUS_B1, wert);
-	    }
+        }
     }
 
     public void check_DC_C(Memory memory, int literal1, int literal2, string op)
@@ -890,55 +890,55 @@ public class CommandService : ICommandService
         int literal1low = literal1 & 0b_0000_1111;
         int literal2low = literal2 & 0b_0000_1111;
         if (op == "+")
-	    {
+        {
             if ((literal1low + literal2low) > 15) //DigitCarry prüfen
-	        {
-                byte  wert = Convert.ToByte( memory.RAM[Constants.STATUS_B1] | 0b_0000_0010);
+            {
+                byte wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0010);
                 ChangeBoth(memory, Constants.STATUS_B1, wert);
-	        }
+            }
             else
-	        {
-                byte  wert = Convert.ToByte( memory.RAM[Constants.STATUS_B1] & 0b_1111_1101);
+            {
+                byte wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1101);
                 ChangeBoth(memory, Constants.STATUS_B1, wert);
 
-	        }
+            }
             if ((literal1 + literal2) > 255) // Carry prüfen
-	        {
-                byte  wert = Convert.ToByte( memory.RAM[Constants.STATUS_B1] | 0b_0000_0001);
+            {
+                byte wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0001);
                 ChangeBoth(memory, Constants.STATUS_B1, wert);
-	        }
+            }
             else
-	        {
-                byte  wert = Convert.ToByte( memory.RAM[Constants.STATUS_B1] & 0b_1111_1110);
+            {
+                byte wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1110);
                 ChangeBoth(memory, Constants.STATUS_B1, wert);
-	        }
-	    }
+            }
+        }
         //dann darf nur noch "-" im operanden stehen (wenn richtig aufgerufen)
         //hier hat der pic umgekehrte Logik, da die Entwickler ein invertieren vergessen haben (siehe Themenblatt)
-        if ((literal1low-literal2low) < 0) // DigitCarry prüfen
-	    {
-            byte  wert = Convert.ToByte( memory.RAM[Constants.STATUS_B1] & 0b_1111_1101);
+        if ((literal1low - literal2low) < 0) // DigitCarry prüfen
+        {
+            byte wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1101);
             ChangeBoth(memory, Constants.STATUS_B1, wert);
 
-	    }
+        }
         else
-	    {
-            byte  wert = Convert.ToByte( memory.RAM[Constants.STATUS_B1] | 0b_0000_0010);
+        {
+            byte wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0010);
             ChangeBoth(memory, Constants.STATUS_B1, wert);
- 
-	    }
+
+        }
         if ((literal1 - literal2) < 0) //Carry prüfen
-	    {
-            byte  wert = Convert.ToByte( memory.RAM[Constants.STATUS_B1] & 0b_1111_1110);
+        {
+            byte wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1110);
             ChangeBoth(memory, Constants.STATUS_B1, wert);
 
-	    }
+        }
         else
-	    {
-            byte  wert = Convert.ToByte( memory.RAM[Constants.STATUS_B1] | 0b_0000_0001);
+        {
+            byte wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0001);
             ChangeBoth(memory, Constants.STATUS_B1, wert);
 
-	    }
+        }
     }
 
     public int bitTest(int content, int skip)

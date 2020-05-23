@@ -1,4 +1,11 @@
+<<<<<<< Updated upstream
 ﻿using System;
+=======
+﻿using Applicator.Model;
+using Microsoft.SqlServer.Server;
+using System;
+using System.CodeDom.Compiler;
+>>>>>>> Stashed changes
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -12,6 +19,7 @@ namespace Application.Services
     {
         object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+<<<<<<< Updated upstream
             if(value!= null)
             {
                 string byteToString = value.ToString();
@@ -22,6 +30,11 @@ namespace Application.Services
                 string noValue = "NULL";
                 return noValue;
             }
+=======
+            byte temp = (byte)value;
+            string byteToString = Convert.ToString(temp, 2).PadLeft(8, '0');
+            return byteToString;
+>>>>>>> Stashed changes
         }
 
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

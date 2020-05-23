@@ -1,5 +1,10 @@
+<<<<<<< Updated upstream
 ﻿using Applicator.Model;
 using Applicator.Services;
+=======
+﻿using Applicator.Services;
+using GalaSoft.MvvmLight;
+>>>>>>> Stashed changes
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,8 +14,9 @@ using System.Runtime.CompilerServices;
 
 namespace Application.Model
 {
-    public class Memory
+    public class Memory : ObservableObject
     {
+<<<<<<< Updated upstream
         #region PropertyChanged Teil TODO: gibt es das in MVVM light?
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -24,6 +30,47 @@ namespace Application.Model
         }
         #endregion
         private RAMModel _ram = new RAMModel();
+=======
+        #region properties
+        private Stack<short> _PCStack;
+
+        public Stack<short> PCStack 
+        { 
+            get
+            {
+                if(_PCStack == null)
+                {
+                    _PCStack = new Stack<short>(Constants.PC_STACK_CAPACITY);
+                }
+                return _PCStack;
+            }
+            set
+            {
+                _PCStack = value;
+            }
+        }
+
+        private short _W_Reg;
+
+        public short W_Reg
+        {
+            get
+            {
+                return _W_Reg;
+            }
+            set
+            {
+                if (value == _W_Reg)
+                {
+                    return;
+                }
+                _W_Reg = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private RAMModel _ram;
+>>>>>>> Stashed changes
 
         public RAMModel RAM
         {
@@ -141,11 +188,11 @@ namespace Application.Model
             RAM[Constants.TRISB] = 0xFF;
             //Bit 4 konditional
             RAM[Constants.EECON1] = 0x00;
-            RAM[Constants.EECON2] = 0x00;
+            RAM[Constants.EECON2]= 0x00;
             RAM[Constants.PCLATH_B2] = 0x00;
             RAM[Constants.INTCON_B2] &= 0x001;
 
-            //GPR 
+            //GPR
             Reset_GPR();
         }
 

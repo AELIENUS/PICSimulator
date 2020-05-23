@@ -5,282 +5,513 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using Application.ViewModel;
+using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Windows;
+
+//todo: methoden wieder private!!!!!!!!! (für tests public gestellt)
 
 public class CommandService : ICommandService
 {
     #region byte-oriented file register operations
-    private void ADDWF(int file, int d) //add w and f
+    public void ADDWF(Memory memory, int file, int d) //add w and f 
     {
-<<<<<<< Updated upstream
-        
-    }
-
-    private void ANDWF (int file, int d) //and w and f
-=======
-        /* int result = literal + memory.W_reg; // literal in f ändern, auf d prüfen
-        check_DC_C(memory, literal, memory.W_reg, "+");        
-        checkZ(memory, result);
+        int result = memory.RAM[file] + memory.W_Reg;
 
         if (result > 255)
         {
-            result = result -255;
+            result = result - 256;
         }
 
-        if (d==0)
-        {
-            memory.W_reg = result;
-        }
-        //result stored in f
-        */
+        check_DC_C(memory, memory.RAM[file], memory.W_Reg, "+");
+        checkZ(memory, result);
+
+        StoreSwitchedOnD(memory, file, result, d);
+
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
 
         //cycles: 1
     }
 
-    private void ANDWF(Memory memory, int file, int d) //and w and f
->>>>>>> Stashed changes
+    public void ANDWF(Memory memory, int file, int d) //and w and f
     {
+        int result = memory.W_Reg & memory.RAM[file];
 
+        checkZ(memory, result);
+        StoreSwitchedOnD(memory, file, result, d);
+
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
     }
 
-<<<<<<< Updated upstream
-    private void CLRF (int file) //clear f
-=======
-    private void CLRF(Memory memory, int file) //clear f
->>>>>>> Stashed changes
+    public void CLRF(Memory memory, int file) //clear f
     {
+        memory.RAM[file] = 0;
 
+        // z flag setzen
+        checkZ(memory, 0);
+
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
     }
 
-    private void CLRW() // clear w
+    public void CLRW(Memory memory) // clear w
     {
+        memory.W_Reg = 0;
 
+        // z flag setzen
+        checkZ(memory, 0);
+
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
     }
 
-    private void COMF(int file, int d) //complement f
+    public void COMF(Memory memory, int file, int d) //complement f
     {
+        int result = memory.RAM[file] ^ 0b_1111_1111;
 
+        checkZ(memory, result);
+        StoreSwitchedOnD(memory, file, result, d);
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+
+        //cycles: 1
     }
 
-    private void DECF(int file, int d) //Decrement f
+    public void DECF(Memory memory, int file, int d) //Decrement f
     {
+        int result = memory.RAM[file] - 1;
 
-    }
-
-    private void DECFSZ(int file, int d) //Decrement f, Skip if 0
-    {
-
-    }
-
-<<<<<<< Updated upstream
-    private void INCF (int file, int d) //increment f
-=======
-    private void INCF(Memory memory, int file, int d) //increment f
->>>>>>> Stashed changes
-    {
-
-    }
-
-    private void INCFSZ(int file, int d) //increment f, skip if zero
-    {
-
-    }
-
-<<<<<<< Updated upstream
-    private void IORWF (int file, int d) // inclusive OR w with f
-=======
-    private void IORWF(Memory memory, int file, int d) // inclusive OR w with f
->>>>>>> Stashed changes
-    {
-
-    }
-
-<<<<<<< Updated upstream
-    private void MOVF (int file, int d) // move f
-=======
-    private void MOVF(Memory memory, int file, int d) // move f
->>>>>>> Stashed changes
-    {
-
-    }
-
-<<<<<<< Updated upstream
-    private void MOVWF (int file) // move w to f
-=======
-    private void MOVWF(Memory memory, int file) // move w to f
->>>>>>> Stashed changes
-    {
-
-    }
-
-<<<<<<< Updated upstream
-    private void NOP () // no operation
-=======
-    private void NOP(Memory memory) // no operation
->>>>>>> Stashed changes
-    {
-        Console.WriteLine("nop");
-    }
-
-<<<<<<< Updated upstream
-    private void RLF (int file, int d) // rotate left through carry
-=======
-    private void RLF(Memory memory, int file, int d) // rotate left through carry
->>>>>>> Stashed changes
-    {
-
-    }
-
-<<<<<<< Updated upstream
-    private void RRF (int file, int d) // rotate right through carry
-=======
-    private void RRF(Memory memory, int file, int d) // rotate right through carry
->>>>>>> Stashed changes
-    {
-
-    }
-
-<<<<<<< Updated upstream
-    private void SUBWF (int file, int d) // substract w from f
-=======
-    private void SUBWF(Memory memory, int file, int d) // substract w from f
->>>>>>> Stashed changes
-    {
-
-<<<<<<< Updated upstream
-    }
-
-    private void SWAPF(int file, int d) // swap nibbles in f
-=======
         if (result < 0)
         {
-            result = result + 255;
+            result = result + 256;
         }
+        checkZ(memory, result);
+        StoreSwitchedOnD(memory, file, result, d);
 
-        if (d==0)
-        {
-            memory.W_reg = result;
-        }
-        //result stored in f
-        */
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
 
         //cycles: 1
     }
 
-    private void SWAPF(Memory memory, int file, int d) // swap nibbles in f
->>>>>>> Stashed changes
+    public void DECFSZ(Memory memory, int file, int d) //Decrement f, Skip if 0
     {
+        int result = memory.RAM[file] - 1;
+
+        if (result < 0)
+        {
+            result = result + 256;
+        }
+        StoreSwitchedOnD(memory, file, result, d);
+
+        int summand = 1;
+        if (result == 0)
+        {
+            summand++;
+        }
+
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + summand));
+
+        //cycles: 1, bei überspringen 2
+    }
+
+    public void INCF(Memory memory, int file, int d) //increment f
+    {
+        int result = memory.RAM[file] + 1;
+        if (result > 255)
+        {
+            result = result - 256;
+        }
+        checkZ(memory, result);
+        StoreSwitchedOnD(memory, file, result, d);
+
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+
+        //cycles: 1
+    }
+
+    public void INCFSZ(Memory memory, int file, int d) //increment f, skip if zero
+    {
+        int result = memory.RAM[file] + 1;
+        if (result > 255)
+        {
+            result = result - 256;
+        }
+        StoreSwitchedOnD(memory, file, result, d);
+
+        int summand = 1;
+        if (result == 0)
+        {
+            summand++;
+        }
+
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + summand));
 
     }
 
-<<<<<<< Updated upstream
-    private void XORWF (int file, int d) //exclusive OR w with f
-=======
-    private void XORWF(Memory memory, int file, int d) //exclusive OR w with f
->>>>>>> Stashed changes
+    public void IORWF(Memory memory, int file, int d) // inclusive OR w with f
+    {
+        int result = (int)memory.W_Reg | (int)memory.RAM[file];
+
+        checkZ(memory, result);
+
+        StoreSwitchedOnD(memory, file, result, d);
+
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+
+        //cycles: 1
+    }
+
+    public void MOVF(Memory memory, int file, int d) // move f
+    {
+        int result = memory.RAM[file];
+
+        checkZ(memory, result);
+
+        StoreSwitchedOnD(memory, file, result, d);
+
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+
+        //cycles: 1
+    }
+
+    public void MOVWF(Memory memory, int file) // move w to f
+    {
+        memory.RAM[file] = Convert.ToByte(memory.W_Reg);
+
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+
+        //cycles: 1
+    }
+
+    public void NOP(Memory memory) // no operation
+    {
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+
+        //cycles: 1
+    }
+
+    public void RLF(Memory memory, int file, int d) // rotate left through carry
+    {
+        int result = memory.RAM[file] << 1;
+        int carry = memory.RAM[Constants.STATUS_B1] & 0b_0000_0001;
+
+        result += carry;
+
+        if (result > 255)
+        {
+            result = result - 256;
+            //carry setzen
+            ChangeBoth(memory, Constants.STATUS_B1, Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0001));
+        }
+        else
+        {
+            // carry löschen
+            ChangeBoth(memory, Constants.STATUS_B1, Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1110));
+        }
+
+        StoreSwitchedOnD(memory, file, result, d);
+
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+
+        //cycles: 1
+    }
+
+    public void RRF(Memory memory, int file, int d) // rotate right through carry
+    {
+        int newCarry = memory.RAM[file] & 0b_0000_0001;
+        int result = memory.RAM[file] >> 1;
+        int carry = memory.RAM[Constants.STATUS_B1] & 0b_0000_0001;
+
+        if (carry == 1)
+        {
+            result = result + 128;
+        }
+        if (newCarry == 1)
+        {
+            //carry setzen
+            ChangeBoth(memory, Constants.STATUS_B1, Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0001));
+        }
+        else
+        {
+            // carry löschen
+            ChangeBoth(memory, Constants.STATUS_B1, Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1110));
+        }
+
+        StoreSwitchedOnD(memory, file, result, d);
+
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+
+        //cycles: 1
+    }
+
+    public void SUBWF(Memory memory, int file, int d) // substract w from f
+    {
+        int result = memory.RAM[file] - memory.W_Reg; // literal in f ändern, auf d prüfen
+
+        if (result < 0)
+        {
+            result = result + 256;
+        }
+
+        check_DC_C(memory, memory.RAM[file], memory.W_Reg, "-");
+        checkZ(memory, result);
+
+        StoreSwitchedOnD(memory, file, result, d);
+
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+
+        //cycles: 1
+    }
+
+    public void SWAPF(Memory memory, int file, int d) // swap nibbles in f
+    {
+        int newUpper = (memory.RAM[file] << 4) & 0b_1111_0000;
+        int newLower = (memory.RAM[file] >> 4) & 0b_0000_1111;
+
+        int result = newLower + newUpper;
+
+        StoreSwitchedOnD(memory, file, result, d);
+
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+
+        //cycles: 1
+    }
+
+    public void XORWF(Memory memory, int file, int d) //exclusive OR w with f
     {
 
+        int result = memory.W_Reg ^ memory.RAM[file];
+
+        checkZ(memory, result);
+
+        StoreSwitchedOnD(memory, file, result, d);
+
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+
+        //cycles: 1
     }
 
     #endregion byte-oriented file register operations
 
     #region bit-oriented file register operations
-<<<<<<< Updated upstream
-    private void BCF (int file, int bits) //bit clear f
-=======
-    private async Task BCF(Memory memory, int file, int bits) //bit clear f
->>>>>>> Stashed changes
+    public async Task BCF(Memory memory, int file, int bit) //bit clear f
     {
+        switch (bit)
+        {
+            case 0:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] & 0b_1111_1110);
+                break;
+            case 1:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] & 0b_1111_1101);
+                break;
+            case 2:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] & 0b_1111_1011);
+                break;
+            case 3:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] & 0b_1111_0111);
+                break;
+            case 4:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] & 0b_1110_1111);
+                break;
+            case 5:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] & 0b_1101_1111);
+                break;
+            case 6:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] & 0b_1011_1111);
+                break;
+            default: // bit = 7
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] & 0b_0111_1111);
+                break;
+        }
 
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+
+        //cycles = 1
     }
 
-<<<<<<< Updated upstream
-    private void BSF (int file, int bits)//bit set f
-=======
-    private async Task BSF(Memory memory, int file, int bits)//bit set f
->>>>>>> Stashed changes
+    public async Task BSF(Memory memory, int file, int bit)//bit set f
     {
+        switch (bit)
+        {
+            case 0:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] | 0b_0000_0001);
+                break;
+            case 1:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] | 0b_0000_0010);
+                break;
+            case 2:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] | 0b_0000_0100);
+                break;
+            case 3:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] | 0b_0000_1000);
+                break;
+            case 4:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] | 0b_0001_0000);
+                break;
+            case 5:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] | 0b_0010_0000);
+                break;
+            case 6:
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] | 0b_0100_0000);
+                break;
+            default: // bit = 7
+                memory.RAM[file] = Convert.ToByte(memory.RAM[file] | 0b_1000_0000);
+                break;
+        }
 
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+
+        //cycles = 1
     }
 
-<<<<<<< Updated upstream
-    private void BTFSC (int file, int bits) //bit test f, skip if clear
-=======
-    private async Task BTFSC(Memory memory, int file, int bits) //bit test f, skip if clear
->>>>>>> Stashed changes
+    public async Task BTFSC(Memory memory, int file, int bit) //bit test f, skip if clear
     {
+        int summand;
+        switch (bit)
+        {
+            case 0:
+                summand = bitTest(memory.RAM[file] & 0b_0000_0001, 0);
+                break;
+            case 1:
+                summand = bitTest(memory.RAM[file] & 0b_0000_0010, 0);
+                break;
+            case 2:
+                summand = bitTest(memory.RAM[file] & 0b_0000_0100, 0);
+                break;
+            case 3:
+                summand = bitTest(memory.RAM[file] & 0b_0000_1000, 0);
+                break;
+            case 4:
+                summand = bitTest(memory.RAM[file] & 0b_0001_0000, 0);
+                break;
+            case 5:
+                summand = bitTest(memory.RAM[file] & 0b_0010_0000, 0);
+                break;
+            case 6:
+                summand = bitTest(memory.RAM[file] & 0b_0100_0000, 0);
+                break;
+            default: // bit = 7
+                summand = bitTest(memory.RAM[file] & 0b_1000_0000, 0);
+                break;
+        }
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + summand));
 
+        //cycles: 1, bei skip 2
     }
 
-<<<<<<< Updated upstream
-    private void BTFSS (int file, int bits) //bit test f, skip if set
-=======
-    private async Task BTFSS(Memory memory, int file, int bits) //bit test f, skip if set
->>>>>>> Stashed changes
+    public async Task BTFSS(Memory memory, int file, int bit) //bit test f, skip if set
     {
+        int summand;
+        switch (bit)
+        {
+            case 0:
+                summand = bitTest(memory.RAM[file] & 0b_0000_0001, 1);
+                break;
+            case 1:
+                summand = bitTest(memory.RAM[file] & 0b_0000_0010, 1);
+                break;
+            case 2:
+                summand = bitTest(memory.RAM[file] & 0b_0000_0100, 1);
+                break;
+            case 3:
+                summand = bitTest(memory.RAM[file] & 0b_0000_1000, 1);
+                break;
+            case 4:
+                summand = bitTest(memory.RAM[file] & 0b_0001_0000, 1);
+                break;
+            case 5:
+                summand = bitTest(memory.RAM[file] & 0b_0010_0000, 1);
+                break;
+            case 6:
+                summand = bitTest(memory.RAM[file] & 0b_0100_0000, 1);
+                break;
+            default: // bit = 7
+                summand = bitTest(memory.RAM[file] & 0b_1000_0000, 1);
+                break;
+        }
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + summand));
 
+        //cycles: 1, bei skip 2
     }
+
 
     #endregion
 
     #region literal and control operations
-<<<<<<< Updated upstream
-    private void ADDLW (int literal) //add literal and w
-    {
-        Console.WriteLine("addlw {0}", literal);
-=======
-    private void ADDLW(Memory memory, int literal) //add literal and w
+    public void ADDLW(Memory memory, int literal) //add literal and w -> fertig
     {
         int result = literal + memory.W_Reg;
-        check_DC_C(memory, literal, memory.W_Reg, "+");
-        checkZ(memory, result);
 
         if (result > 255)
         {
-            result = result - 255;
+            result = result - 256;
         }
+
+        check_DC_C(memory, literal, memory.W_Reg, "+");
+        checkZ(memory, result);
+
         memory.W_Reg = (short)result;
 
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+
         //cycles: 1
->>>>>>> Stashed changes
     }
 
-    private void ANDLW(int literal) //and literal and w
+    public void ANDLW(Memory memory, int literal) //and literal and w -> fertig
     {
 
+        int result;
+
+        result = memory.W_Reg & literal;
+
+        checkZ(memory, result);
+        memory.W_Reg = (short)result;
+
+
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+
+        //cycles: 1
     }
 
-    private void CALL(int address) // call subroutine
+    public void CALL(Memory memory, int address) // call subroutine -> fertig
     {
-        //TODO stack  = Memory.RAM[Constants.PCL_B1] + 1;
-<<<<<<< Updated upstream
-        /*MainViewModel.Memory
-        Memory.RAM[Constants.PCL_B1] = (int)address & 0b_0000_0111_1111_1111;
-        Memory.RAM[Constants.PCLATH_B1] = (int)address & 0b_0000_0111_1111_1111;*/
-        Console.WriteLine("call {0}", address);
-=======
+        int returnAdress = memory.RAM[Constants.PCL_B1] + 1;
+        memory.PCStack.Push((short)returnAdress);
 
         GOTO(memory, address);
 
 
         // 2 cycles
->>>>>>> Stashed changes
     }
 
-    private void CLRWDT() //clear watchdog timer
+    public void CLRWDT(Memory memory) //clear watchdog timer -> wdt fehlt
     {
-
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
     }
 
-<<<<<<< Updated upstream
-    private void GOTO (int address) //go to address
-    {
-        Console.WriteLine("goto {0}", address);
-        //cycles:2
-    }
-
-    private void IORLW (int literal) //inclusive OR literal with w
-=======
-    private async Task GOTO(Memory memory, int address) //go to address
+    public async Task GOTO(Memory memory, int address) //go to address -> fertig
     {
         //bits 0-10 für PCL:
         int pcl_low = (int)address & 0b_0000_0000_1111_1111; //kommt in PCL
@@ -295,86 +526,121 @@ public class CommandService : ICommandService
         //cycles:2
     }
 
-    private void IORLW(Memory memory, int literal) //inclusive OR literal with w
->>>>>>> Stashed changes
+    public void IORLW(Memory memory, int literal) //inclusive OR literal with w   -> fertig
     {
+        int result;
+
+        result = memory.W_Reg | literal;
+
+        checkZ(memory, result);
+        memory.W_Reg = (short)result;
+        ;
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+
+        //cycles: 1
+    }
+
+    public void MOVLW(Memory memory, int literal) //move literal to w -> fertig
+    {
+        memory.W_Reg = Convert.ToByte(literal);
+        ///PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+
+        //cycles: 1
+    }
+
+    public void RETFIE(Memory memory) //return from interrupt -> fertig
+    {
+        //top of stack in PC
+        int returnAddress = memory.PCStack.Pop();
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(returnAddress));
+
+        //GlobalInterruptEnable setzen
+        int wert = memory.RAM[Constants.INTCON_B1] | 0b_1000_0000;
+        ChangeBoth(memory, Constants.INTCON_B1, Convert.ToByte(wert));
+
+        //cycles: 2
+    }
+
+    public void RETLW(Memory memory, int literal) //return with literal in w -> fertig
+    {
+        memory.W_Reg = Convert.ToByte(literal);
+
+        // top of stack in PC
+        int returnAddress = memory.PCStack.Pop();
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(returnAddress));
+
+        //cycles: 2
+    }
+
+    public void RETURN(Memory memory) //return from subroutine -> fertig
+    {
+        //top of stack in PC
+        int returnAddress = memory.PCStack.Pop();
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(returnAddress));
+
+        //cycles: 2
 
     }
 
-<<<<<<< Updated upstream
-    private void MOVLW (int literal) //move literal to w
+    public void SLEEP(Memory memory) // go into standby mode -> wdt fehlt, sleep modus
     {
-        Console.WriteLine("movlw {0}", literal);
-=======
-    private void MOVLW(Memory memory, int literal) //move literal to w
-    {
-        Console.WriteLine("movlw {0}", literal);
-        byte wert = Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1);
-        ChangeBoth(memory, Constants.PCL_B1, wert);
->>>>>>> Stashed changes
-    }
+        //clear power down status
+        int PD = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_0111);
+        ChangeBoth(memory, Constants.STATUS_B1, Convert.ToByte(PD));
 
-    private void RETFIE() //return from interrupt
-    {
+        //set time out status
+        int TO = Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0001_0000);
+        ChangeBoth(memory, Constants.STATUS_B1, Convert.ToByte(TO));
+
+        //clear Watchdog and prescaler
+
+        //processor in sleep mode, oscilatoor stopped,  page 14.8
 
     }
 
-<<<<<<< Updated upstream
-    private void RETLW (int literal) //return with literal in w 
-=======
-    private void RETLW(Memory memory, int literal) //return with literal in w 
->>>>>>> Stashed changes
+    public void SUBLW(Memory memory, int literal) // subtract w from literal -> fertig
     {
-        Console.WriteLine("retlw {0}", literal);
-    }
-
-    private async Task RETURN() //return from subroutine
-    {
-        Console.WriteLine("return");
-    }
-
-    private void SLEEP() // go into standby mode
-    {
-
-    }
-
-    private void SUBLW(int literal) // subtract w from literal
-    {
-<<<<<<< Updated upstream
-=======
         int result = literal - memory.W_Reg;
         check_DC_C(memory, literal, memory.W_Reg, "-");
         checkZ(memory, result);
 
         if (result < 0)
         {
-            result = result + 255;
+            result = result + 256;
         }
 
         memory.W_Reg = (short)result;
->>>>>>> Stashed changes
 
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+
+        //cycles: 1
     }
 
-<<<<<<< Updated upstream
-    private void XORLW (int literal) //exclusive OR literal with w
-=======
-    private void XORLW(Memory memory, int literal) //exclusive OR literal with w
->>>>>>> Stashed changes
+    public void XORLW(Memory memory, int literal) //exclusive OR literal with w -> fertig
     {
+        int result;
 
+        result = memory.W_Reg ^ literal;
+
+        checkZ(memory, result);
+        memory.W_Reg = (short)result;
+        ;
+        //PC hochzählen
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+
+        //cycles: 1
     }
     #endregion
 
 
-    public async Task Run(Memory Memory, List<int> breakpointList)
+    public async Task Run(Memory memory, List<int> breakpointList)
     {
-        int i = 0;
-        while ( i < Constants.PROGRAM_MEMORY_SIZE) //i durch Memory.RAM[Constants.PCL_B1] ersetzen
+        while (true)
+
         {
-<<<<<<< Updated upstream
-            switch (Memory.Program[i])
-=======
             int PC = memory.RAM[Constants.PCL_B1] + memory.RAM[Constants.PCLATH_B1];
             if (PC == 0x7ff)
             {
@@ -382,43 +648,39 @@ public class CommandService : ICommandService
                 memory.RAM[Constants.PCLATH_B1] = 0;
             }
             switch (memory.Program[PC])
->>>>>>> Stashed changes
             {
                 case 0b_0000_0000_0000_1000:
-                    await RETURN(); //Return from Subroutine
+                    RETURN(memory); //Return from Subroutine
                     break;
                 case 0b_0000_0000_0000_1001:
-                    RETFIE(); //return from interrupt
+                    RETFIE(memory); //return from interrupt
                     break;
                 case 0b_0000_0000_0110_0011:
-                    SLEEP(); //Go to standby mode
+                    SLEEP(memory); //Go to standby mode
                     break;
                 case 0b_0000_0000_0110_0100:
-                    CLRWDT(); //clear watchdog timer
+                    CLRWDT(memory); //clear watchdog timer
                     break;
                 case 0b_0000_0000_0000_0000: // ab hier nop
                 case 0b_0000_0000_0010_0000:
                 case 0b_0000_0000_0100_0000:
                 case 0b_0000_0000_0110_0000:
-                    NOP(); //no operation 
+                    NOP(memory); //no operation 
                     break;
-<<<<<<< Updated upstream
-                case short n when (n >= 0b_0000_0001_0000_0000 && n <= 0b_0000_0001_0111_1111): 
-                    CLRW(); //clear w
-=======
                 case short n when (n >= 0b_0000_0001_0000_0000 && n <= 0b_0000_0001_0111_1111):
                     CLRW(memory); //clear w
->>>>>>> Stashed changes
                     break;
                 default:
-                    AnalyzeNibble3(Memory.Program[i]);
+                    AnalyzeNibble3(memory);
                     break;
             }
         }
     }
 
-    private void AnalyzeNibble3(short befehl)
+    public async Task AnalyzeNibble3(Memory memory)
     {
+        int PC = memory.RAM[Constants.PCL_B1] + memory.RAM[Constants.PCLATH_B1];
+        short befehl = memory.Program[PC];
         int nibble3 = (int)befehl & 0b_0011_0000_0000_0000; //bitoperation nur auf int ausführbar
         switch (nibble3)
         {
@@ -427,173 +689,156 @@ public class CommandService : ICommandService
                 int address = (int)befehl & 0b_0000_0111_1111_1111;
                 if (bit12 == 0b_0000_1000_0000_0000)
                 {
-                    GOTO(address);
+                    await GOTO(memory, address);
                 }
                 else
                 {
-<<<<<<< Updated upstream
-                    CALL(address);
-=======
                     CALL(memory, address);
->>>>>>> Stashed changes
                 }
                 break;
             case 0b_0001_0000_0000_0000: //bit oriented operations
-                AnalyzeBits11_12(befehl);
+                await AnalyzeBits11_12(memory);
                 break;
             case 0b_0011_0000_0000_0000: //literal operations
-                AnalyzeNibble2Literal(befehl);
+                await AnalyzeNibble2Literal(memory);
                 break;
             case 0b_0000_0000_0000_0000: //byte oriented operations
-                AnalyzeNibble2Byte(befehl);
+                await AnalyzeNibble2Byte(memory);
                 break;
             default:
                 break;
         }
     }
 
-    private void AnalyzeBits11_12(short befehl) //bit-oriented operations genauer analysieren
+    public async Task AnalyzeBits11_12(Memory memory) //bit-oriented operations genauer analysieren
     {
+        int PC = memory.RAM[Constants.PCL_B1] + memory.RAM[Constants.PCLATH_B1];
+        short befehl = memory.Program[PC];
         int bits11_12 = (int)befehl & 0b_0000_1100_0000_0000;
         int bits = (int)befehl & 0b_0000_0011_1000_0000;
         int file = (int)befehl & 0b_0000_0000_0111_1111;
         switch (bits11_12)
         {
             case 0:
-                BCF(file, bits);
+                await BCF(memory, file, bits);
                 break;
             case 1:
-                BSF(file, bits);
+                await BSF(memory, file, bits);
                 break;
             case 2:
-                BTFSC(file, bits);
+                await BTFSC(memory, file, bits);
                 break;
             case 3:
-                BTFSS(file, bits);
+                await BTFSS(memory, file, bits);
                 break;
             default:
                 break;
         }
     }
-<<<<<<< Updated upstream
-    private void AnalyzeNibble2Literal(short befehl)
-=======
-    private async Task AnalyzeNibble2Literal(Memory memory)
->>>>>>> Stashed changes
+    public async Task AnalyzeNibble2Literal(Memory memory)
     {
+        int PC = memory.RAM[Constants.PCL_B1] + memory.RAM[Constants.PCLATH_B1];
+        short befehl = memory.Program[PC];
         int nibble2 = (int)befehl & 0b_0000_1111_0000_0000;
         int literal = (int)befehl & 0b_0000_0000_1111_1111;
         switch (nibble2)
         {
             case 0b_1001_0000_0000:
-                ANDLW(literal);
+                ANDLW(memory, literal);
                 break;
             case 0b_1000_0000_0000:
-                IORLW(literal);
+                IORLW(memory, literal);
                 break;
             case 0b_1010_0000_0000:
-                XORLW(literal);
+                XORLW(memory, literal);
                 break;
             case 0b_1110_0000_0000: //ab hier addlw
             case 0b_1111_0000_0000:
-<<<<<<< Updated upstream
-                ADDLW(literal); 
-=======
                 ADDLW(memory, literal);
->>>>>>> Stashed changes
                 break;
             case 0b_1100_0000_0000: //ab hier sublw
             case 0b_1101_0000_0000:
-                SUBLW(literal);
+                SUBLW(memory, literal);
                 break;
             case 0b_0000_0000_0000: //ab hier movlw
             case 0b_0001_0000_0000:
             case 0b_0010_0000_0000:
             case 0b_0011_0000_0000:
-                MOVLW(literal);
+                MOVLW(memory, literal);
                 break;
             case 0b_0100_0000_0000: //ab hier retlw
             case 0b_0101_0000_0000:
             case 0b_0110_0000_0000:
             case 0b_0111_0000_0000:
-                RETLW(literal);
+                RETLW(memory, literal);
                 break;
             default:
                 break;
         }
     }
-<<<<<<< Updated upstream
-    private void AnalyzeNibble2Byte(short befehl)
-=======
-    private async Task AnalyzeNibble2Byte(Memory memory)
->>>>>>> Stashed changes
+    public async Task AnalyzeNibble2Byte(Memory memory)
     {
+        int PC = memory.RAM[Constants.PCL_B1] + memory.RAM[Constants.PCLATH_B1];
+        short befehl = memory.Program[PC];
         int nibble2 = (int)befehl & 0b_0000_1111_0000_0000;
         int file = (int)befehl & 0b_0000_0000_0111_1111;
         int d = (int)befehl & 0b_0000_0000_1000_0000;
         switch (nibble2)
         {
             case 0b_0000_0000_0000_0000:
-                MOVWF(file);
+                MOVWF(memory, file);
                 break;
             case 0b_0000_0001_0000_0000:
-<<<<<<< Updated upstream
-                CLRF(file);
-=======
                 CLRF(memory, file);
->>>>>>> Stashed changes
                 break;
             case 0b_0000_0010_0000_0000:
-                SUBWF(file, d);
+                SUBWF(memory, file, d);
                 break;
             case 0b_0000_0011_0000_0000:
-                DECF(file, d);
+                DECF(memory, file, d);
                 break;
             case 0b_0000_0100_0000_0000:
-                IORWF(file, d);
+                IORWF(memory, file, d);
                 break;
             case 0b_0000_0101_0000_0000:
-                ANDWF(file, d);
+                ANDWF(memory, file, d);
                 break;
             case 0b_0000_0110_0000_0000:
-                XORWF(file, d);
+                XORWF(memory, file, d);
                 break;
             case 0b_0000_0111_0000_0000:
-                ADDWF(file, d);
+                ADDWF(memory, file, d);
                 break;
             case 0b_0000_1000_0000_0000:
-                MOVF(file, d);
+                MOVF(memory, file, d);
                 break;
             case 0b_0000_1001_0000_0000:
-                COMF(file, d);
+                COMF(memory, file, d);
                 break;
             case 0b_0000_1010_0000_0000:
-                INCF(file, d);
+                INCF(memory, file, d);
                 break;
             case 0b_0000_1011_0000_0000:
-                DECFSZ(file, d);
+                DECFSZ(memory, file, d);
                 break;
             case 0b_0000_1100_0000_0000:
-                RRF(file, d);
+                RRF(memory, file, d);
                 break;
             case 0b_0000_1101_0000_0000:
-                RLF(file, d);
+                RLF(memory, file, d);
                 break;
             case 0b_0000_1110_0000_0000:
-                SWAPF(file, d);
+                SWAPF(memory, file, d);
                 break;
             case 0b_0000_1111_0000_0000:
-                INCFSZ(file, d);
+                INCFSZ(memory, file, d);
                 break;
             default:
                 break;
         }
     }
 
-<<<<<<< Updated upstream
-    
-=======
-    private void ChangeBoth(Memory memory, int index, byte wert)
+    public void ChangeBoth(Memory memory, int index, byte wert)
     {
         switch (index)
         {
@@ -626,7 +871,7 @@ public class CommandService : ICommandService
         }
     }
 
-    private void checkZ(Memory memory, int result)
+    public void checkZ(Memory memory, int result)
     {
         if (result == 0)
         {
@@ -640,7 +885,7 @@ public class CommandService : ICommandService
         }
     }
 
-    private void check_DC_C(Memory memory, int literal1, int literal2, string op)
+    public void check_DC_C(Memory memory, int literal1, int literal2, string op)
     {
         int literal1low = literal1 & 0b_0000_1111;
         int literal2low = literal2 & 0b_0000_1111;
@@ -696,7 +941,37 @@ public class CommandService : ICommandService
         }
     }
 
->>>>>>> Stashed changes
+    public int bitTest(int content, int skip)
+    { // wenn skip = 0 soll bei clear geskipped werden, ist skip = 1, soll bei set geskipped werden
+        if (skip == 0)
+        {
+            if (content == 0)
+            {
+                return 2;
+            }
+            return 1;
+        }
+        if (content == 0)
+        {
+            return 1;
+        }
+        return 2;
+    }
+
+    public void StoreSwitchedOnD(Memory memory, int file, int result, int d)
+    {
+        if (d == 0)
+        {
+            //result stored in w
+            memory.W_Reg = Convert.ToByte(result);
+        }
+        else
+        {
+            //result stored in f
+            memory.RAM[file] = Convert.ToByte(result);
+        }
+    }
+
     public CommandService()
     {
 

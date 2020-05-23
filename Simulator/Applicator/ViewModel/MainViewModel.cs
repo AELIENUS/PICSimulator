@@ -4,13 +4,11 @@ using System.ComponentModel;
 using Application.Model;
 using Application.Services;
 using System.Collections.Generic;
-<<<<<<< Updated upstream
 
-=======
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.Diagnostics;
->>>>>>> Stashed changes
+using System.Collections.ObjectModel;
 
 namespace Application.ViewModel
 {
@@ -71,6 +69,24 @@ namespace Application.ViewModel
         private ICommandService _commandService;
         private IFileService _fileService;
 
+        #endregion
+
+        #region StyleInfo
+        private ObservableCollection<string> RowStyleInfo
+        {
+            get
+            {
+                if (RowStyleInfo ==null)
+                {
+                    string[] arr =
+                    {
+                        "0x0C", "Ox1C", "0x2C", "0x3C", "0x4C", "0x5C", "0x6C", "0x7C", "0x8C", "0x9C", "0xAC", "0xBC", "0xCC", "0xDC", "0xEC", "0xFC" 
+                    };
+                    return new ObservableCollection<string>(arr);
+                }
+                return RowStyleInfo;
+            }
+        }
         #endregion
 
         #region Commands

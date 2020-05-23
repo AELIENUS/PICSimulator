@@ -1,10 +1,5 @@
-<<<<<<< Updated upstream
-﻿using Applicator.Model;
-using Applicator.Services;
-=======
 ﻿using Applicator.Services;
 using GalaSoft.MvvmLight;
->>>>>>> Stashed changes
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,21 +11,6 @@ namespace Application.Model
 {
     public class Memory : ObservableObject
     {
-<<<<<<< Updated upstream
-        #region PropertyChanged Teil TODO: gibt es das in MVVM light?
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-        #endregion
-        private RAMModel _ram = new RAMModel();
-=======
         #region properties
         private Stack<short> _PCStack;
 
@@ -70,7 +50,6 @@ namespace Application.Model
         }
 
         private RAMModel _ram;
->>>>>>> Stashed changes
 
         public RAMModel RAM
         {
@@ -125,6 +104,8 @@ namespace Application.Model
                 RaisePropertyChanged();
             }
         }
+        #endregion
+
         public Memory()
         {
             Program = new short[Constants.PROGRAM_MEMORY_SIZE];

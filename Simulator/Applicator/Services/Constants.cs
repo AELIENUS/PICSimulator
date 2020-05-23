@@ -11,6 +11,7 @@ namespace Applicator.Services
         #region program memory
         public static readonly short PROGRAM_MEMORY_SIZE = 1024;
         public static readonly short PERIPHERAL_INTERRUPT_VECTOR_ADDRESS = 0x04;
+        public static readonly short PC_STACK_CAPACITY = 0x08; //13-Bit breit in Echt, bei uns sind das shorts
         #endregion
         #region RAM
         public static readonly short RAM_SIZE = 256;

@@ -72,24 +72,6 @@ namespace Application.ViewModel
 
         #endregion
 
-        #region StyleInfo
-        private ObservableCollection<string> RowStyleInfo
-        {
-            get
-            {
-                if (RowStyleInfo ==null)
-                {
-                    string[] arr =
-                    {
-                        "0x0C", "Ox1C", "0x2C", "0x3C", "0x4C", "0x5C", "0x6C", "0x7C", "0x8C", "0x9C", "0xAC", "0xBC", "0xCC", "0xDC", "0xEC", "0xFC" 
-                    };
-                    return new ObservableCollection<string>(arr);
-                }
-                return RowStyleInfo;
-            }
-        }
-        #endregion
-
         #region Commands
 
         #region Change PortA
@@ -300,6 +282,231 @@ namespace Application.ViewModel
         }
 
         public void ChangePORTABit0(object parameter)
+        {
+            bool convertedParameter = (bool)parameter;
+            if (convertedParameter)
+            {
+                Memory.RAM[5] |= 0b0000_0001;
+
+            }
+            else
+            {
+                Memory.RAM[5] &= 0b1111_1110;
+            }
+        }
+        #endregion
+
+        #region ChangePortB
+
+        private RelayCommand<bool> _PORTBBit7;
+
+        public RelayCommand<bool> PORTBBit7
+        {
+            get
+            {
+                if (_PORTBBit7 == null)
+                {
+                    _PORTBBit7 = new RelayCommand<bool>(param => ChangePORTBBit7(param));
+                }
+                return _PORTBBit7;
+            }
+        }
+
+        public void ChangePORTBBit7(object parameter)
+        {
+            bool convertedParameter = (bool)parameter;
+            if (convertedParameter)
+            {
+                Memory.RAM[6] |= 0b1000_0000;
+
+            }
+            else
+            {
+                Memory.RAM[6] &= 0b0111_1111;
+            }
+        }
+
+        private RelayCommand<bool> _PORTBBit6;
+
+        public RelayCommand<bool> PORTBBit6
+        {
+            get
+            {
+                if (_PORTBBit6 == null)
+                {
+                    _PORTBBit6 = new RelayCommand<bool>(param => ChangePORTBBit6(param));
+                }
+                return _PORTBBit6;
+            }
+        }
+
+        public void ChangePORTBBit6(object parameter)
+        {
+            bool convertedParameter = (bool)parameter;
+            if (convertedParameter)
+            {
+                Memory.RAM[6] |= 0b0100_0000;
+
+            }
+            else
+            {
+                Memory.RAM[6] &= 0b1011_1111;
+            }
+        }
+
+        private RelayCommand<bool> _PORTBBit5;
+
+        public RelayCommand<bool> PORTBBit5
+        {
+            get
+            {
+                if (_PORTBBit5 == null)
+                {
+                    _PORTBBit5 = new RelayCommand<bool>(param => ChangePORTBBit5(param));
+                }
+                return _PORTBBit5;
+            }
+        }
+
+        public void ChangePORTBBit5(object parameter)
+        {
+            bool convertedParameter = (bool)parameter;
+            if (convertedParameter)
+            {
+                Memory.RAM[6] |= 0b0010_0000;
+
+            }
+            else
+            {
+                Memory.RAM[6] &= 0b1101_1111;
+            }
+        }
+        private RelayCommand<bool> _PORTBBit4;
+
+        public RelayCommand<bool> PORTBBit4
+        {
+            get
+            {
+                if (_PORTBBit4 == null)
+                {
+                    _PORTBBit4 = new RelayCommand<bool>(param => ChangePORTBBit4(param));
+                }
+                return _PORTBBit4;
+            }
+        }
+
+        public void ChangePORTBBit4(object parameter)
+        {
+            bool convertedParameter = (bool)parameter;
+            if (convertedParameter)
+            {
+                Memory.RAM[6] |= 0b0001_0000;
+
+            }
+            else
+            {
+                Memory.RAM[6] &= 0b1110_1111;
+            }
+        }
+
+        private RelayCommand<bool> _PORTBBit3;
+
+        public RelayCommand<bool> PORTBBit3
+        {
+            get
+            {
+                if (_PORTBBit3 == null)
+                {
+                    _PORTBBit3 = new RelayCommand<bool>(param => ChangePORTBBit3(param));
+                }
+                return _PORTBBit3;
+            }
+        }
+
+        public void ChangePORTBBit3(object parameter)
+        {
+            bool convertedParameter = (bool)parameter;
+            if (convertedParameter)
+            {
+                Memory.RAM[6] |= 0b0000_1000;
+
+            }
+            else
+            {
+                Memory.RAM[6] &= 0b1111_0111;
+            }
+        }
+        private RelayCommand<bool> _PORTBBit2;
+
+        public RelayCommand<bool> PORTBBit2
+        {
+            get
+            {
+                if (_PORTBBit2 == null)
+                {
+                    _PORTBBit2 = new RelayCommand<bool>(param => ChangePORTBBit2(param));
+                }
+                return _PORTBBit2;
+            }
+        }
+
+        public void ChangePORTBBit2(object parameter)
+        {
+            bool convertedParameter = (bool)parameter;
+            if (convertedParameter)
+            {
+                Memory.RAM[6] |= 0b0000_0100;
+
+            }
+            else
+            {
+                Memory.RAM[6] &= 0b1111_1011;
+            }
+        }
+
+        private RelayCommand<bool> _PORTBBit1;
+
+        public RelayCommand<bool> PORTBBit1
+        {
+            get
+            {
+                if (_PORTBBit1 == null)
+                {
+                    _PORTBBit1 = new RelayCommand<bool>(param => ChangePORTBBit1(param));
+                }
+                return _PORTABit1;
+            }
+        }
+
+        public void ChangePORTBBit1(object parameter)
+        {
+            bool convertedParameter = (bool)parameter;
+            if (convertedParameter)
+            {
+                Memory.RAM[6] |= 0b0000_0010;
+
+            }
+            else
+            {
+                Memory.RAM[6] &= 0b1111_1101;
+            }
+        }
+
+        private RelayCommand<bool> _PORTBBit0;
+
+        public RelayCommand<bool> PORTBBit0
+        {
+            get
+            {
+                if (_PORTABit0 == null)
+                {
+                    _PORTABit0 = new RelayCommand<bool>(param => ChangePORTBBit0(param));
+                }
+                return _PORTABit0;
+            }
+        }
+
+        public void ChangePORTBBit0(object parameter)
         {
             bool convertedParameter = (bool)parameter;
             if (convertedParameter)

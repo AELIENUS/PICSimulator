@@ -38,6 +38,8 @@
                         <RowDefinition/>
                         <RowDefinition/>
                         <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -66,21 +68,25 @@
                     </Label>
                     <Label Grid.Row="4" Grid.ColumnSpan="8" Content="{Binding Memory.RAM.RAMList[0].Byte5, Converter={StaticResource elementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top">
                     </Label>
-                    <CheckBox Grid.Row="5" Grid.Column="0"/>
-                    <CheckBox Grid.Row="5" Grid.Column="1"/>
-                    <CheckBox Grid.Row="5" Grid.Column="2"/>
-                    <CheckBox Grid.Row="5" Grid.Column="3"/>
-                    <CheckBox Grid.Row="5" Grid.Column="4"/>
-                    <CheckBox Grid.Row="5" Grid.Column="5"/>
-                    <CheckBox Grid.Row="5" Grid.Column="6"/>
-                    <CheckBox Grid.Row="5" Grid.Column="7"/>
+                    <CheckBox Grid.Row="5" Grid.Column="0" Command="{Binding PORTBBit7}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="1" Command="{Binding PORTBBit7}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="2" Command="{Binding PORTBBit7}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="3" Command="{Binding PORTBBit7}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="4" Command="{Binding PORTBBit7}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="5" Command="{Binding PORTBBit7}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="6" Command="{Binding PORTBBit7}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="7" Command="{Binding PORTBBit7}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                    <Label Content="W_Reg" Grid.Row="6" Grid.ColumnSpan="8">
+                    </Label>
+                    <Label Grid.Row="7" Grid.ColumnSpan="8" Content="{Binding Memory.W_Reg, Converter={StaticResource shortConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    </Label>
                 </Grid>
             </GroupBox>
             <TextBox Name="txtEditor" 
                  Text="{Binding SrcFileModel.SourceFile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="0"
                  />
             <DockPanel Grid.Row="1" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DockPanel.Dock="Top">
-                <DataGrid ItemsSource="{Binding Memory.RAM.RAMList, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" AutoGenerateColumns="False">
+                <DataGrid Name="memoryGrid" LoadingRow="DataGrid_LoadingRow" ItemsSource="{Binding Memory.RAM.RAMList, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="0xR0" Binding="{Binding Byte0}"/>
                         <DataGridTextColumn Header="0xR1" Binding="{Binding Byte1}"/>
@@ -99,11 +105,6 @@
                         <DataGridTextColumn Header="0xRE" Binding="{Binding Byte14}"/>
                         <DataGridTextColumn Header="0xRF" Binding="{Binding Byte15}"/>
                     </DataGrid.Columns>
-                    <DataGrid.RowHeaderStyle>
-                        <Style TargetType="{x:Type DataGridRowHeader}">
-                            <Setter Property="Content" Value="{Binding RowStyleInfo}" />
-                        </Style>
-                    </DataGrid.RowHeaderStyle>
                 </DataGrid>
             </DockPanel>
         </Grid>

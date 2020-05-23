@@ -51,7 +51,7 @@ namespace Applicator.Services
         public static readonly short RP1 = 0x06;
         public static readonly short RP0 = 0x05;
         public static readonly short INV_TO = 0x04;
-        public static readonly short INV_PD = 0x05;
+        public static readonly short INV_PD = 0x03;
         public static readonly short Z = 0x02;
         public static readonly short DC = 0x01;
         public static readonly short C = 0x00;

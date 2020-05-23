@@ -50,7 +50,7 @@ namespace Application.Model
         }
 
         private RAMModel _ram;
-
+        
         public RAMModel RAM
         {
             get

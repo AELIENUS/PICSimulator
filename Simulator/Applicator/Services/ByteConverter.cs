@@ -22,7 +22,8 @@ namespace Application.Services
 
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            byte b = byte.Parse((string)value);
+            string temp = (string)value;
+            byte b = Convert.ToByte(temp);
             return b;
         }
     }

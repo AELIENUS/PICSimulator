@@ -29,12 +29,12 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(memory, file, result, d);
 
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
 
         //cycles: 1
     }
-
-    public void ANDWF(Memory memory, int file, int d) //and w and f
+    
+    public void ANDWF (Memory memory, int file, int d) //and w and f
     {
         int result = memory.W_Reg & memory.RAM[file];
 
@@ -42,10 +42,10 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(memory, file, result, d);
 
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
     }
 
-    public void CLRF(Memory memory, int file) //clear f
+    public void CLRF (Memory memory, int file) //clear f
     {
         memory.RAM[file] = 0;
 
@@ -53,18 +53,18 @@ public class CommandService : ICommandService
         checkZ(memory, 0);
 
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
     }
 
     public void CLRW(Memory memory) // clear w
     {
         memory.W_Reg = 0;
-
         // z flag setzen
         checkZ(memory, 0);
 
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+
     }
 
     public void COMF(Memory memory, int file, int d) //complement f
@@ -74,7 +74,7 @@ public class CommandService : ICommandService
         checkZ(memory, result);
         StoreSwitchedOnD(memory, file, result, d);
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
 
         //cycles: 1
     }
@@ -91,7 +91,7 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(memory, file, result, d);
 
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
 
         //cycles: 1
     }
@@ -99,29 +99,28 @@ public class CommandService : ICommandService
     public void DECFSZ(Memory memory, int file, int d) //Decrement f, Skip if 0
     {
         int result = memory.RAM[file] - 1;
-
         if (result < 0)
         {
             result = result + 256;
         }
         StoreSwitchedOnD(memory, file, result, d);
 
-        int summand = 1;
-        if (result == 0)
+        int summand =1;
+        if (result ==0)
         {
-            summand++;
+            summand ++;
         }
 
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + summand));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +summand ));
 
         //cycles: 1, bei überspringen 2
     }
 
-    public void INCF(Memory memory, int file, int d) //increment f
+    public void INCF (Memory memory, int file, int d) //increment f
     {
         int result = memory.RAM[file] + 1;
-        if (result > 255)
+        if (result>255)
         {
             result = result - 256;
         }
@@ -154,21 +153,21 @@ public class CommandService : ICommandService
 
     }
 
-    public void IORWF(Memory memory, int file, int d) // inclusive OR w with f
+    public void IORWF (Memory memory, int file, int d) // inclusive OR w with f
     {
         int result = (int)memory.W_Reg | (int)memory.RAM[file];
 
         checkZ(memory, result);
 
         StoreSwitchedOnD(memory, file, result, d);
-
+        
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
 
-        //cycles: 1
+       //cycles: 1
     }
 
-    public void MOVF(Memory memory, int file, int d) // move f
+    public void MOVF (Memory memory, int file, int d) // move f
     {
         int result = memory.RAM[file];
 
@@ -177,30 +176,30 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(memory, file, result, d);
 
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
 
         //cycles: 1
     }
 
-    public void MOVWF(Memory memory, int file) // move w to f
+    public void MOVWF (Memory memory,int file) // move w to f
     {
-        memory.RAM[file] = Convert.ToByte(memory.W_Reg);
+        memory.RAM[file] =Convert.ToByte( memory.W_Reg);
 
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
 
         //cycles: 1
     }
 
-    public void NOP(Memory memory) // no operation
+    public void NOP (Memory memory) // no operation
     {
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
 
         //cycles: 1
     }
 
-    public void RLF(Memory memory, int file, int d) // rotate left through carry
+    public void RLF (Memory memory, int file, int d) // rotate left through carry
     {
         int result = memory.RAM[file] << 1;
         int carry = memory.RAM[Constants.STATUS_B1] & 0b_0000_0001;
@@ -211,7 +210,7 @@ public class CommandService : ICommandService
         {
             result = result - 256;
             //carry setzen
-            ChangeBoth(memory, Constants.STATUS_B1, Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0001));
+            ChangeBoth(memory, Constants.STATUS_B1, Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0001)); 
         }
         else
         {
@@ -222,12 +221,12 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(memory, file, result, d);
 
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
 
         //cycles: 1
     }
 
-    public void RRF(Memory memory, int file, int d) // rotate right through carry
+    public void RRF (Memory memory,int file, int d) // rotate right through carry
     {
         int newCarry = memory.RAM[file] & 0b_0000_0001;
         int result = memory.RAM[file] >> 1;
@@ -251,19 +250,19 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(memory, file, result, d);
 
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
 
         //cycles: 1
     }
 
-    public void SUBWF(Memory memory, int file, int d) // substract w from f
+    public void SUBWF (Memory memory,int file, int d) // substract w from f
     {
         int result = memory.RAM[file] - memory.W_Reg; // literal in f ändern, auf d prüfen
 
         if (result < 0)
-        {
+	    {
             result = result + 256;
-        }
+	    }
 
         check_DC_C(memory, memory.RAM[file], memory.W_Reg, "-");
         checkZ(memory, result);
@@ -271,27 +270,27 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(memory, file, result, d);
 
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
 
         //cycles: 1
     }
 
-    public void SWAPF(Memory memory, int file, int d) // swap nibbles in f
+    public void SWAPF(Memory memory,int file, int d) // swap nibbles in f
     {
         int newUpper = (memory.RAM[file] << 4) & 0b_1111_0000;
         int newLower = (memory.RAM[file] >> 4) & 0b_0000_1111;
 
-        int result = newLower + newUpper;
+        int result  = newLower + newUpper;
 
         StoreSwitchedOnD(memory, file, result, d);
 
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
 
         //cycles: 1
     }
 
-    public void XORWF(Memory memory, int file, int d) //exclusive OR w with f
+    public void XORWF (Memory memory,int file, int d) //exclusive OR w with f
     {
 
         int result = memory.W_Reg ^ memory.RAM[file];
@@ -309,7 +308,7 @@ public class CommandService : ICommandService
     #endregion byte-oriented file register operations
 
     #region bit-oriented file register operations
-    public async Task BCF(Memory memory, int file, int bit) //bit clear f
+    public async Task BCF (Memory memory, int file, int bit) //bit clear f
     {
         switch (bit)
         {
@@ -340,12 +339,11 @@ public class CommandService : ICommandService
         }
 
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
-
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
         //cycles = 1
     }
 
-    public async Task BSF(Memory memory, int file, int bit)//bit set f
+    public async Task BSF (Memory memory, int file, int bit)//bit set f
     {
         switch (bit)
         {
@@ -381,7 +379,7 @@ public class CommandService : ICommandService
         //cycles = 1
     }
 
-    public async Task BTFSC(Memory memory, int file, int bit) //bit test f, skip if clear
+    public async Task BTFSC (Memory memory, int file, int bit) //bit test f, skip if clear
     {
         int summand;
         switch (bit)
@@ -413,11 +411,11 @@ public class CommandService : ICommandService
         }
         //PC hochzählen
         ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + summand));
-
+        
         //cycles: 1, bei skip 2
     }
 
-    public async Task BTFSS(Memory memory, int file, int bit) //bit test f, skip if set
+    public async Task BTFSS (Memory memory, int file, int bit) //bit test f, skip if set
     {
         int summand;
         switch (bit)
@@ -448,23 +446,24 @@ public class CommandService : ICommandService
                 break;
         }
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + summand));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +summand ));
 
         //cycles: 1, bei skip 2
     }
 
-
+ 
     #endregion
 
     #region literal and control operations
-    public void ADDLW(Memory memory, int literal) //add literal and w -> fertig
+    public void ADDLW (Memory memory, int literal) //add literal and w -> fertig
     {
         int result = literal + memory.W_Reg;
 
         if (result > 255)
-        {
-            result = result - 256;
-        }
+	    {
+            result = result -256;
+	    }
+
 
         check_DC_C(memory, literal, memory.W_Reg, "+");
         checkZ(memory, result);
@@ -472,14 +471,14 @@ public class CommandService : ICommandService
         memory.W_Reg = (short)result;
 
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
 
         //cycles: 1
     }
 
     public void ANDLW(Memory memory, int literal) //and literal and w -> fertig
     {
-
+    
         int result;
 
         result = memory.W_Reg & literal;
@@ -489,7 +488,7 @@ public class CommandService : ICommandService
 
 
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
 
         //cycles: 1
     }
@@ -499,19 +498,18 @@ public class CommandService : ICommandService
         int returnAdress = memory.RAM[Constants.PCL_B1] + 1;
         memory.PCStack.Push((short)returnAdress);
 
-        GOTO(memory, address);
+        GOTO (memory, address);
 
-
-        // 2 cycles
+       // 2 cycles
     }
 
     public void CLRWDT(Memory memory) //clear watchdog timer -> wdt fehlt
     {
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
     }
 
-    public async Task GOTO(Memory memory, int address) //go to address -> fertig
+    public async Task GOTO (Memory memory, int address) //go to address -> fertig
     {
         //bits 0-10 für PCL:
         int pcl_low = (int)address & 0b_0000_0000_1111_1111; //kommt in PCL
@@ -526,26 +524,26 @@ public class CommandService : ICommandService
         //cycles:2
     }
 
-    public void IORLW(Memory memory, int literal) //inclusive OR literal with w   -> fertig
+    public void IORLW (Memory memory, int literal) //inclusive OR literal with w   -> fertig
     {
         int result;
 
         result = memory.W_Reg | literal;
 
-        checkZ(memory, result);
+        checkZ (memory, result);
         memory.W_Reg = (short)result;
-        ;
+
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
 
         //cycles: 1
     }
 
-    public void MOVLW(Memory memory, int literal) //move literal to w -> fertig
+    public void MOVLW (Memory memory, int literal) //move literal to w -> fertig
     {
         memory.W_Reg = Convert.ToByte(literal);
         ///PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
 
         //cycles: 1
     }
@@ -563,7 +561,7 @@ public class CommandService : ICommandService
         //cycles: 2
     }
 
-    public void RETLW(Memory memory, int literal) //return with literal in w -> fertig
+    public void RETLW (Memory memory, int literal) //return with literal in w -> fertig
     {
         memory.W_Reg = Convert.ToByte(literal);
 
@@ -602,24 +600,24 @@ public class CommandService : ICommandService
 
     public void SUBLW(Memory memory, int literal) // subtract w from literal -> fertig
     {
-        int result = literal - memory.W_Reg;
-        check_DC_C(memory, literal, memory.W_Reg, "-");
+        int result = literal - memory.W_Reg; 
+        check_DC_C(memory, literal, memory.W_Reg, "-");        
         checkZ(memory, result);
 
         if (result < 0)
-        {
+	    {
             result = result + 256;
-        }
+	    }
 
         memory.W_Reg = (short)result;
 
         //PC hochzählen
-        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+        ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
 
         //cycles: 1
     }
 
-    public void XORLW(Memory memory, int literal) //exclusive OR literal with w -> fertig
+    public void XORLW (Memory memory, int literal) //exclusive OR literal with w -> fertig
     {
         int result;
 
@@ -643,10 +641,10 @@ public class CommandService : ICommandService
         {
             int PC = memory.RAM[Constants.PCL_B1] + memory.RAM[Constants.PCLATH_B1];
             if (PC == 0x7ff)
-            {
+	        {
                 memory.RAM[Constants.PCL_B1] = 0;
                 memory.RAM[Constants.PCLATH_B1] = 0;
-            }
+	        }
             switch (memory.Program[PC])
             {
                 case 0b_0000_0000_0000_1000:
@@ -667,7 +665,7 @@ public class CommandService : ICommandService
                 case 0b_0000_0000_0110_0000:
                     NOP(memory); //no operation 
                     break;
-                case short n when (n >= 0b_0000_0001_0000_0000 && n <= 0b_0000_0001_0111_1111):
+                case short n when (n >= 0b_0000_0001_0000_0000 && n <= 0b_0000_0001_0111_1111): 
                     CLRW(memory); //clear w
                     break;
                 default:
@@ -693,7 +691,7 @@ public class CommandService : ICommandService
                 }
                 else
                 {
-                    CALL(memory, address);
+                     CALL(memory, address);
                 }
                 break;
             case 0b_0001_0000_0000_0000: //bit oriented operations
@@ -735,7 +733,8 @@ public class CommandService : ICommandService
                 break;
         }
     }
-    public async Task AnalyzeNibble2Literal(Memory memory)
+    
+    public async Task AnalyzeNibble2Literal(Memory memory) 
     {
         int PC = memory.RAM[Constants.PCL_B1] + memory.RAM[Constants.PCLATH_B1];
         short befehl = memory.Program[PC];
@@ -754,7 +753,7 @@ public class CommandService : ICommandService
                 break;
             case 0b_1110_0000_0000: //ab hier addlw
             case 0b_1111_0000_0000:
-                ADDLW(memory, literal);
+                ADDLW(memory, literal); 
                 break;
             case 0b_1100_0000_0000: //ab hier sublw
             case 0b_1101_0000_0000:
@@ -776,7 +775,8 @@ public class CommandService : ICommandService
                 break;
         }
     }
-    public async Task AnalyzeNibble2Byte(Memory memory)
+
+    public async Task AnalyzeNibble2Byte(Memory memory) 
     {
         int PC = memory.RAM[Constants.PCL_B1] + memory.RAM[Constants.PCLATH_B1];
         short befehl = memory.Program[PC];
@@ -789,7 +789,7 @@ public class CommandService : ICommandService
                 MOVWF(memory, file);
                 break;
             case 0b_0000_0001_0000_0000:
-                CLRF(memory, file);
+                CLRF(memory, file); 
                 break;
             case 0b_0000_0010_0000_0000:
                 SUBWF(memory, file, d);

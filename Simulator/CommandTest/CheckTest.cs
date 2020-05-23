@@ -166,5 +166,29 @@ namespace CommandTest
 
             Assert.AreEqual(2, result);
         }
+
+        [Test]
+        public void StoreSwitchedOnD_0()
+        {
+            int file = 0x_0f;
+            int result = 15;
+            int d = 0;
+
+            com.StoreSwitchedOnD(mem, file, result, d);
+
+            Assert.AreEqual(15, mem.W_Reg);
+        }
+
+        [Test]
+        public void StoreSwitchedOnD_1()
+        {
+            int file = 0x_0f;
+            int result = 15;
+            int d = 1;
+
+            com.StoreSwitchedOnD(mem, file, result, d);
+
+            Assert.AreEqual(15, mem.RAM[file]);
+        }
     }
 }

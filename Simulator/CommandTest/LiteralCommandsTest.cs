@@ -37,7 +37,7 @@ namespace CommandTest
 
             com.ADDLW(mem, literal);
 
-            Assert.AreEqual(5, mem.W_Reg);
+            Assert.AreEqual(4, mem.W_Reg);
         }
 
         [Test]
@@ -194,7 +194,7 @@ namespace CommandTest
 
             com.SUBLW(mem, literal);
 
-            Assert.AreEqual(245, mem.W_Reg);
+            Assert.AreEqual(246, mem.W_Reg);
         }
 
         [Test]

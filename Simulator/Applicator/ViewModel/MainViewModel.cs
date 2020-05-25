@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
+using System.Windows.Documents;
 
 namespace Application.ViewModel
 {
@@ -69,6 +70,10 @@ namespace Application.ViewModel
         private IDialogService _dialogService;
         private ICommandService _commandService;
         private IFileService _fileService;
+        private Task taskRun;
+
+
+
 
         #endregion
 
@@ -551,22 +556,38 @@ namespace Application.ViewModel
                     ?? (_runCommand = new RelayCommand(
                         () =>
                         {
-                            Task.Run(() => _commandService.Run(Memory, new List<int>()));
+                            taskRun.Start();
                         }));
             }
         }
 
-        private RelayCommand _stopCommand;
+        private RelayCommand _PauseCommand;
 
-        public RelayCommand StopCommand
+        public RelayCommand PauseCommand
         {
             get
             {
-                return _stopCommand
-                    ?? (_stopCommand = new RelayCommand(
+                return _PauseCommand
+                    ?? (_PauseCommand = new RelayCommand(
                         () =>
                         {
-                            //TODO: was passiert?
+                            taskRun.Dispose();
+                        }));
+            }
+        }
+
+        private RelayCommand _ResetCommand;
+
+        public RelayCommand ResetCommand
+        {
+            get
+            {
+                return _ResetCommand
+                    ?? (_ResetCommand = new RelayCommand(
+                        () =>
+                        {
+                            taskRun.Dispose();
+                            Memory.PowerReset();
                         }));
             }
         }
@@ -591,6 +612,7 @@ namespace Application.ViewModel
             _fileService = fileService;
             _dialogService = dialogService;
             _commandService = commandService;
+            taskRun = new Task(() => { _commandService.Run(Memory, new List<int>()); });
         }
 
         public MainViewModel() : 

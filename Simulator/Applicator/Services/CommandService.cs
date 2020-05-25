@@ -675,8 +675,7 @@ public class CommandService : ICommandService
 
     public void AnalyzeNibble3(Memory memory)
     {
-        int PC = memory.RAM[Constants.PCL_B1] + memory.RAM[Constants.PCLATH_B1];
-        short befehl = memory.Program[PC];
+        short befehl = memory.Program[memory.PC];
         int nibble3 = (int)befehl & 0b_0011_0000_0000_0000; //bitoperation nur auf int ausführbar
         switch (nibble3)
         {
@@ -708,8 +707,7 @@ public class CommandService : ICommandService
 
     public void AnalyzeBits11_12(Memory memory) //bit-oriented operations genauer analysieren
     {
-        int PC = memory.RAM[Constants.PCL_B1] + memory.RAM[Constants.PCLATH_B1];
-        short befehl = memory.Program[PC];
+        short befehl = memory.Program[memory.PC];
         int bits11_12 = (int)befehl & 0b_0000_1100_0000_0000;
         int bits = (int)befehl & 0b_0000_0011_1000_0000;
         int file = (int)befehl & 0b_0000_0000_0111_1111;
@@ -734,8 +732,7 @@ public class CommandService : ICommandService
     
     public void AnalyzeNibble2Literal(Memory memory) 
     {
-        int PC = memory.RAM[Constants.PCL_B1] + memory.RAM[Constants.PCLATH_B1];
-        short befehl = memory.Program[PC];
+        short befehl = memory.Program[memory.PC];
         int nibble2 = (int)befehl & 0b_0000_1111_0000_0000;
         int literal = (int)befehl & 0b_0000_0000_1111_1111;
         switch (nibble2)
@@ -776,8 +773,7 @@ public class CommandService : ICommandService
 
     public void AnalyzeNibble2Byte(Memory memory) 
     {
-        int PC = memory.RAM[Constants.PCL_B1] + memory.RAM[Constants.PCLATH_B1];
-        short befehl = memory.Program[PC];
+        short befehl = memory.Program[memory.PC];
         int nibble2 = (int)befehl & 0b_0000_1111_0000_0000;
         int file = (int)befehl & 0b_0000_0000_0111_1111;
         int d = (int)befehl & 0b_0000_0000_1000_0000;

@@ -70,6 +70,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\DebugCodes.cs" />
     <Compile Include="Model\ItemNotifyByte.cs" />
     <Compile Include="Model\Memory.cs" />
     <Compile Include="Model\RAMModel.cs" />

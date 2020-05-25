@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
 using System.Windows.Documents;
+using System.Threading;
 
 namespace Application.ViewModel
 {
@@ -569,7 +570,23 @@ namespace Application.ViewModel
                     ?? (_PauseCommand = new RelayCommand(
                         () =>
                         {
-                            taskRun.Dispose();
+                            
+                        }));
+            }
+        }
+
+        private RelayCommand _SingleStepCommand;
+
+        public RelayCommand SingleStepCommand
+        {
+            get
+            {
+                return _SingleStepCommand
+                    ?? (_SingleStepCommand = new RelayCommand(
+                        () =>
+                        {
+                            //nächstes PC in Breakpoint liste 
+                            //taskRun.Start();
                         }));
             }
         }

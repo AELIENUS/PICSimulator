@@ -27,7 +27,9 @@
                     <MenuItem Header="_Open" Command="{Binding OpenCommand}"/>
                 </MenuItem>
                 <MenuItem Header="_Run" Command="{Binding RunCommand}"/>
-                <MenuItem Header="_Stop" Command="{Binding StopCommand}"/>
+                <MenuItem Header="_Pause" Command="{Binding PauseCommand}"/>
+                <MenuItem Header="_Single Step" Command="{Binding SingleStepCommand}"/>
+                <MenuItem Header="_Power Reset" Command="{Binding ResetCommand}"/>
             </Menu>
             <GroupBox Header="Edit Register" Grid.Row="0" Grid.Column="1">
                 <Grid>

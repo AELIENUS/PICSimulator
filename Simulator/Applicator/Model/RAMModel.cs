@@ -41,37 +41,37 @@ namespace Application.Model
                 switch(position)
                 {
                     case 0:
-                        return RAMList[portionIndex].Byte0;
+                        return RAMList[portionIndex].Byte0.Value;
                     case 1:
-                        return RAMList[portionIndex].Byte1;
+                        return RAMList[portionIndex].Byte1.Value;
                     case 2:
-                        return RAMList[portionIndex].Byte2;
+                        return RAMList[portionIndex].Byte2.Value;
                     case 3:
-                        return RAMList[portionIndex].Byte3;
+                        return RAMList[portionIndex].Byte3.Value;
                     case 4:
-                        return RAMList[portionIndex].Byte4;
+                        return RAMList[portionIndex].Byte4.Value;
                     case 5:
-                        return RAMList[portionIndex].Byte5;
+                        return RAMList[portionIndex].Byte5.Value;
                     case 6:
-                        return RAMList[portionIndex].Byte6;
+                        return RAMList[portionIndex].Byte6.Value;
                     case 7:
-                        return RAMList[portionIndex].Byte7;
+                        return RAMList[portionIndex].Byte7.Value;
                     case 8:
-                        return RAMList[portionIndex].Byte8;
+                        return RAMList[portionIndex].Byte8.Value;
                     case 9:
-                        return RAMList[portionIndex].Byte9;
+                        return RAMList[portionIndex].Byte9.Value;
                     case 10:
-                        return RAMList[portionIndex].Byte10;
+                        return RAMList[portionIndex].Byte10.Value;
                     case 11:
-                        return RAMList[portionIndex].Byte11;
+                        return RAMList[portionIndex].Byte11.Value;
                     case 12:
-                        return RAMList[portionIndex].Byte12;
+                        return RAMList[portionIndex].Byte12.Value;
                     case 13:
-                        return RAMList[portionIndex].Byte13;
+                        return RAMList[portionIndex].Byte13.Value;
                     case 14:
-                        return RAMList[portionIndex].Byte14;
+                        return RAMList[portionIndex].Byte14.Value;
                     case 15:
-                        return RAMList[portionIndex].Byte15;
+                        return RAMList[portionIndex].Byte15.Value;
                     default:
                         return 0;
                 }
@@ -84,52 +84,52 @@ namespace Application.Model
                 switch (position)
                 {
                     case 0:
-                        RAMList[portionIndex].Byte0 = value;
+                        RAMList[portionIndex].Byte0.Value = value;
                         break;
                     case 1:
-                        RAMList[portionIndex].Byte1 = value;
+                        RAMList[portionIndex].Byte1.Value = value;
                         break;
                     case 2:
-                        RAMList[portionIndex].Byte2 = value;
+                        RAMList[portionIndex].Byte2.Value = value;
                         break;
                     case 3:
-                        RAMList[portionIndex].Byte3 = value;
+                        RAMList[portionIndex].Byte3.Value = value;
                         break;
                     case 4:
-                        RAMList[portionIndex].Byte4 = value;
+                        RAMList[portionIndex].Byte4.Value = value;
                         break;
                     case 5:
-                        RAMList[portionIndex].Byte5 = value;
+                        RAMList[portionIndex].Byte5.Value = value;
                         break;
                     case 6:
-                        RAMList[portionIndex].Byte6 = value;
+                        RAMList[portionIndex].Byte6.Value = value;
                         break;
                     case 7:
-                        RAMList[portionIndex].Byte7 = value;
+                        RAMList[portionIndex].Byte7.Value = value;
                         break;
                     case 8:
-                        RAMList[portionIndex].Byte8 = value;
+                        RAMList[portionIndex].Byte8.Value = value;
                         break;
                     case 9:
-                        RAMList[portionIndex].Byte9 = value;
+                        RAMList[portionIndex].Byte9.Value = value;
                         break;
                     case 10:
-                        RAMList[portionIndex].Byte10 = value;
+                        RAMList[portionIndex].Byte10.Value = value;
                         break;
                     case 11:
-                        RAMList[portionIndex].Byte11 = value;
+                        RAMList[portionIndex].Byte11.Value = value;
                         break;
                     case 12:
-                        RAMList[portionIndex].Byte12 = value;
+                        RAMList[portionIndex].Byte12.Value = value;
                         break;
                     case 13:
-                        RAMList[portionIndex].Byte13 = value;
+                        RAMList[portionIndex].Byte13.Value = value;
                         break;
                     case 14:
-                        RAMList[portionIndex].Byte14 = value;
+                        RAMList[portionIndex].Byte14.Value = value;
                         break;
                     case 15:
-                        RAMList[portionIndex].Byte15 = value;
+                        RAMList[portionIndex].Byte15.Value = value;
                         break;
                 }
             }

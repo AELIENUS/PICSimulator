@@ -5,8 +5,6 @@ using Application.Model;
 using Application.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
-using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.Diagnostics;
 using System.Collections.ObjectModel;

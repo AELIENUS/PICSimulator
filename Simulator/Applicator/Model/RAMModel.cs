@@ -43,35 +43,35 @@ namespace Application.Model
                     case 0:
                         return RAMList[portionIndex].Byte0;
                     case 1:
-                        return RAMList[portionIndex].Byte0;
+                        return RAMList[portionIndex].Byte1;
                     case 2:
-                        return RAMList[portionIndex].Byte0;
+                        return RAMList[portionIndex].Byte2;
                     case 3:
-                        return RAMList[portionIndex].Byte0;
+                        return RAMList[portionIndex].Byte3;
                     case 4:
-                        return RAMList[portionIndex].Byte0;
+                        return RAMList[portionIndex].Byte4;
                     case 5:
-                        return RAMList[portionIndex].Byte0;
+                        return RAMList[portionIndex].Byte5;
                     case 6:
-                        return RAMList[portionIndex].Byte0;
+                        return RAMList[portionIndex].Byte6;
                     case 7:
-                        return RAMList[portionIndex].Byte0;
+                        return RAMList[portionIndex].Byte7;
                     case 8:
-                        return RAMList[portionIndex].Byte0;
+                        return RAMList[portionIndex].Byte8;
                     case 9:
-                        return RAMList[portionIndex].Byte0;
+                        return RAMList[portionIndex].Byte9;
                     case 10:
-                        return RAMList[portionIndex].Byte0;
+                        return RAMList[portionIndex].Byte10;
                     case 11:
-                        return RAMList[portionIndex].Byte0;
+                        return RAMList[portionIndex].Byte11;
                     case 12:
-                        return RAMList[portionIndex].Byte0;
+                        return RAMList[portionIndex].Byte12;
                     case 13:
-                        return RAMList[portionIndex].Byte0;
+                        return RAMList[portionIndex].Byte13;
                     case 14:
-                        return RAMList[portionIndex].Byte0;
+                        return RAMList[portionIndex].Byte14;
                     case 15:
-                        return RAMList[portionIndex].Byte0;
+                        return RAMList[portionIndex].Byte15;
                     default:
                         return 0;
                 }

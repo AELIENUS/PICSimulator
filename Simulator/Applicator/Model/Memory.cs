@@ -12,6 +12,18 @@ namespace Application.Model
     public class Memory : ObservableObject
     {
         #region properties
+        
+        public int PC
+        {
+            get
+            {
+                int temp;
+                temp = RAM[Constants.PCL_B1] + (RAM[Constants.PCLATH_B1] << 8);
+                return temp;
+            }
+        }
+
+
         private Stack<short> _PCStack;
 
         public Stack<short> PCStack 

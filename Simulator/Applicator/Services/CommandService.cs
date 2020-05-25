@@ -308,7 +308,7 @@ public class CommandService : ICommandService
     #endregion byte-oriented file register operations
 
     #region bit-oriented file register operations
-    public async Task BCF (Memory memory, int file, int bit) //bit clear f
+    public void BCF (Memory memory, int file, int bit) //bit clear f
     {
         switch (bit)
         {
@@ -343,7 +343,7 @@ public class CommandService : ICommandService
         //cycles = 1
     }
 
-    public async Task BSF (Memory memory, int file, int bit)//bit set f
+    public void BSF (Memory memory, int file, int bit)//bit set f
     {
         switch (bit)
         {
@@ -379,7 +379,7 @@ public class CommandService : ICommandService
         //cycles = 1
     }
 
-    public async Task BTFSC (Memory memory, int file, int bit) //bit test f, skip if clear
+    public void BTFSC (Memory memory, int file, int bit) //bit test f, skip if clear
     {
         int summand;
         switch (bit)
@@ -415,7 +415,7 @@ public class CommandService : ICommandService
         //cycles: 1, bei skip 2
     }
 
-    public async Task BTFSS (Memory memory, int file, int bit) //bit test f, skip if set
+    public void BTFSS (Memory memory, int file, int bit) //bit test f, skip if set
     {
         int summand;
         switch (bit)
@@ -509,7 +509,7 @@ public class CommandService : ICommandService
         ChangeBoth(memory, Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
     }
 
-    public async Task GOTO (Memory memory, int address) //go to address -> fertig
+    public void GOTO (Memory memory, int address) //go to address -> fertig
     {
         //bits 0-10 für PCL:
         int pcl_low = (int)address & 0b_0000_0000_1111_1111; //kommt in PCL
@@ -528,7 +528,7 @@ public class CommandService : ICommandService
     {
         int result;
 
-        result = memory.W_Reg | literal;
+        result = (int)memory.W_Reg | literal;
 
         checkZ (memory, result);
         memory.W_Reg = (short)result;
@@ -634,18 +634,16 @@ public class CommandService : ICommandService
     #endregion
 
 
-    public async Task Run(Memory memory, List<int> breakpointList)
+    public Task Run(Memory memory, List<int> breakpointList)
     {
         while (true)
-
         {
-            int PC = memory.RAM[Constants.PCL_B1] + memory.RAM[Constants.PCLATH_B1];
-            if (PC == 0x7ff)
+            if (memory.PC == 0x7ff)
 	        {
                 memory.RAM[Constants.PCL_B1] = 0;
                 memory.RAM[Constants.PCLATH_B1] = 0;
 	        }
-            switch (memory.Program[PC])
+            switch (memory.Program[memory.PC])
             {
                 case 0b_0000_0000_0000_1000:
                     RETURN(memory); //Return from Subroutine
@@ -675,7 +673,7 @@ public class CommandService : ICommandService
         }
     }
 
-    public async Task AnalyzeNibble3(Memory memory)
+    public void AnalyzeNibble3(Memory memory)
     {
         int PC = memory.RAM[Constants.PCL_B1] + memory.RAM[Constants.PCLATH_B1];
         short befehl = memory.Program[PC];
@@ -687,7 +685,7 @@ public class CommandService : ICommandService
                 int address = (int)befehl & 0b_0000_0111_1111_1111;
                 if (bit12 == 0b_0000_1000_0000_0000)
                 {
-                    await GOTO(memory, address);
+                    GOTO(memory, address);
                 }
                 else
                 {
@@ -695,20 +693,20 @@ public class CommandService : ICommandService
                 }
                 break;
             case 0b_0001_0000_0000_0000: //bit oriented operations
-                await AnalyzeBits11_12(memory);
+                AnalyzeBits11_12(memory);
                 break;
             case 0b_0011_0000_0000_0000: //literal operations
-                await AnalyzeNibble2Literal(memory);
+                AnalyzeNibble2Literal(memory);
                 break;
             case 0b_0000_0000_0000_0000: //byte oriented operations
-                await AnalyzeNibble2Byte(memory);
+                AnalyzeNibble2Byte(memory);
                 break;
             default:
                 break;
         }
     }
 
-    public async Task AnalyzeBits11_12(Memory memory) //bit-oriented operations genauer analysieren
+    public void AnalyzeBits11_12(Memory memory) //bit-oriented operations genauer analysieren
     {
         int PC = memory.RAM[Constants.PCL_B1] + memory.RAM[Constants.PCLATH_B1];
         short befehl = memory.Program[PC];
@@ -718,23 +716,23 @@ public class CommandService : ICommandService
         switch (bits11_12)
         {
             case 0:
-                await BCF(memory, file, bits);
+                BCF(memory, file, bits);
                 break;
             case 1:
-                await BSF(memory, file, bits);
+                BSF(memory, file, bits);
                 break;
             case 2:
-                await BTFSC(memory, file, bits);
+                BTFSC(memory, file, bits);
                 break;
             case 3:
-                await BTFSS(memory, file, bits);
+                BTFSS(memory, file, bits);
                 break;
             default:
                 break;
         }
     }
     
-    public async Task AnalyzeNibble2Literal(Memory memory) 
+    public void AnalyzeNibble2Literal(Memory memory) 
     {
         int PC = memory.RAM[Constants.PCL_B1] + memory.RAM[Constants.PCLATH_B1];
         short befehl = memory.Program[PC];
@@ -776,7 +774,7 @@ public class CommandService : ICommandService
         }
     }
 
-    public async Task AnalyzeNibble2Byte(Memory memory) 
+    public void AnalyzeNibble2Byte(Memory memory) 
     {
         int PC = memory.RAM[Constants.PCL_B1] + memory.RAM[Constants.PCLATH_B1];
         short befehl = memory.Program[PC];

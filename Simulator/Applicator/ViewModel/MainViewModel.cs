@@ -474,7 +474,7 @@ namespace Application.ViewModel
                 {
                     _PORTBBit1 = new RelayCommand<bool>(param => ChangePORTBBit1(param));
                 }
-                return _PORTABit1;
+                return _PORTBBit1;
             }
         }
 
@@ -498,11 +498,11 @@ namespace Application.ViewModel
         {
             get
             {
-                if (_PORTABit0 == null)
+                if (_PORTBBit0 == null)
                 {
-                    _PORTABit0 = new RelayCommand<bool>(param => ChangePORTBBit0(param));
+                    _PORTBBit0 = new RelayCommand<bool>(param => ChangePORTBBit0(param));
                 }
-                return _PORTABit0;
+                return _PORTBBit0;
             }
         }
 
@@ -511,12 +511,12 @@ namespace Application.ViewModel
             bool convertedParameter = (bool)parameter;
             if (convertedParameter)
             {
-                Memory.RAM[5] |= 0b0000_0001;
+                Memory.RAM[6] |= 0b0000_0001;
 
             }
             else
             {
-                Memory.RAM[5] &= 0b1111_1110;
+                Memory.RAM[6] &= 0b1111_1110;
             }
         }
 

@@ -66,16 +66,16 @@
                     <CheckBox Grid.Row="2" Grid.Column="7" Command="{Binding PORTABit0}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
                     <Label Content="Port B" Grid.Row="3" Grid.ColumnSpan="8">
                     </Label>
-                    <Label Grid.Row="4" Grid.ColumnSpan="8" Content="{Binding Memory.RAM.RAMList[0].Byte5, Converter={StaticResource elementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <Label Grid.Row="4" Grid.ColumnSpan="8" Content="{Binding Memory.RAM.RAMList[0].Byte6, Converter={StaticResource elementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top">
                     </Label>
                     <CheckBox Grid.Row="5" Grid.Column="0" Command="{Binding PORTBBit7}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
-                    <CheckBox Grid.Row="5" Grid.Column="1" Command="{Binding PORTBBit7}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
-                    <CheckBox Grid.Row="5" Grid.Column="2" Command="{Binding PORTBBit7}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
-                    <CheckBox Grid.Row="5" Grid.Column="3" Command="{Binding PORTBBit7}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
-                    <CheckBox Grid.Row="5" Grid.Column="4" Command="{Binding PORTBBit7}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
-                    <CheckBox Grid.Row="5" Grid.Column="5" Command="{Binding PORTBBit7}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
-                    <CheckBox Grid.Row="5" Grid.Column="6" Command="{Binding PORTBBit7}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
-                    <CheckBox Grid.Row="5" Grid.Column="7" Command="{Binding PORTBBit7}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="1" Command="{Binding PORTBBit6}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="2" Command="{Binding PORTBBit5}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="3" Command="{Binding PORTBBit4}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="4" Command="{Binding PORTBBit3}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="5" Command="{Binding PORTBBit2}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="6" Command="{Binding PORTBBit1}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="7" Command="{Binding PORTBBit0}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
                     <Label Content="W_Reg" Grid.Row="6" Grid.ColumnSpan="8">
                     </Label>
                     <Label Grid.Row="7" Grid.ColumnSpan="8" Content="{Binding Memory.W_Reg, Converter={StaticResource shortConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top">

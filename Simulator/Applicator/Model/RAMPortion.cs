@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Applicator.Model;
+using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,129 +10,129 @@ namespace Application.Model
 {
     public  class RAMPortion : ObservableObject
     {
-		private byte _Byte0;
+		private ItemNotifyByte _Byte0;
 
-		public byte Byte0
+		public ItemNotifyByte Byte0
 		{
 			get { return _Byte0; }
 			set { _Byte0 = value; RaisePropertyChanged(); }
 		}
 
-		private byte _Byte1;
+		private ItemNotifyByte _Byte1;
 
-		public byte Byte1
+		public ItemNotifyByte Byte1
 		{
 			get { return _Byte1; }
 			set { _Byte1 = value; RaisePropertyChanged(); }
 		}
 
-		private byte _Byte2;
+		private ItemNotifyByte _Byte2;
 
-		public byte Byte2
+		public ItemNotifyByte Byte2
 		{
 			get { return _Byte2; }
 			set { _Byte2 = value; RaisePropertyChanged(); }
 		}
 
-		private byte _Byte3;
+		private ItemNotifyByte _Byte3;
 
-		public byte Byte3
+		public ItemNotifyByte Byte3
 		{
 			get { return _Byte3; }
 			set { _Byte3 = value; RaisePropertyChanged(); }
 		}
 
-		private byte _Byte4;
+		private ItemNotifyByte _Byte4;
 
-		public byte Byte4
+		public ItemNotifyByte Byte4
 		{
-			get { return _Byte1; }
-			set { _Byte1 = value; RaisePropertyChanged(); }
+			get { return _Byte4; }
+			set { _Byte4 = value; RaisePropertyChanged(); }
 		}
 
-		private byte _Byte5;
+		private ItemNotifyByte _Byte5;
 
-		public byte Byte5
+		public ItemNotifyByte Byte5
 		{
 			get { return _Byte5; }
 			set { _Byte5 = value; RaisePropertyChanged(); }
 		}
 
-		private byte _Byte6;
+		private ItemNotifyByte _Byte6;
 
-		public byte Byte6
+		public ItemNotifyByte Byte6
 		{
 			get { return _Byte6; }
 			set { _Byte6 = value; RaisePropertyChanged(); }
 		}
 
-		private byte _Byte7;
+		private ItemNotifyByte _Byte7;
 
-		public byte Byte7
+		public ItemNotifyByte Byte7
 		{
 			get { return _Byte7; }
 			set { _Byte7 = value; RaisePropertyChanged(); }
 		}
 
-		private byte _Byte8;
+		private ItemNotifyByte _Byte8;
 
-		public byte Byte8
+		public ItemNotifyByte Byte8
 		{
 			get { return _Byte8; }
 			set { _Byte8 = value; RaisePropertyChanged(); }
 		}
 
-		private byte _Byte9;
+		private ItemNotifyByte _Byte9;
 
-		public byte Byte9
+		public ItemNotifyByte Byte9
 		{
 			get { return _Byte9; }
 			set { _Byte9 = value; RaisePropertyChanged(); }
 		}
 
-		private byte _Byte10;
+		private ItemNotifyByte _Byte10;
 
-		public byte Byte10
+		public ItemNotifyByte Byte10
 		{
 			get { return _Byte10; }
 			set { _Byte10 = value; RaisePropertyChanged(); }
 		}
 
-		private byte _Byte11;
+		private ItemNotifyByte _Byte11;
 
-		public byte Byte11
+		public ItemNotifyByte Byte11
 		{
 			get { return _Byte11; }
 			set { _Byte11 = value; RaisePropertyChanged(); }
 		}
 
-		private byte _Byte12;
+		private ItemNotifyByte _Byte12;
 
-		public byte Byte12
+		public ItemNotifyByte Byte12
 		{
 			get { return _Byte12; }
 			set { _Byte12 = value; RaisePropertyChanged(); }
 		}
 
-		private byte _Byte13;
+		private ItemNotifyByte _Byte13;
 
-		public byte Byte13
+		public ItemNotifyByte Byte13
 		{
 			get { return _Byte13; }
 			set { _Byte13 = value; RaisePropertyChanged(); }
 		}
 
-		private byte _Byte14;
+		private ItemNotifyByte _Byte14;
 
-		public byte Byte14
+		public ItemNotifyByte Byte14
 		{
 			get { return _Byte14; }
 			set { _Byte14 = value; RaisePropertyChanged(); }
 		}
 
-		private byte _Byte15;
+		private ItemNotifyByte _Byte15;
 
-		public byte Byte15
+		public ItemNotifyByte Byte15
 		{
 			get { return _Byte15; }
 			set { _Byte15 = value; RaisePropertyChanged(); }
@@ -139,7 +140,23 @@ namespace Application.Model
 
 		public RAMPortion()
 		{
-				
+			Byte0 = new ItemNotifyByte();
+			Byte1 = new ItemNotifyByte();
+			Byte2 = new ItemNotifyByte();
+			Byte3 = new ItemNotifyByte();
+			Byte4 = new ItemNotifyByte();
+			Byte5 = new ItemNotifyByte();
+			Byte6 = new ItemNotifyByte();
+			Byte7 = new ItemNotifyByte();
+			Byte8 = new ItemNotifyByte();
+			Byte9 = new ItemNotifyByte();
+			Byte10 = new ItemNotifyByte();
+			Byte11 = new ItemNotifyByte();
+			Byte12 = new ItemNotifyByte();
+			Byte13 = new ItemNotifyByte();
+			Byte14 = new ItemNotifyByte();
+			Byte15 = new ItemNotifyByte();
+
 		}
 
 	}

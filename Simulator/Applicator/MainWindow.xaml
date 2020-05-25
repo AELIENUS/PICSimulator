@@ -54,28 +54,28 @@
 
                     <Label Content="Port A" Grid.Row="0" Grid.ColumnSpan="8">
                     </Label>
-                    <Label Grid.Row="1" Grid.ColumnSpan="8" Content="{Binding Memory.RAM.RAMList[0].Byte5, Converter={StaticResource elementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <Label Grid.Row="1" Grid.ColumnSpan="8" Content="{Binding Memory.RAM.RAMList[0].Byte5.Value, Converter={StaticResource elementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top">
                     </Label>
-                    <CheckBox Grid.Row="2" Grid.Column="0" Command="{Binding PORTABit7}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
-                    <CheckBox Grid.Row="2" Grid.Column="1" Command="{Binding PORTABit6}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
-                    <CheckBox Grid.Row="2" Grid.Column="2" Command="{Binding PORTABit5}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
-                    <CheckBox Grid.Row="2" Grid.Column="3" Command="{Binding PORTABit4}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
-                    <CheckBox Grid.Row="2" Grid.Column="4" Command="{Binding PORTABit3}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
-                    <CheckBox Grid.Row="2" Grid.Column="5" Command="{Binding PORTABit2}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
-                    <CheckBox Grid.Row="2" Grid.Column="6" Command="{Binding PORTABit1}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
-                    <CheckBox Grid.Row="2" Grid.Column="7" Command="{Binding PORTABit0}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                    <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding Memory.RAM.RAMList[0].Byte5.Bit[7]}"/>
+                    <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding Memory.RAM.RAMList[0].Byte5.Bit[6]}"/>
+                    <CheckBox Grid.Row="2" Grid.Column="2" IsChecked="{Binding Memory.RAM.RAMList[0].Byte5.Bit[5]}"/>
+                    <CheckBox Grid.Row="2" Grid.Column="3" IsChecked="{Binding Memory.RAM.RAMList[0].Byte5.Bit[4]}"/>
+                    <CheckBox Grid.Row="2" Grid.Column="4" IsChecked="{Binding Memory.RAM.RAMList[0].Byte5.Bit[3]}"/>
+                    <CheckBox Grid.Row="2" Grid.Column="5" IsChecked="{Binding Memory.RAM.RAMList[0].Byte5.Bit[2]}"/>
+                    <CheckBox Grid.Row="2" Grid.Column="6" IsChecked="{Binding Memory.RAM.RAMList[0].Byte5.Bit[1]}"/>
+                    <CheckBox Grid.Row="2" Grid.Column="7" IsChecked="{Binding Memory.RAM.RAMList[0].Byte5.Bit[0]}"/>
                     <Label Content="Port B" Grid.Row="3" Grid.ColumnSpan="8">
                     </Label>
-                    <Label Grid.Row="4" Grid.ColumnSpan="8" Content="{Binding Memory.RAM.RAMList[0].Byte6, Converter={StaticResource elementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <Label Grid.Row="4" Grid.ColumnSpan="8" Content="{Binding Memory.RAM.RAMList[0].Byte6.Value, Converter={StaticResource elementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top">
                     </Label>
-                    <CheckBox Grid.Row="5" Grid.Column="0" Command="{Binding PORTBBit7}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
-                    <CheckBox Grid.Row="5" Grid.Column="1" Command="{Binding PORTBBit6}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
-                    <CheckBox Grid.Row="5" Grid.Column="2" Command="{Binding PORTBBit5}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
-                    <CheckBox Grid.Row="5" Grid.Column="3" Command="{Binding PORTBBit4}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
-                    <CheckBox Grid.Row="5" Grid.Column="4" Command="{Binding PORTBBit3}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
-                    <CheckBox Grid.Row="5" Grid.Column="5" Command="{Binding PORTBBit2}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
-                    <CheckBox Grid.Row="5" Grid.Column="6" Command="{Binding PORTBBit1}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
-                    <CheckBox Grid.Row="5" Grid.Column="7" Command="{Binding PORTBBit0}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="0" IsChecked="{Binding Memory.RAM.RAMList[0].Byte6.Bit[7]}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding Memory.RAM.RAMList[0].Byte6.Bit[6]}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="2" IsChecked="{Binding Memory.RAM.RAMList[0].Byte6.Bit[5]}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="3" IsChecked="{Binding Memory.RAM.RAMList[0].Byte6.Bit[4]}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="4" IsChecked="{Binding Memory.RAM.RAMList[0].Byte6.Bit[3]}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="5" IsChecked="{Binding Memory.RAM.RAMList[0].Byte6.Bit[2]}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="6" IsChecked="{Binding Memory.RAM.RAMList[0].Byte6.Bit[1]}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="7" IsChecked="{Binding Memory.RAM.RAMList[0].Byte6.Bit[0]}"/>
                     <Label Content="W_Reg" Grid.Row="6" Grid.ColumnSpan="8">
                     </Label>
                     <Label Grid.Row="7" Grid.ColumnSpan="8" Content="{Binding Memory.W_Reg, Converter={StaticResource shortConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top">
@@ -88,22 +88,22 @@
             <DockPanel Grid.Row="1" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DockPanel.Dock="Top">
                 <DataGrid Name="memoryGrid" LoadingRow="DataGrid_LoadingRow" ItemsSource="{Binding Memory.RAM.RAMList, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="0xR0" Binding="{Binding Byte0}"/>
-                        <DataGridTextColumn Header="0xR1" Binding="{Binding Byte1}"/>
-                        <DataGridTextColumn Header="0xR2" Binding="{Binding Byte2}"/>
-                        <DataGridTextColumn Header="0xR3" Binding="{Binding Byte3}"/>
-                        <DataGridTextColumn Header="0xR4" Binding="{Binding Byte4}"/>
-                        <DataGridTextColumn Header="0xR5" Binding="{Binding Byte5}"/>
-                        <DataGridTextColumn Header="0xR6" Binding="{Binding Byte6}"/>
-                        <DataGridTextColumn Header="0xR7" Binding="{Binding Byte7}"/>
-                        <DataGridTextColumn Header="0xR8" Binding="{Binding Byte8}"/>
-                        <DataGridTextColumn Header="0xR9" Binding="{Binding Byte9}"/>
-                        <DataGridTextColumn Header="0xRA" Binding="{Binding Byte10}"/>
-                        <DataGridTextColumn Header="0xRB" Binding="{Binding Byte11}"/>
-                        <DataGridTextColumn Header="0xRC" Binding="{Binding Byte12}"/>
-                        <DataGridTextColumn Header="0xRD" Binding="{Binding Byte13}"/>
-                        <DataGridTextColumn Header="0xRE" Binding="{Binding Byte14}"/>
-                        <DataGridTextColumn Header="0xRF" Binding="{Binding Byte15}"/>
+                        <DataGridTextColumn Header="0xR0" Binding="{Binding Byte0.Value}"/>
+                        <DataGridTextColumn Header="0xR1" Binding="{Binding Byte1.Value}"/>
+                        <DataGridTextColumn Header="0xR2" Binding="{Binding Byte2.Value}"/>
+                        <DataGridTextColumn Header="0xR3" Binding="{Binding Byte3.Value}"/>
+                        <DataGridTextColumn Header="0xR4" Binding="{Binding Byte4.Value}"/>
+                        <DataGridTextColumn Header="0xR5" Binding="{Binding Byte5.Value}"/>
+                        <DataGridTextColumn Header="0xR6" Binding="{Binding Byte6.Value}"/>
+                        <DataGridTextColumn Header="0xR7" Binding="{Binding Byte7.Value}"/>
+                        <DataGridTextColumn Header="0xR8" Binding="{Binding Byte8.Value}"/>
+                        <DataGridTextColumn Header="0xR9" Binding="{Binding Byte9.Value}"/>
+                        <DataGridTextColumn Header="0xRA" Binding="{Binding Byte10.Value}"/>
+                        <DataGridTextColumn Header="0xRB" Binding="{Binding Byte11.Value}"/>
+                        <DataGridTextColumn Header="0xRC" Binding="{Binding Byte12.Value}"/>
+                        <DataGridTextColumn Header="0xRD" Binding="{Binding Byte13.Value}"/>
+                        <DataGridTextColumn Header="0xRE" Binding="{Binding Byte14.Value}"/>
+                        <DataGridTextColumn Header="0xRF" Binding="{Binding Byte15.Value}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </DockPanel>

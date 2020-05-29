@@ -1,24 +1,17 @@
-﻿using System;
+﻿using Applicator.Model;
+using GalaSoft.MvvmLight;
+using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Application.Model
 {
-    public class SourceFileModel: INotifyPropertyChanged
+    public class SourceFileModel: ObservableObject
     {
-        #region PropertyChanged Teil TODO: gibt es das in MVVM light?
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            var handler = PropertyChanged;
-            if(handler!=null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-        #endregion
 
         private string _sourceFile;
 
@@ -36,6 +29,52 @@ namespace Application.Model
                 }
                 _sourceFile = value;
                 //Notification an GUI
+                RaisePropertyChanged();
+            }
+        }
+
+        private ObservableCollection<LineOfCode> _ListOfCode;
+
+        public ObservableCollection<LineOfCode> ListOfCode
+        {
+            get
+            {
+                return _ListOfCode;
+            }
+            set
+            {
+                if(_ListOfCode == null)
+                {
+                    _ListOfCode = new ObservableCollection<LineOfCode>();
+                }
+                _ListOfCode = value;
+                RaisePropertyChanged();
+            }
+        }
+        
+        public LineOfCode this[int commandIndex]
+        {
+            get
+            {
+                for (int i = 0; i < ListOfCode.Count; i++)
+                {
+                    if(commandIndex == ListOfCode[i].CommandIndex)
+                    {
+                        return ListOfCode[i];
+                    }
+                }
+                //hier sollte man theoretisch nie hinkommen
+                return new LineOfCode();
+            }
+            set
+            {
+                for (int i = 0; i < ListOfCode.Count; i++)
+                {
+                    if (commandIndex == ListOfCode[i].CommandIndex)
+                    {
+                        ListOfCode[i] = value;
+                    }
+                }
                 RaisePropertyChanged();
             }
         }

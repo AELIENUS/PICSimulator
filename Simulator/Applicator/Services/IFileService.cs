@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace Application.Services
 {
     public interface IFileService
     {
-         short[] ParseFile(string file, short[] array);
+        short[] ParseFile(string file, short[] array);
+        void CreateFileList(SourceFileModel src);
     }
 }

@@ -152,6 +152,7 @@ namespace Application.Model
             RAM[Constants.EECON2] = 0x00;
             RAM[Constants.PCLATH_B2] = 0x00;
             RAM[Constants.INTCON_B2] = 0x00;
+            W_Reg = 0x0000;
 
             Reset_GPR();
         }

@@ -82,9 +82,15 @@
                     </Label>
                 </Grid>
             </GroupBox>
-            <TextBox Name="txtEditor" 
-                 Text="{Binding SrcFileModel.SourceFile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="0"
-                 />
+            <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding SrcFileModel.ListOfCode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Header="Debug"  Binding="{Binding Path=IsDebug,NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="Code" Binding="{Binding Line, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="CommandIndex" Binding="{Binding CommandIndex, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="ProgramCode" Binding="{Binding ProgramCode, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="InExecution" Binding="{Binding IsExecuted, Mode=OneWay}"/>
+                </DataGrid.Columns>
+            </DataGrid>
             <DockPanel Grid.Row="1" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DockPanel.Dock="Top">
                 <DataGrid Name="memoryGrid" LoadingRow="DataGrid_LoadingRow" ItemsSource="{Binding Memory.RAM.RAMList, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" AutoGenerateColumns="False">
                     <DataGrid.Columns>

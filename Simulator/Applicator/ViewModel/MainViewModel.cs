@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
+using System.Windows.Documents;
+using System.Threading;
+using Applicator.Model;
+using System;
 
 namespace Application.ViewModel
 {
@@ -26,6 +30,10 @@ namespace Application.ViewModel
     public class MainViewModel : ViewModelBase
     {
         #region Properties
+
+        private static CancellationTokenSource tokenSource = new CancellationTokenSource();
+        private CancellationToken cancellationToken = tokenSource.Token;
+
         private Memory _memory;
 
         public Memory Memory 
@@ -64,10 +72,15 @@ namespace Application.ViewModel
             }
         }
 
-        
+        private List<int> BreakpointList;
         private IDialogService _dialogService;
         private ICommandService _commandService;
         private IFileService _fileService;
+        private Task taskRun;
+        private Thread ThreadRun;
+
+
+
 
         #endregion
 
@@ -102,22 +115,64 @@ namespace Application.ViewModel
                     ?? (_runCommand = new RelayCommand(
                         () =>
                         {
-                            Task.Run(() => _commandService.Run(Memory, new List<int>()));
+                            if (ThreadRun.ThreadState == System.Threading.ThreadState.Suspended)
+                            {
+                                ThreadRun.Resume();
+                            }
+                            else if (ThreadRun.ThreadState == System.Threading.ThreadState.Unstarted)
+                            {
+                                ThreadRun.Start();
+                            }
+                            
+                            //taskRun.Start();
                         }));
             }
         }
 
-        private RelayCommand _stopCommand;
+        private RelayCommand _PauseCommand;
 
-        public RelayCommand StopCommand
+        public RelayCommand PauseCommand
         {
             get
             {
-                return _stopCommand
-                    ?? (_stopCommand = new RelayCommand(
+                return _PauseCommand
+                    ?? (_PauseCommand = new RelayCommand(
                         () =>
                         {
-                            //TODO: was passiert?
+                            ThreadRun.Suspend();
+                            
+                        }));
+            }
+        }
+
+        private RelayCommand _SingleStepCommand;
+
+        public RelayCommand SingleStepCommand
+        {
+            get
+            {
+                return _SingleStepCommand
+                    ?? (_SingleStepCommand = new RelayCommand(
+                        () =>
+                        {
+                            //nächstes PC in Breakpoint liste 
+                            //taskRun.Start();
+                        }));
+            }
+        }
+
+        private RelayCommand _ResetCommand;
+
+        public RelayCommand ResetCommand
+        {
+            get
+            {
+                return _ResetCommand
+                    ?? (_ResetCommand = new RelayCommand(
+                        () =>
+                        {
+                            ThreadRun.Suspend();
+                            Memory.PowerReset();
                         }));
             }
         }
@@ -133,19 +188,24 @@ namespace Application.ViewModel
             SourceFileModel sourceFileModel,
             Memory memory,
             IFileService fileService,
-            IDialogService dialogService,
-            ICommandService commandService
+            IDialogService dialogService
             /* hier werden services injected-> Service ist Interface im Helpers ordner*/)
         {
             _memory = memory;
             _srcFileModel = sourceFileModel;
             _fileService = fileService;
             _dialogService = dialogService;
-            _commandService = commandService;
+            _commandService = new CommandService(memory, BreakpointList);
+
+            object[] param = new object[2];
+
+            ThreadStart Start = new ThreadStart(_commandService.Run);
+            ThreadRun = new Thread(Start);
+            //taskRun = new Task(() => { _commandService.Run(Memory, new List<int>()); }, tokenSource.Token);
         }
 
         public MainViewModel() : 
-            this(new SourceFileModel(), new Memory(), new FileService(), new DialogService(), new CommandService()) 
+            this(new SourceFileModel(), new Memory(), new FileService(), new DialogService()) 
         {
 
         }

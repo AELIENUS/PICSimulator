@@ -99,28 +99,10 @@ namespace Application.Model
             }
         }
 
-        private short[] _program = new short[Constants.PROGRAM_MEMORY_SIZE];
-        public short[] Program
-        {
-            get
-            {
-                return _program;
-            }
-            set
-            {
-                if (value.Equals(_program))
-                {
-                    return;
-                }
-                _program = value;
-                RaisePropertyChanged();
-            }
-        }
         #endregion
 
         public Memory()
         {
-            Program = new short[Constants.PROGRAM_MEMORY_SIZE];
             RAM = new RAMModel();
             PowerReset();
         }

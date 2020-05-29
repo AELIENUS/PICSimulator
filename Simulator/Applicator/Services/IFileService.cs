@@ -9,7 +9,6 @@ namespace Application.Services
 {
     public interface IFileService
     {
-        short[] ParseFile(string file, short[] array);
         void CreateFileList(SourceFileModel src);
     }
 }

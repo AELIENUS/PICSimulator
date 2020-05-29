@@ -98,7 +98,6 @@ namespace Application.ViewModel
                         () =>
                         {
                             SrcFileModel.SourceFile = _dialogService.Open();
-                            Memory.Program = _fileService.ParseFile(SrcFileModel.SourceFile, Memory.Program);
                             //TODO: was passiert wenn ein SrcFileModel überschrieben wird?
                             _fileService.CreateFileList(SrcFileModel);
                         }));
@@ -195,7 +194,7 @@ namespace Application.ViewModel
             _srcFileModel = sourceFileModel;
             _fileService = fileService;
             _dialogService = dialogService;
-            _commandService = new CommandService(memory, BreakpointList);
+            _commandService = new CommandService(memory, SrcFileModel, BreakpointList);
 
             object[] param = new object[2];
 

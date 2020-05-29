@@ -41,6 +41,15 @@ namespace Application.Services
             }
         }
 
+        void IFileService.Reset(SourceFileModel src)
+        {
+            for (int i = 0; i < src.ListOfCode.Count; i++)
+            {
+                src.ListOfCode[i].IsDebug = false;
+                src.ListOfCode[i].IsExecuted = false;
+            }
+        }
+
         public FileService()
         {
            

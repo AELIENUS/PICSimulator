@@ -10,5 +10,6 @@ namespace Application.Services
     public interface IFileService
     {
         void CreateFileList(SourceFileModel src);
+        void Reset(SourceFileModel src);
     }
 }

@@ -80,6 +80,7 @@ namespace Applicator.Model
             set
             {
                 _IsExecuted = value;
+                RaisePropertyChanged();
             }
         }
 

@@ -646,10 +646,23 @@ public class CommandService : ICommandService
         while (true)
         {
             if (memory.PC == 0x7ff)
-	        {
+            {
                 memory.RAM[Constants.PCL_B1] = 0;
                 memory.RAM[Constants.PCLATH_B1] = 0;
-	        }
+            }
+            SrcModel[memory.PC].IsExecuted = true;
+            while (true)
+            {
+                if(DebugCodes.Pause | SrcModel[memory.PC].IsDebug)
+                {
+                    //loop forever
+                }
+                else
+                {
+                    break;
+                }
+            }            
+            Thread.Sleep(200);
             switch (SrcModel[memory.PC].ProgramCode)
             {
                 case 0b_0000_0000_0000_1000:
@@ -670,7 +683,7 @@ public class CommandService : ICommandService
                 case 0b_0000_0000_0110_0000:
                     NOP(memory); //no operation 
                     break;
-                case short n when (n >= 0b_0000_0001_0000_0000 && n <= 0b_0000_0001_0111_1111): 
+                case short n when (n >= 0b_0000_0001_0000_0000 && n <= 0b_0000_0001_0111_1111):
                     CLRW(memory); //clear w
                     break;
                 default:
@@ -848,6 +861,7 @@ public class CommandService : ICommandService
                 memory.RAM[Constants.INDF_B2] = wert;
                 break;
             case 0x02:
+                SrcModel[memory.PC].IsExecuted = false;
                 memory.RAM[Constants.PCL_B1] = wert;
                 memory.RAM[Constants.PCL_B2] = wert;
                 break;

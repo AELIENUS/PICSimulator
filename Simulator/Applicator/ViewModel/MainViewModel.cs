@@ -29,6 +29,11 @@ namespace Application.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
+        private List<int> BreakpointList;
+        private IDialogService _dialogService;
+        private ICommandService _commandService;
+        private IFileService _fileService;
+        private Thread ThreadRun;
         #region Properties
 
         private static CancellationTokenSource tokenSource = new CancellationTokenSource();
@@ -72,16 +77,6 @@ namespace Application.ViewModel
             }
         }
 
-        private List<int> BreakpointList;
-        private IDialogService _dialogService;
-        private ICommandService _commandService;
-        private IFileService _fileService;
-        private Task taskRun;
-        private Thread ThreadRun;
-
-
-
-
         #endregion
 
         #region Commands
@@ -114,11 +109,9 @@ namespace Application.ViewModel
                     ?? (_runCommand = new RelayCommand(
                         () =>
                         {
-                            if (ThreadRun.ThreadState == System.Threading.ThreadState.Suspended)
-                            {
-                                ThreadRun.Resume();
-                            }
-                            else if (ThreadRun.ThreadState == System.Threading.ThreadState.Unstarted)
+                            SrcFileModel[Memory.PC].IsDebug = false;
+                            DebugCodes.Pause = false;
+                            if (ThreadRun.ThreadState == System.Threading.ThreadState.Unstarted)
                             {
                                 ThreadRun.Start();
                             }
@@ -138,7 +131,7 @@ namespace Application.ViewModel
                     ?? (_PauseCommand = new RelayCommand(
                         () =>
                         {
-                            ThreadRun.Suspend();
+                            DebugCodes.Pause = true;
                             
                         }));
             }
@@ -154,9 +147,23 @@ namespace Application.ViewModel
                     ?? (_SingleStepCommand = new RelayCommand(
                         () =>
                         {
-                            //nächstes PC in Breakpoint liste 
-                            //taskRun.Start();
-                        }));
+                            if((SrcFileModel[Memory.PC].ProgramCode&0b0010_0000_0000_0000)>0)
+                            {
+                                int pc = SrcFileModel[Memory.PC].ProgramCode & 0b0000_0111_1111_1111;
+                                SrcFileModel[pc].IsDebug = true;
+                            }
+                            else if(SrcFileModel[Memory.PC].ProgramCode == 0b0000_0000_0000_1001 
+                            | SrcFileModel[Memory.PC].ProgramCode == 0b0000_0000_0000_1000
+                            | (SrcFileModel[Memory.PC].ProgramCode & 0b0011_1100_0000_0000) == 0b0011_0100_0000_0000)
+                            {
+                                SrcFileModel[Memory.PCStack.Peek()].IsDebug = true;
+                            }
+                            else
+                            {
+                                SrcFileModel[Memory.PC + 1].IsDebug = true;
+                            }
+                            _runCommand.Execute(null);
+                         }));
             }
         }
 
@@ -170,8 +177,10 @@ namespace Application.ViewModel
                     ?? (_ResetCommand = new RelayCommand(
                         () =>
                         {
-                            ThreadRun.Suspend();
+                            DebugCodes.Pause = true;
+                            SrcFileModel[Memory.PC + 1].IsDebug = true;
                             Memory.PowerReset();
+                            _fileService.Reset(SrcFileModel);
                         }));
             }
         }
@@ -196,11 +205,12 @@ namespace Application.ViewModel
             _dialogService = dialogService;
             _commandService = new CommandService(memory, SrcFileModel, BreakpointList);
 
-            object[] param = new object[2];
+            DebugCodes.Pause = false;
+            DebugCodes.Reset = false;
 
             ThreadStart Start = new ThreadStart(_commandService.Run);
             ThreadRun = new Thread(Start);
-            //taskRun = new Task(() => { _commandService.Run(Memory, new List<int>()); }, tokenSource.Token);
+           
         }
 
         public MainViewModel() : 

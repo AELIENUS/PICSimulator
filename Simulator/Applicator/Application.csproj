@@ -70,6 +70,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\DebugCodes.cs" />
     <Compile Include="Model\LineOfCode.cs" />
     <Compile Include="Model\ItemNotifyByte.cs" />
     <Compile Include="Model\Memory.cs" />
@@ -77,7 +78,6 @@
     <Compile Include="Model\RAMPortion.cs" />
     <Compile Include="Model\SourceFileModel.cs" />
     <Compile Include="Services\ByteBitToBoolConverter.cs" />
-    <Compile Include="Services\CollectionConverter.cs" />
     <Compile Include="Services\ByteConverter.cs" />
     <Compile Include="Services\CommandService.cs" />
     <Compile Include="Services\Constants.cs" />

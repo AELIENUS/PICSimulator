@@ -5,7 +5,6 @@
         <ResourceDictionary>
             <vm:MainViewModel x:Key="Main" />
             <converter:ByteConverter x:Key="elementConverter"/>
-            <converter:CollectionConverter x:Key="collectionConverter"/>
             <converter:ByteBitToBoolConverter x:Key="bitToBoolConverter"/>
             <converter:ShortToBinary x:Key="shortConverter"/>
         </ResourceDictionary>

@@ -8,11 +8,15 @@ using Application.ViewModel;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Windows;
+using Applicator.Model;
+using System.Threading;
 
 //todo: methoden wieder private!!!!!!!!! (für tests public gestellt)
 
 public class CommandService : ICommandService
 {
+    private Memory memory;
+    private List<int> BreakpointList;
     #region byte-oriented file register operations
     public void ADDWF(Memory memory, int file, int d) //add w and f 
     {
@@ -634,8 +638,9 @@ public class CommandService : ICommandService
     #endregion
 
 
-    public Task Run(Memory memory, List<int> breakpointList)
+    public void Run ()
     {
+        
         while (true)
         {
             if (memory.PC == 0x7ff)
@@ -966,9 +971,10 @@ public class CommandService : ICommandService
         }
     }
 
-    public CommandService()
+    public CommandService(Memory memory, List<int> breakpointlist)
     {
-
+        this.memory = memory;
+        BreakpointList = breakpointlist;
     }
 
 }

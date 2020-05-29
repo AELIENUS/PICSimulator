@@ -10,6 +10,8 @@ using System.Diagnostics;
 using System.Collections.ObjectModel;
 using System.Windows.Documents;
 using System.Threading;
+using Applicator.Model;
+using System;
 
 namespace Application.ViewModel
 {
@@ -28,6 +30,10 @@ namespace Application.ViewModel
     public class MainViewModel : ViewModelBase
     {
         #region Properties
+
+        private static CancellationTokenSource tokenSource = new CancellationTokenSource();
+        private CancellationToken cancellationToken = tokenSource.Token;
+
         private Memory _memory;
 
         public Memory Memory 
@@ -66,10 +72,13 @@ namespace Application.ViewModel
             }
         }
 
+        private List<int> BreakpointList;
+
         private IDialogService _dialogService;
         private ICommandService _commandService;
         private IFileService _fileService;
         private Task taskRun;
+        private Thread ThreadRun;
 
 
 
@@ -555,7 +564,16 @@ namespace Application.ViewModel
                     ?? (_runCommand = new RelayCommand(
                         () =>
                         {
-                            taskRun.Start();
+                            if (ThreadRun.ThreadState == System.Threading.ThreadState.Suspended)
+                            {
+                                ThreadRun.Resume();
+                            }
+                            else if (ThreadRun.ThreadState == System.Threading.ThreadState.Unstarted)
+                            {
+                                ThreadRun.Start();
+                            }
+                            
+                            //taskRun.Start();
                         }));
             }
         }
@@ -570,6 +588,7 @@ namespace Application.ViewModel
                     ?? (_PauseCommand = new RelayCommand(
                         () =>
                         {
+                            ThreadRun.Suspend();
                             
                         }));
             }
@@ -601,7 +620,7 @@ namespace Application.ViewModel
                     ?? (_ResetCommand = new RelayCommand(
                         () =>
                         {
-                            taskRun.Dispose();
+                            ThreadRun.Suspend();
                             Memory.PowerReset();
                         }));
             }
@@ -618,20 +637,24 @@ namespace Application.ViewModel
             SourceFileModel sourceFileModel,
             Memory memory,
             IFileService fileService,
-            IDialogService dialogService,
-            ICommandService commandService
+            IDialogService dialogService
             /* hier werden services injected-> Service ist Interface im Helpers ordner*/)
         {
             _memory = memory;
             _srcFileModel = sourceFileModel;
             _fileService = fileService;
             _dialogService = dialogService;
-            _commandService = commandService;
-            taskRun = new Task(() => { _commandService.Run(Memory, new List<int>()); });
+            _commandService = new CommandService(memory, BreakpointList);
+
+            object[] param = new object[2];
+
+            ThreadStart Start = new ThreadStart(_commandService.Run);
+            ThreadRun = new Thread(Start);
+            //taskRun = new Task(() => { _commandService.Run(Memory, new List<int>()); }, tokenSource.Token);
         }
 
         public MainViewModel() : 
-            this(new SourceFileModel(), new Memory(), new FileService(), new DialogService(), new CommandService()) 
+            this(new SourceFileModel(), new Memory(), new FileService(), new DialogService()) 
         {
 
         }

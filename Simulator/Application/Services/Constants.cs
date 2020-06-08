@@ -101,9 +101,8 @@ namespace Application.Services
         public static readonly short INTF = 0x01;
         public static readonly short RBIF = 0x00;
         #endregion
-
         #region Quarzfrequenzen
-        public static readonly ObservableCollection<int> Quartzfrequenzlist = new ObservableCollection<int> { 2000000, 4000000, 8000000, 16000000 };
+        public static readonly ObservableCollection<int> QuartzFrequencyList = new ObservableCollection<int> { 2000000, 4000000, 8000000, 16000000 };
         #endregion
     }
 }

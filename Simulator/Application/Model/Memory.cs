@@ -31,8 +31,8 @@ namespace Application.Model
             }
         }
 
-        private int _Laufzeit;
-        public int Laufzeit 
+        private float _Laufzeit;
+        public float Laufzeit 
         {
             get
             {
@@ -71,21 +71,22 @@ namespace Application.Model
         }
 
 
-        private Stack<short> _PCStack;
+        private ObservableStack<short> _PCStack;
 
-        public Stack<short> PCStack 
+        public ObservableStack<short> PCStack 
         { 
             get
             {
                 if(_PCStack == null)
                 {
-                    _PCStack = new Stack<short>(Constants.PC_STACK_CAPACITY);
+                    _PCStack = new ObservableStack<short>(new Stack<short>(Constants.PC_STACK_CAPACITY));
                 }
                 return _PCStack;
             }
             set
             {
                 _PCStack = value;
+                RaisePropertyChanged();
             }
         }
 

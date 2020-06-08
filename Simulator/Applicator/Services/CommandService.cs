@@ -10,13 +10,13 @@ using System.Security.Cryptography;
 using System.Windows;
 using Applicator.Model;
 using System.Threading;
+using System.ComponentModel;
 
 //todo: methoden wieder private!!!!!!!!! (für tests public gestellt)
 
 public class CommandService : ICommandService
 {
     private Memory memory;
-    private List<int> BreakpointList;
     private SourceFileModel SrcModel;
 
     #region byte-oriented file register operations
@@ -728,8 +728,8 @@ public class CommandService : ICommandService
     public void AnalyzeBits11_12(Memory memory) //bit-oriented operations genauer analysieren
     {
         short befehl = SrcModel[memory.PC].ProgramCode;
-        int bits11_12 = (int)befehl & 0b_0000_1100_0000_0000;
-        int bits = (int)befehl & 0b_0000_0011_1000_0000;
+        int bits11_12 = (int)befehl & 0b_0000_1100_0000_0000 >> 10;
+        int bits = (int)befehl & 0b_0000_0011_1000_0000 >> 7;
         int file = (int)befehl & 0b_0000_0000_0111_1111;
         switch (bits11_12)
         {
@@ -888,71 +888,71 @@ public class CommandService : ICommandService
 
     public void checkZ(Memory memory, int result)
     {
+        byte wert;
         if (result == 0)
         {
-            byte wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0100);
-            ChangeBoth(memory, Constants.STATUS_B1, wert);
+            wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0100);
         }
         else
         {
-            byte wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1011);
-            ChangeBoth(memory, Constants.STATUS_B1, wert);
+            wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1011);
         }
+        ChangeBoth(memory, Constants.STATUS_B1, wert);
+        memory.Z_Flag = (short)((wert & 0b_0000_0100)>>2); //wert für GUI updaten
     }
 
     public void check_DC_C(Memory memory, int literal1, int literal2, string op)
     {
         int literal1low = literal1 & 0b_0000_1111;
         int literal2low = literal2 & 0b_0000_1111;
+        byte wert;
         if (op == "+")
         {
             if ((literal1low + literal2low) > 15) //DigitCarry prüfen
             {
-                byte wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0010);
-                ChangeBoth(memory, Constants.STATUS_B1, wert);
+                wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0010);
             }
             else
             {
-                byte wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1101);
-                ChangeBoth(memory, Constants.STATUS_B1, wert);
-
+                wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1101);
             }
+            ChangeBoth(memory, Constants.STATUS_B1, wert);
+            memory.DC_Flag = (short)((wert & 0b_0000_0010) >> 1); //Wert für GUI updaten
             if ((literal1 + literal2) > 255) // Carry prüfen
             {
-                byte wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0001);
-                ChangeBoth(memory, Constants.STATUS_B1, wert);
+                wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0001);
             }
             else
             {
-                byte wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1110);
-                ChangeBoth(memory, Constants.STATUS_B1, wert);
+                wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1110);
             }
-        }
-        //dann darf nur noch "-" im operanden stehen (wenn richtig aufgerufen)
-        //hier hat der pic umgekehrte Logik, da die Entwickler ein invertieren vergessen haben (siehe Themenblatt)
-        if ((literal1low - literal2low) < 0) // DigitCarry prüfen
-        {
-            byte wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1101);
             ChangeBoth(memory, Constants.STATUS_B1, wert);
-
+            memory.C_Flag = (short)(wert & 0b_0000_0001); //Wert für GUI updaten
         }
-        else
-        {
-            byte wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0010);
-            ChangeBoth(memory, Constants.STATUS_B1, wert);
 
-        }
-        if ((literal1 - literal2) < 0) //Carry prüfen
+        else //op = "-"
         {
-            byte wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1110);
+            //hier hat der pic umgekehrte Logik, da die Entwickler ein invertieren vergessen haben (siehe Themenblatt)
+            if ((literal1low - literal2low) < 0) // DigitCarry prüfen
+            {
+                wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1101);
+            }
+            else
+            {
+                wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0010);
+            }
             ChangeBoth(memory, Constants.STATUS_B1, wert);
-
-        }
-        else
-        {
-            byte wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0001);
+            memory.DC_Flag = (short)((wert & 0b_0000_0010) >> 1); //Wert für GUI updaten
+            if ((literal1 - literal2) < 0) //Carry prüfen
+            {
+                wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1110);
+            }
+            else
+            {
+                wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0001);
+            }
             ChangeBoth(memory, Constants.STATUS_B1, wert);
-
+            memory.C_Flag = (short)(wert & 0b_0000_0001); //Wert für GUI updaten
         }
     }
 
@@ -987,10 +987,9 @@ public class CommandService : ICommandService
         }
     }
 
-    public CommandService(Memory memory, SourceFileModel SrcModel, List<int> breakpointlist)
+    public CommandService(Memory memory, SourceFileModel SrcModel)
     {
         this.memory = memory;
-        BreakpointList = breakpointlist;
         this.SrcModel = SrcModel;
     }
 

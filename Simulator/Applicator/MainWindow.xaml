@@ -82,7 +82,13 @@
                     </Label>
                     <Label Grid.Row="7" Grid.ColumnSpan="8" Content="{Binding Memory.W_Reg, Converter={StaticResource shortConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top">
                     </Label>
-                </Grid>
+                    <Label Content="C-Flag" Grid.Row="6" Grid.Column="1"/>
+                    <Label Grid.Row="7" Grid.Column="1" Content="{Binding Memory.C_Flag}"/>
+                    <Label Content="DC-Flag" Grid.Row="6" Grid.Column="2"/>
+                    <Label Grid.Row="7" Grid.Column="2" Content="{Binding Memory.DC_Flag}"/>
+                    <Label Content="Z-Flag" Grid.Row="6" Grid.Column="3"/>
+                    <Label Grid.Row="7" Grid.Column="3" Content="{Binding Memory.Z_Flag}"/>
+                </Grid> 
             </GroupBox>
             <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding SrcFileModel.ListOfCode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" AutoGenerateColumns="False">
                 <DataGrid.Columns>

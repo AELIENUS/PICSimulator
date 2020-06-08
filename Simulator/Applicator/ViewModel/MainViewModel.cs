@@ -29,7 +29,6 @@ namespace Application.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        private List<int> BreakpointList;
         private IDialogService _dialogService;
         private ICommandService _commandService;
         private IFileService _fileService;
@@ -178,6 +177,7 @@ namespace Application.ViewModel
                         () =>
                         {
                             DebugCodes.Pause = true;
+
                             SrcFileModel[Memory.PC + 1].IsDebug = true;
                             Memory.PowerReset();
                             _fileService.Reset(SrcFileModel);

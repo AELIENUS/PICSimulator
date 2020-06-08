@@ -1,18 +1,65 @@
-﻿using Applicator.Services;
+﻿using Application.Services;
 using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-
+using System.Threading;
 
 namespace Application.Model
 {
     public class Memory : ObservableObject
     {
         #region properties
-        
+
+        private short _CycleCounter;
+
+        public short CycleCounter
+        {
+            get
+            {
+                return _CycleCounter;
+            }
+            set
+            {
+                _CycleCounter++;
+                // Timer0 hochzählen
+                RAM.IncTimer0(0);
+                //Laufzeit neu berechnen
+                RaisePropertyChanged();
+            }
+        }
+
+        private int _Laufzeit;
+        public int Laufzeit 
+        {
+            get
+            {
+                _Laufzeit = CycleCounter / Quartzfrequenz;
+                return _Laufzeit;
+            }
+            set
+            {
+                _Laufzeit = CycleCounter / Quartzfrequenz;
+                RaisePropertyChanged();
+            }
+        }
+
+        private int _Quartzfrequenz = 16000000;
+        public int Quartzfrequenz 
+        { 
+            get
+            {
+                return _Quartzfrequenz;
+            }
+            set
+            {
+                _Quartzfrequenz = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public int PC
         {
             get

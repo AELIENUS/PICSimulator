@@ -1,6 +1,5 @@
 using Application.Model;
 using Application.Services;
-using Applicator.Services;
 using NUnit.Framework;
 using System;
 

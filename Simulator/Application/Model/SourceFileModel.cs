@@ -60,7 +60,7 @@ namespace Application.Model
             {
                 for (int i = 0; i < ListOfCode.Count; i++)
                 {
-                    if(commandIndex == ListOfCode[i].CommandIndex)
+                    if (commandIndex == ListOfCode[i].CommandIndex)
                     {
                         return ListOfCode[i];
                     }

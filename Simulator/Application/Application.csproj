@@ -74,6 +74,7 @@
     <Compile Include="Model\LineOfCode.cs" />
     <Compile Include="Model\ItemNotifyByte.cs" />
     <Compile Include="Model\Memory.cs" />
+    <Compile Include="Model\ObservableStack.cs" />
     <Compile Include="Model\RAMModel.cs" />
     <Compile Include="Model\RAMPortion.cs" />
     <Compile Include="Model\SourceFileModel.cs" />

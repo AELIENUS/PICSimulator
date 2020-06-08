@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Application"
         xmlns:Model="clr-namespace:Application.Model" x:Class="Application.MainWindow"
+        xmlns:Services="clr-namespace:Application.Services"
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="1500"
         >
@@ -39,17 +40,22 @@
             <GroupBox Grid.Row="1" Grid.Column="0" Header="Zeiten">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    <Label Content="Quartzfreqenz:" Grid.Row="0" Grid.Column="0"/>
-                    <ListBox DataContext="{Binding Constants}" ItemsSource="{Binding Constants.Quartzfrequenzlist}" Grid.Column="1">
-                    </ListBox>
-
+                    <TextBlock Text="Quartzfrequenz:" Grid.Row="0" Grid.Column="0"/>
+                    <ComboBox ItemsSource="{Binding Source={x:Static Services:Constants.QuartzFrequencyList}}" Grid.Column="1" SelectedItem="{Binding Path=Memory.Quartzfrequenz}">
+                    </ComboBox>
+                    <TextBlock Text="{Binding Path=Memory.Laufzeit, StringFormat='Laufzeit: {0}s'}" Grid.Row="1" Grid.Column="0"/>
+                    <ListView ItemsSource="{Binding Memory.PCStack}" Grid.Row="2">
+                        
+                    </ListView>
                 </Grid>
 
             </GroupBox>

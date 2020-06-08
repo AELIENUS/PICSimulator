@@ -108,14 +108,15 @@ namespace Application.ViewModel
                     ?? (_runCommand = new RelayCommand(
                         () =>
                         {
-                            SrcFileModel[Memory.PC].IsDebug = false;
-                            DebugCodes.Pause = false;
-                            if (ThreadRun.ThreadState == System.Threading.ThreadState.Unstarted)
+                            if (SrcFileModel.ListOfCode != null)
                             {
-                                ThreadRun.Start();
+                                SrcFileModel[Memory.PC].IsDebug = false;
+                                DebugCodes.Pause = false;
+                                if (ThreadRun.ThreadState == System.Threading.ThreadState.Unstarted)
+                                {
+                                    ThreadRun.Start();
+                                }
                             }
-                            
-                            //taskRun.Start();
                         }));
             }
         }
@@ -146,22 +147,26 @@ namespace Application.ViewModel
                     ?? (_SingleStepCommand = new RelayCommand(
                         () =>
                         {
-                            if((SrcFileModel[Memory.PC].ProgramCode&0b0010_0000_0000_0000)>0)
+                            if (SrcFileModel.ListOfCode != null)
                             {
-                                int pc = SrcFileModel[Memory.PC].ProgramCode & 0b0000_0111_1111_1111;
-                                SrcFileModel[pc].IsDebug = true;
+                                if ((SrcFileModel[Memory.PC].ProgramCode & 0b0010_0000_0000_0000) > 0)
+                                {
+                                    int pc = SrcFileModel[Memory.PC].ProgramCode & 0b0000_0111_1111_1111;
+                                    SrcFileModel[pc].IsDebug = true;
+                                }
+                                else if (SrcFileModel[Memory.PC].ProgramCode == 0b0000_0000_0000_1001
+                                | SrcFileModel[Memory.PC].ProgramCode == 0b0000_0000_0000_1000
+                                | (SrcFileModel[Memory.PC].ProgramCode & 0b0011_1100_0000_0000) == 0b0011_0100_0000_0000)
+                                {
+                                    SrcFileModel[Memory.PCStack.Peek()].IsDebug = true;
+                                }
+                                else
+                                {
+                                    SrcFileModel[Memory.PC + 1].IsDebug = true;
+                                }
+                                _runCommand.Execute(null);
                             }
-                            else if(SrcFileModel[Memory.PC].ProgramCode == 0b0000_0000_0000_1001 
-                            | SrcFileModel[Memory.PC].ProgramCode == 0b0000_0000_0000_1000
-                            | (SrcFileModel[Memory.PC].ProgramCode & 0b0011_1100_0000_0000) == 0b0011_0100_0000_0000)
-                            {
-                                SrcFileModel[Memory.PCStack.Peek()].IsDebug = true;
-                            }
-                            else
-                            {
-                                SrcFileModel[Memory.PC + 1].IsDebug = true;
-                            }
-                            _runCommand.Execute(null);
+                           
                          }));
             }
         }
@@ -176,11 +181,14 @@ namespace Application.ViewModel
                     ?? (_ResetCommand = new RelayCommand(
                         () =>
                         {
-                            DebugCodes.Pause = true;
+                            if(SrcFileModel.ListOfCode!=null)
+                            {
+                                DebugCodes.Pause = true;
 
-                            SrcFileModel[Memory.PC + 1].IsDebug = true;
+                                SrcFileModel[Memory.PC + 1].IsDebug = true;
+                                _fileService.Reset(SrcFileModel);
+                            }
                             Memory.PowerReset();
-                            _fileService.Reset(SrcFileModel);
                         }));
             }
         }

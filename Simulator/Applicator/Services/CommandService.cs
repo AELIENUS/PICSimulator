@@ -1,5 +1,4 @@
 ﻿using Application.Model;
-using Applicator.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,6 +9,7 @@ using System.Security.Cryptography;
 using System.Windows;
 using Applicator.Model;
 using System.Threading;
+using Application.Services;
 
 //todo: methoden wieder private!!!!!!!!! (für tests public gestellt)
 
@@ -661,7 +661,20 @@ public class CommandService : ICommandService
                 {
                     break;
                 }
-            }            
+            }
+
+            //Timer0 Inkrementieren pro Zyklus mit Rücksicht auf den Prescaler
+            //ist Timer0 enabled? Läuft Timer0 erst wenn T0IE aktiviert wird
+            //zyklisch wird nur inkrementiert, wenn T0CS auf 1 steht
+            if((memory.RAM[Constants.OPTION_REG] & Constants.T0CS)>0)
+            {
+                //TODO Prescaler miteinbeziehen
+
+                //timer wird inkrementiert
+                memory.RAM[Constants.TMR0]++;
+            }
+
+            //Ausführung langsamer machen damit man noch irgendwas lesen kann
             Thread.Sleep(200);
             switch (SrcModel[memory.PC].ProgramCode)
             {

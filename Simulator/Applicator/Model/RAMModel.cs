@@ -100,6 +100,16 @@ namespace Application.Model
                         break;
                     case 5:
                         RAMList[portionIndex].Byte5.Value = value;
+                        //ist Port A gemeint?
+                        if((portionIndex == 0)
+                            //T0CS gesetzt
+                            && ((RAMList[8].Byte1.Value & 0b0010_0000) > 0)                            
+                            //PORTA Pin4 ist aktuell high
+                            && ((RAMList[portionIndex].Byte5.Value & 0b0001_0000) > 0))
+                        {
+                            //wenn alles stimmt dann inkrementiere Timer 0
+                            RAMList[0].Byte1.Value++;
+                        }
                         break;
                     case 6:
                         RAMList[portionIndex].Byte6.Value = value;
@@ -134,6 +144,33 @@ namespace Application.Model
                 }
             }
 
+        }
+
+        public void IncTimer0 (int prescaler)
+        {
+            //ist T0CS = 0?
+            if ((RAMList[8].Byte1.Value & 0b0010_0000) == 0)
+            {
+                //ist Overflow?
+                if(RAMList[0].Byte1.Value==255)
+                {
+                    RAMList[0].Byte1.Value = 0;
+                    //Ist GIE und T0IE an?
+                    if ((RAMList[0].Byte11.Value & 0b1010_0000) >= 0b1010_0000)
+                    {
+                        //T0IF setzen
+                        RAMList[0].Byte11.Value |= 0b0000_0100;
+                        RAMList[8].Byte11.Value |= 0b0000_0100;
+                    }
+                    //INTF an
+                    RAMList[0].Byte11.Value |= 0b0000_0010;
+                    RAMList[8].Byte11.Value |= 0b0000_0010;
+                }
+                else
+                {
+                    RAMList[0].Byte1.Value++;
+                }
+            }
         }
 
         public RAMModel()

@@ -1,17 +1,21 @@
-﻿<Window x:Class="Application.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Application"
+        xmlns:Model="clr-namespace:Application.Model" x:Class="Application.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="1500"
-        DataContext="{Binding Source={StaticResource Main}}">
+        >
     <Window.Resources>
         <CompositeCollection x:Key="RAMS">
             <CollectionContainer Collection="{Binding Memory.RAM}"/>
         </CompositeCollection>
     </Window.Resources>
+    <Window.DataContext>
+        <Binding Source="{StaticResource Main}"/>
+    </Window.DataContext>
     <DockPanel>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -19,10 +23,11 @@
                 <ColumnDefinition Width="650"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition/>
                 <RowDefinition Height="350"/>
             </Grid.RowDefinitions>
-            <Menu DockPanel.Dock="Top" ClipToBounds="True">
+            <Menu DockPanel.Dock="Top" ClipToBounds="True" Grid.Row="0" Grid.ColumnSpan="2">
                 <MenuItem Header="_File">
                     <MenuItem Header="_Open" Command="{Binding OpenCommand}"/>
                 </MenuItem>
@@ -31,7 +36,24 @@
                 <MenuItem Header="_Single Step" Command="{Binding SingleStepCommand}"/>
                 <MenuItem Header="_Power Reset" Command="{Binding ResetCommand}"/>
             </Menu>
-            <GroupBox Header="Edit Register" Grid.Row="0" Grid.Column="1">
+            <GroupBox Grid.Row="1" Grid.Column="0" Header="Zeiten">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Quartzfreqenz:" Grid.Row="0" Grid.Column="0"/>
+                    <ListBox DataContext="{Binding Constants}" ItemsSource="{Binding Constants.Quartzfrequenzlist}" Grid.Column="1">
+                    </ListBox>
+
+                </Grid>
+
+            </GroupBox>
+            <GroupBox Header="Edit Register" Grid.Row="1" Grid.Column="1">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -54,10 +76,8 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Label Content="Port A" Grid.Row="0" Grid.ColumnSpan="8">
-                    </Label>
-                    <Label Grid.Row="1" Grid.ColumnSpan="8" Content="{Binding Memory.RAM.RAMList[0].Byte5.Value, Converter={StaticResource elementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top">
-                    </Label>
+                    <Label Content="Port A" Grid.Row="0" Grid.ColumnSpan="8"/>
+                    <Label Grid.Row="1" Grid.ColumnSpan="8" Content="{Binding Memory.RAM.RAMList[0].Byte5.Value, Converter={StaticResource elementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding Memory.RAM.RAMList[0].Byte5.Bit[7]}"/>
                     <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding Memory.RAM.RAMList[0].Byte5.Bit[6]}"/>
                     <CheckBox Grid.Row="2" Grid.Column="2" IsChecked="{Binding Memory.RAM.RAMList[0].Byte5.Bit[5]}"/>
@@ -66,10 +86,8 @@
                     <CheckBox Grid.Row="2" Grid.Column="5" IsChecked="{Binding Memory.RAM.RAMList[0].Byte5.Bit[2]}"/>
                     <CheckBox Grid.Row="2" Grid.Column="6" IsChecked="{Binding Memory.RAM.RAMList[0].Byte5.Bit[1]}"/>
                     <CheckBox Grid.Row="2" Grid.Column="7" IsChecked="{Binding Memory.RAM.RAMList[0].Byte5.Bit[0]}"/>
-                    <Label Content="Port B" Grid.Row="3" Grid.ColumnSpan="8">
-                    </Label>
-                    <Label Grid.Row="4" Grid.ColumnSpan="8" Content="{Binding Memory.RAM.RAMList[0].Byte6.Value, Converter={StaticResource elementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top">
-                    </Label>
+                    <Label Content="Port B" Grid.Row="3" Grid.ColumnSpan="8"/>
+                    <Label Grid.Row="4" Grid.ColumnSpan="8" Content="{Binding Memory.RAM.RAMList[0].Byte6.Value, Converter={StaticResource elementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <CheckBox Grid.Row="5" Grid.Column="0" IsChecked="{Binding Memory.RAM.RAMList[0].Byte6.Bit[7]}"/>
                     <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding Memory.RAM.RAMList[0].Byte6.Bit[6]}"/>
                     <CheckBox Grid.Row="5" Grid.Column="2" IsChecked="{Binding Memory.RAM.RAMList[0].Byte6.Bit[5]}"/>
@@ -78,35 +96,33 @@
                     <CheckBox Grid.Row="5" Grid.Column="5" IsChecked="{Binding Memory.RAM.RAMList[0].Byte6.Bit[2]}"/>
                     <CheckBox Grid.Row="5" Grid.Column="6" IsChecked="{Binding Memory.RAM.RAMList[0].Byte6.Bit[1]}"/>
                     <CheckBox Grid.Row="5" Grid.Column="7" IsChecked="{Binding Memory.RAM.RAMList[0].Byte6.Bit[0]}"/>
-                    <Label Content="W_Reg" Grid.Row="6" Grid.ColumnSpan="8">
-                    </Label>
-                    <Label Grid.Row="7" Grid.ColumnSpan="8" Content="{Binding Memory.W_Reg, Converter={StaticResource shortConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top">
-                    </Label>
+                    <Label Content="W_Reg" Grid.Row="6" Grid.ColumnSpan="8"/>
+                    <Label Grid.Row="7" Grid.ColumnSpan="8" Content="{Binding Memory.W_Reg, Converter={StaticResource shortConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 </Grid>
             </GroupBox>
-            <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding SrcFileModel.ListOfCode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" AutoGenerateColumns="False">
+            <DataGrid Grid.Row="2" Grid.Column="0" ItemsSource="{Binding SrcFileModel.ListOfCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridCheckBoxColumn Header="Debug"  Binding="{Binding Path=IsDebug,NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridCheckBoxColumn Header="Debug"  Binding="{Binding IsDebug, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"/>
                     <DataGridTextColumn Header="Code" Binding="{Binding Line, Mode=OneWay}"/>
                     <DataGridTextColumn Header="CommandIndex" Binding="{Binding CommandIndex, Mode=OneWay}"/>
                     <DataGridTextColumn Header="ProgramCode" Binding="{Binding ProgramCode, Mode=OneWay}"/>
                     <DataGridTextColumn Header="InExecution" Binding="{Binding IsExecuted, Mode=OneWay}"/>
                 </DataGrid.Columns>
                 <DataGrid.RowStyle>
-                    <Style TargetType="DataGridRow">
+                    <Style TargetType="{x:Type DataGridRow}">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsExecuted}" Value="true">
-                                <Setter Property="Background" Value="Red"></Setter>
+                                <Setter Property="Background" Value="Red"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding IsExecuted}" Value="false">
-                                <Setter Property="Background" Value="Transparent"></Setter>
+                                <Setter Property="Background" Value="Transparent"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </DataGrid.RowStyle>
             </DataGrid>
-            <DockPanel Grid.Row="1" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DockPanel.Dock="Top">
-                <DataGrid Name="memoryGrid" LoadingRow="DataGrid_LoadingRow" ItemsSource="{Binding Memory.RAM.RAMList, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" AutoGenerateColumns="False">
+            <DockPanel Grid.Row="2" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DockPanel.Dock="Top">
+                <DataGrid x:Name="memoryGrid" LoadingRow="DataGrid_LoadingRow" ItemsSource="{Binding Memory.RAM.RAMList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="0xR0" Binding="{Binding Byte0.Value}"/>
                         <DataGridTextColumn Header="0xR1" Binding="{Binding Byte1.Value}"/>

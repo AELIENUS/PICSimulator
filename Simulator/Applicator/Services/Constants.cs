@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Applicator.Services
+namespace Application.Services
 {
     public static class Constants
     {
@@ -99,6 +100,10 @@ namespace Applicator.Services
         public static readonly short T0IF = 0x02;
         public static readonly short INTF = 0x01;
         public static readonly short RBIF = 0x00;
+        #endregion
+
+        #region Quarzfrequenzen
+        public static readonly ObservableCollection<int> Quartzfrequenzlist = new ObservableCollection<int> { 2000000, 4000000, 8000000, 16000000 };
         #endregion
     }
 }

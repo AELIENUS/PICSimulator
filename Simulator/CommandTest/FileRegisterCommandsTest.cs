@@ -8,16 +8,20 @@ namespace CommandTest
 {
     class FileRegisterCommandsTest
     {
-        Memory mem = new Memory();
-        CommandService com = new CommandService();
         int file = 0x_0f;
         int d0 = 0;
         int d1 = 1;
 
+        Memory mem;
+        CommandService com;
+        SourceFileModel src;
+
         [SetUp]
         public void Setup()
         {
-
+            mem = new Memory();
+            src = new SourceFileModel();
+            com = new CommandService(mem, src);
         }
 
         [Test]

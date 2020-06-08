@@ -8,13 +8,16 @@ namespace CommandTest
 {
     class LiteralCommandsTest
     {
-        Memory mem = new Memory();
-        CommandService com = new CommandService();
+        Memory mem;
+        CommandService com;
+        SourceFileModel src;
 
         [SetUp]
         public void Setup()
         {
-
+            mem = new Memory();
+            src = new SourceFileModel();
+            com = new CommandService(mem, src);
         }
 
         [Test]

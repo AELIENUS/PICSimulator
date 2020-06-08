@@ -203,7 +203,7 @@ namespace Application.ViewModel
             _srcFileModel = sourceFileModel;
             _fileService = fileService;
             _dialogService = dialogService;
-            _commandService = new CommandService(memory, SrcFileModel, BreakpointList);
+            _commandService = new CommandService(memory, SrcFileModel);
 
             DebugCodes.Pause = false;
             DebugCodes.Reset = false;

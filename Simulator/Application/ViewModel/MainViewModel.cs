@@ -149,14 +149,14 @@ namespace Application.ViewModel
                         {
                             if (SrcFileModel.ListOfCode != null)
                             {
-                                if ((SrcFileModel[Memory.PC].ProgramCode & 0b0010_0000_0000_0000) > 0)
+                                if ((SrcFileModel[Memory.PC].ProgramCode & 0b_0011_0000_0000_0000) == 8192) //auf call & goto prüfen
                                 {
-                                    int pc = SrcFileModel[Memory.PC].ProgramCode & 0b0000_0111_1111_1111;
+                                    int pc = SrcFileModel[Memory.PC].ProgramCode & 0b0000_0111_1111_1111; //sprungadresse debug = treu
                                     SrcFileModel[pc].IsDebug = true;
                                 }
-                                else if (SrcFileModel[Memory.PC].ProgramCode == 0b0000_0000_0000_1001
-                                | SrcFileModel[Memory.PC].ProgramCode == 0b0000_0000_0000_1000
-                                | (SrcFileModel[Memory.PC].ProgramCode & 0b0011_1100_0000_0000) == 0b0011_0100_0000_0000)
+                                else if (SrcFileModel[Memory.PC].ProgramCode == 0b0000_0000_0000_1001 //retfie
+                                | SrcFileModel[Memory.PC].ProgramCode == 0b0000_0000_0000_1000 //return
+                                | (SrcFileModel[Memory.PC].ProgramCode & 0b0011_1100_0000_0000) == 0b0011_0100_0000_0000) //retlw
                                 {
                                     SrcFileModel[Memory.PCStack.Peek()].IsDebug = true;
                                 }

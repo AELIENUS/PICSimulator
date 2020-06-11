@@ -87,6 +87,8 @@
     <Compile Include="Services\ICommandService.cs" />
     <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Services\IFileService.cs" />
+    <Compile Include="Services\PortA.cs" />
+    <Compile Include="Services\PortB.cs" />
     <Compile Include="Services\ShortToBinary.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />

@@ -83,24 +83,24 @@
 
                     <Label Content="Port A" Grid.Row="0" Grid.ColumnSpan="8"/>
                     <Label Grid.Row="1" Grid.ColumnSpan="8" Content="{Binding Memory.RAM.RAMList[0].Byte5.Value, Converter={StaticResource elementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding Memory.RAM.RAMList[0].Byte5.Bit[7]}"/>
-                    <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding Memory.RAM.RAMList[0].Byte5.Bit[6]}"/>
-                    <CheckBox Grid.Row="2" Grid.Column="2" IsChecked="{Binding Memory.RAM.RAMList[0].Byte5.Bit[5]}"/>
-                    <CheckBox Grid.Row="2" Grid.Column="3" IsChecked="{Binding Memory.RAM.RAMList[0].Byte5.Bit[4]}"/>
-                    <CheckBox Grid.Row="2" Grid.Column="4" IsChecked="{Binding Memory.RAM.RAMList[0].Byte5.Bit[3]}"/>
-                    <CheckBox Grid.Row="2" Grid.Column="5" IsChecked="{Binding Memory.RAM.RAMList[0].Byte5.Bit[2]}"/>
-                    <CheckBox Grid.Row="2" Grid.Column="6" IsChecked="{Binding Memory.RAM.RAMList[0].Byte5.Bit[1]}"/>
-                    <CheckBox Grid.Row="2" Grid.Column="7" IsChecked="{Binding Memory.RAM.RAMList[0].Byte5.Bit[0]}"/>
+                    <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding PortA.Pin7}"/>
+                    <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding PortA.Pin6}"/>
+                    <CheckBox Grid.Row="2" Grid.Column="2" IsChecked="{Binding PortA.Pin5}"/>
+                    <CheckBox Grid.Row="2" Grid.Column="3" IsChecked="{Binding PortA.Pin4}"/>
+                    <CheckBox Grid.Row="2" Grid.Column="4" IsChecked="{Binding PortA.Pin3}"/>
+                    <CheckBox Grid.Row="2" Grid.Column="5" IsChecked="{Binding PortA.Pin2}"/>
+                    <CheckBox Grid.Row="2" Grid.Column="6" IsChecked="{Binding PortA.Pin1}"/>
+                    <CheckBox Grid.Row="2" Grid.Column="7" IsChecked="{Binding PortA.Pin0}"/>
                     <Label Content="Port B" Grid.Row="3" Grid.ColumnSpan="8"/>
                     <Label Grid.Row="4" Grid.ColumnSpan="8" Content="{Binding Memory.RAM.RAMList[0].Byte6.Value, Converter={StaticResource elementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <CheckBox Grid.Row="5" Grid.Column="0" IsChecked="{Binding Memory.RAM.RAMList[0].Byte6.Bit[7]}"/>
-                    <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding Memory.RAM.RAMList[0].Byte6.Bit[6]}"/>
-                    <CheckBox Grid.Row="5" Grid.Column="2" IsChecked="{Binding Memory.RAM.RAMList[0].Byte6.Bit[5]}"/>
-                    <CheckBox Grid.Row="5" Grid.Column="3" IsChecked="{Binding Memory.RAM.RAMList[0].Byte6.Bit[4]}"/>
-                    <CheckBox Grid.Row="5" Grid.Column="4" IsChecked="{Binding Memory.RAM.RAMList[0].Byte6.Bit[3]}"/>
-                    <CheckBox Grid.Row="5" Grid.Column="5" IsChecked="{Binding Memory.RAM.RAMList[0].Byte6.Bit[2]}"/>
-                    <CheckBox Grid.Row="5" Grid.Column="6" IsChecked="{Binding Memory.RAM.RAMList[0].Byte6.Bit[1]}"/>
-                    <CheckBox Grid.Row="5" Grid.Column="7" IsChecked="{Binding Memory.RAM.RAMList[0].Byte6.Bit[0]}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="0" IsChecked="{Binding PortB.Pin7}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding PortB.Pin6}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="2" IsChecked="{Binding PortB.Pin5}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="3" IsChecked="{Binding PortB.Pin4}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="4" IsChecked="{Binding PortB.Pin3}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="5" IsChecked="{Binding PortB.Pin2}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="6" IsChecked="{Binding PortB.Pin1}"/>
+                    <CheckBox Grid.Row="5" Grid.Column="7" IsChecked="{Binding PortB.Pin0}"/>
                     <Label Content="W_Reg" Grid.Row="6" Grid.ColumnSpan="8">
                     </Label>
                     <Label Grid.Row="7" Grid.ColumnSpan="8" Content="{Binding Memory.W_Reg, Converter={StaticResource shortConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top">

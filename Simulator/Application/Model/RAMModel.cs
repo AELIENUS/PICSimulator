@@ -225,14 +225,7 @@ namespace Application.Model
                         RAMList[portionIndex].Byte4.Value = value;
                         break;
                     case 5:
-                        if(portionIndex == 0)
-                        {
-                            SetPortA(value);
-                        }
-                        else
-                        {
-                            RAMList[portionIndex].Byte5.Value = value;
-                        }
+                        RAMList[portionIndex].Byte5.Value = value;
                         break;
                     case 6:
                         RAMList[portionIndex].Byte6.Value = value;
@@ -336,28 +329,20 @@ namespace Application.Model
         private void Timer0Overflow()
         {
             RAMList[0].Byte1.Value = 0;
-            //Ist GIE und T0IE an?
-            if ((RAMList[0].Byte11.Value & 0b1010_0000) >= 0b1010_0000)
-            {
-                //T0IF setzen
-                RAMList[0].Byte11.Value |= 0b0000_0100;
-                RAMList[8].Byte11.Value |= 0b0000_0100;
-            }
-            //INTF an
-            RAMList[0].Byte11.Value |= 0b0000_0010;
-            RAMList[8].Byte11.Value |= 0b0000_0010;
+            //T0IF setzen
+            RAMList[0].Byte11.Value |= 0b0000_0100;
+            RAMList[8].Byte11.Value |= 0b0000_0100;
         }
 
-        private void SetPortA(object valueToSet)
+        public void SetPortAPin4(object valueToSet)
         {
-            byte val = (byte)valueToSet;
-            //PortA PIN 4 ist source von Timer0 
+/*            //PortA PIN 4 ist source von Timer0 
             if ((RAMList[8].Byte1.Value & 0b0010_0000) > 0)
             {
                 if((RAMList[8].Byte1.Value & 0b0100_0000) == 0)
                 {
                     //steigende Flanke
-                    if(((val&0b0001_0000)>0)
+                    if((valueToSet == true)
                         && ((RAMList[0].Byte5.Value & 0b0001_0000) == 0))
                     {
                         IncTimer0();
@@ -366,19 +351,14 @@ namespace Application.Model
                 else
                 {
                     //fallende Flanke
-                    if (((val & 0b0001_0000) == 0)
+                    if ((valueToSet == false)
                         && ((RAMList[0].Byte5.Value & 0b0001_0000) > 0))
                     {
                         IncTimer0();
                     }
                 }
-                RAMList[0].Byte5.Value = val;
             }
-            else
-            {
-                RAMList[0].Byte5.Value = val;
-            }
-        }
+  */      }
             
 
         public RAMModel()

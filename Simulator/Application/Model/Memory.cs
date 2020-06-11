@@ -27,7 +27,7 @@ namespace Application.Model
                 // Timer0 hochzählen, wenn Pin 4 von Port A nicht als ClockSource ausgewählt wurde
                 // wenn T0CS gesetzt ist, dann dann wird PIN4 von Port A als ClockSource genommen.
                 //ist T0CS = 0?
-                if ((RAM[81] & 0b0010_0000) == 0)
+                if ((RAM.RAMList[8].Byte1.Value & 0b0010_0000) == 0)
                 {
                     RAM.IncTimer0();
                 }

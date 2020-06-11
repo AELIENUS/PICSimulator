@@ -157,10 +157,21 @@ namespace Application.ViewModel
                                     SrcFileModel[pc].IsDebug = true;
                                 }
                                 else if (SrcFileModel[Memory.PC].ProgramCode == 0b0000_0000_0000_1001 //retfie
-                                | SrcFileModel[Memory.PC].ProgramCode == 0b0000_0000_0000_1000 //return
-                                | (SrcFileModel[Memory.PC].ProgramCode & 0b0011_1100_0000_0000) == 0b0011_0100_0000_0000) //retlw
+                                    | SrcFileModel[Memory.PC].ProgramCode == 0b0000_0000_0000_1000 //return
+                                    | (SrcFileModel[Memory.PC].ProgramCode & 0b0011_1100_0000_0000) == 0b0011_0100_0000_0000) //retlw
                                 {
                                     SrcFileModel[Memory.PCStack.Peek()].IsDebug = true;
+                                }
+                                //skip-befehle prüfen
+                                else if ((SrcFileModel[Memory.PC].ProgramCode & 0b_0011_1111_0000_0000) == 0b_0000_1011_0000_0000 //decfsz
+                                    | (SrcFileModel[Memory.PC].ProgramCode & 0b_0011_1111_0000_0000) == 0b_0000_1111_0000_0000 //incfsz
+                                    | (SrcFileModel[Memory.PC].ProgramCode & 0b_0011_1100_0000_0000) == 0b_0001_1000_0000_0000 //btfsc
+                                    | (SrcFileModel[Memory.PC].ProgramCode & 0b_0011_1100_0000_0000) == 0b_0001_1000_0000_0000 //btfss
+                                    ) 
+                                {
+                                    //nicht ganz korrekt, aber der einfachheit halber nächste und übernächste adresse debuggen
+                                    SrcFileModel[Memory.PC + 1].IsDebug = true;
+                                    SrcFileModel[Memory.PC + 2].IsDebug = true;
                                 }
                                 else
                                 {

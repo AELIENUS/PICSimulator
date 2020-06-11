@@ -27,7 +27,7 @@ namespace CommandTest
             int bit = 0;
             mem.RAM[file] = 3;
 
-            com.BCF(mem, file, bit);
+            com.BCF(file, bit);
 
             Assert.AreEqual(2, mem.RAM[file]);
         }
@@ -39,7 +39,7 @@ namespace CommandTest
             int bit = 0;
             mem.RAM[file] = 2;
 
-            com.BSF(mem, file, bit);
+            com.BSF(file, bit);
 
             Assert.AreEqual(3, mem.RAM[file]);
         }
@@ -52,7 +52,7 @@ namespace CommandTest
             int bit = 0;
             mem.RAM[file] = 3;
 
-            com.BTFSC(mem, file, bit);
+            com.BTFSC(file, bit);
 
             Assert.AreEqual(2, mem.RAM[Constants.PCL_B1]);
         }
@@ -65,7 +65,7 @@ namespace CommandTest
             int bit = 0;
             mem.RAM[file] = 2;
 
-            com.BTFSC(mem, file, bit);
+            com.BTFSC(file, bit);
 
             Assert.AreEqual(3, mem.RAM[Constants.PCL_B1]);
         }
@@ -78,7 +78,7 @@ namespace CommandTest
             int bit = 0;
             mem.RAM[file] = 3;
 
-            com.BTFSS(mem, file, bit);
+            com.BTFSS(file, bit);
 
             Assert.AreEqual(3, mem.RAM[Constants.PCL_B1]);
         }
@@ -91,7 +91,7 @@ namespace CommandTest
             int bit = 0;
             mem.RAM[file] = 2;
 
-            com.BTFSS(mem, file, bit);
+            com.BTFSS(file, bit);
 
             Assert.AreEqual(2, mem.RAM[Constants.PCL_B1]);
         }

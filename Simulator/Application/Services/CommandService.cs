@@ -238,7 +238,7 @@ public class CommandService : ICommandService
 
     public void MOVWF (int file) // move w to f
     {
-        memory.RAM[file] =Convert.ToByte( memory.W_Reg);
+        memory.RAM[file] = Convert.ToByte(memory.W_Reg);
 
         //PC hochzählen
         ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));

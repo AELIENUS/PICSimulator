@@ -870,8 +870,8 @@ public class CommandService : ICommandService
     public void AnalyzeBits11_12() //bit-oriented operations genauer analysieren
     {
         short befehl = SrcModel[memory.PC].ProgramCode;
-        int bits11_12 = (int)befehl & 0b_0000_1100_0000_0000 >> 10;
-        int bits = (int)befehl & 0b_0000_0011_1000_0000 >> 7;
+        int bits11_12 = ((int)befehl & 0b_0000_1100_0000_0000) >> 10;
+        int bits = ((int)befehl & 0b_0000_0011_1000_0000) >> 7;
         int file = (int)befehl & 0b_0000_0000_0111_1111;
         switch (bits11_12)
         {
@@ -1010,6 +1010,10 @@ public class CommandService : ICommandService
             case 0x03:
                 memory.RAM[Constants.STATUS_B1] = wert;
                 memory.RAM[Constants.STATUS_B2] = wert;
+                //Werte für GUI updaten
+                memory.Z_Flag = (short)((wert & 0b_0000_0100) >> 2);
+                memory.DC_Flag = (short)((wert & 0b_0000_0010) >> 1);
+                memory.C_Flag = (short)(wert & 0b_0000_0001);
                 break;
             case 0x04:
                 memory.RAM[Constants.FSR_B1] = wert;

@@ -40,7 +40,7 @@
             <GroupBox Grid.Row="1" Grid.Column="0" Header="Zeiten">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="120"/>
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
@@ -49,12 +49,11 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Quartzfrequenz:" Grid.Row="0" Grid.Column="0"/>
+                    <TextBlock Text="Quartzfrequenz (Hz):" Grid.Row="0" Grid.Column="0"/>
                     <ComboBox ItemsSource="{Binding Source={x:Static Services:Constants.QuartzFrequencyList}}" Grid.Column="1" SelectedItem="{Binding Path=Memory.Quartzfrequenz}">
                     </ComboBox>
-                    <TextBlock Text="{Binding Path=Memory.Laufzeit, StringFormat='Laufzeit: {0}s'}" Grid.Row="1" Grid.Column="0"/>
+                    <TextBlock Text="{Binding Path=Memory.Laufzeit, StringFormat='Laufzeit: {0}µs'}" Grid.Row="1" Grid.Column="0"/>
                     <ListView ItemsSource="{Binding Memory.PCStack.Collection}" Grid.Row="2">
-                        
                     </ListView>
                 </Grid>
 

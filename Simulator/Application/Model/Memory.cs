@@ -27,21 +27,22 @@ namespace Application.Model
                 // Timer0 hochzählen
                 RAM.IncTimer0(0);
                 //Laufzeit neu berechnen
+                Laufzeit ++;
                 RaisePropertyChanged();
             }
         }
 
         private float _Laufzeit;
-        public float Laufzeit 
+        public float Laufzeit //in µs
         {
             get
             {
-                _Laufzeit = CycleCounter / Quartzfrequenz;
+                _Laufzeit = (CycleCounter*4) / (Quartzfrequenz/1000000); //ein Cycle besteht aus 4 Quarztakten
                 return _Laufzeit;
             }
             set
             {
-                _Laufzeit = CycleCounter / Quartzfrequenz;
+                _Laufzeit = (CycleCounter*4) / (Quartzfrequenz/1000000);
                 RaisePropertyChanged();
             }
         }
@@ -240,6 +241,8 @@ namespace Application.Model
             W_Reg = 0x0000;
 
             Reset_GPR();
+
+            _CycleCounter = 0;
         }
 
        public void OtherReset()

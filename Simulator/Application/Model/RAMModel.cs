@@ -35,6 +35,11 @@ namespace Application.Model
         {
             get
             {
+                //wenn Status, rp0=1 -> Bank 1
+                if ((RAMList[0].Byte3.Value & 0b0010_0000) >0)
+                {
+                    index += 0x80;
+                } 
                 //Indirekte Addressierung
                 if(index == 0x00)
                 {
@@ -83,8 +88,13 @@ namespace Application.Model
             }
             set
             {
+                //wenn Status, rp0=1 -> Bank 1
+                if ((RAMList[0].Byte3.Value & 0b0010_0000) > 0)
+                {
+                    index += 0x80;
+                }
                 //Indirekte Adressierung
-                if(index == 0x00)
+                if (index == 0x00)
                 {
                     index = RAMList[0].Byte4.Value;
                 }
@@ -94,18 +104,50 @@ namespace Application.Model
                 switch (position)
                 {
                     case 0:
+                        if(portionIndex == 0)
+                        {
+                            RAMList[8].Byte0.Value = value;
+                        }
+                        if(portionIndex == 8)
+                        {
+                            RAMList[0].Byte0.Value = value;
+                        }
                         RAMList[portionIndex].Byte0.Value = value;
                         break;
                     case 1:
                         RAMList[portionIndex].Byte1.Value = value;
                         break;
                     case 2:
+                        if (portionIndex == 0)
+                        {
+                            RAMList[8].Byte2.Value = value;
+                        }
+                        if (portionIndex == 8)
+                        {
+                            RAMList[0].Byte2.Value = value;
+                        }
                         RAMList[portionIndex].Byte2.Value = value;
                         break;
                     case 3:
+                        if (portionIndex == 0)
+                        {
+                            RAMList[8].Byte3.Value = value;
+                        }
+                        if (portionIndex == 8)
+                        {
+                            RAMList[0].Byte3.Value = value;
+                        }
                         RAMList[portionIndex].Byte3.Value = value;
                         break;
                     case 4:
+                        if (portionIndex == 0)
+                        {
+                            RAMList[8].Byte4.Value = value;
+                        }
+                        if (portionIndex == 8)
+                        {
+                            RAMList[0].Byte4.Value = value;
+                        }
                         RAMList[portionIndex].Byte4.Value = value;
                         break;
                     case 5:
@@ -134,9 +176,25 @@ namespace Application.Model
                         RAMList[portionIndex].Byte9.Value = value;
                         break;
                     case 10:
+                        if (portionIndex == 0)
+                        {
+                            RAMList[8].Byte10.Value = value;
+                        }
+                        if (portionIndex == 8)
+                        {
+                            RAMList[0].Byte10.Value = value;
+                        }
                         RAMList[portionIndex].Byte10.Value = value;
                         break;
                     case 11:
+                        if (portionIndex == 0)
+                        {
+                            RAMList[8].Byte11.Value = value;
+                        }
+                        if (portionIndex == 8)
+                        {
+                            RAMList[0].Byte11.Value = value;
+                        }
                         RAMList[portionIndex].Byte11.Value = value;
                         break;
                     case 12:

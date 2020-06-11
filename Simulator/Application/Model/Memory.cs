@@ -240,6 +240,8 @@ namespace Application.Model
             RAM[Constants.INTCON_B2] = 0x00;
             W_Reg = 0x0000;
 
+            PCStack = new ObservableStack<short>(new Stack<short>(Constants.PC_STACK_CAPACITY));
+
             Reset_GPR();
 
             _CycleCounter = 0;
@@ -273,6 +275,8 @@ namespace Application.Model
             RAM[Constants.EECON2]= 0x00;
             RAM[Constants.PCLATH_B2] = 0x00;
             RAM[Constants.INTCON_B2] &= 0x001;
+
+            //RESETS VON OBEN ÜBERPRÜFEN
 
             //GPR
             Reset_GPR();

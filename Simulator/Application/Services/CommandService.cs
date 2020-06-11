@@ -35,7 +35,7 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangePC(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -49,7 +49,7 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangePC(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -63,7 +63,7 @@ public class CommandService : ICommandService
         checkZ(0);
 
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangePC(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -76,7 +76,7 @@ public class CommandService : ICommandService
         checkZ(0);
 
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangePC(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -89,7 +89,7 @@ public class CommandService : ICommandService
         checkZ(result);
         StoreSwitchedOnD(file, result, d);
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangePC(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -107,7 +107,7 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangePC(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -123,7 +123,7 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangePC(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -162,7 +162,7 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+        ChangePC(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -178,7 +178,7 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+        ChangePC(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -215,7 +215,7 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(file, result, d);
         
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangePC(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -230,7 +230,7 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangePC(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -241,7 +241,7 @@ public class CommandService : ICommandService
         memory.RAM[file] = Convert.ToByte(memory.W_Reg);
 
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangePC(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -250,7 +250,7 @@ public class CommandService : ICommandService
     public void NOP () // no operation
     {
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangePC(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -267,18 +267,18 @@ public class CommandService : ICommandService
         {
             result = result - 256;
             //carry setzen
-            ChangeBoth(Constants.STATUS_B1, Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0001)); 
+            memory.RAM[Constants.STATUS_B1] |= 0b_0000_0001; 
         }
         else
         {
             // carry löschen
-            ChangeBoth(Constants.STATUS_B1, Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1110));
+            memory.RAM[Constants.STATUS_B1] &= 0b_1111_1110;
         }
 
         StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangePC(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -297,18 +297,18 @@ public class CommandService : ICommandService
         if (newCarry == 1)
         {
             //carry setzen
-            ChangeBoth(Constants.STATUS_B1, Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0001));
+            memory.RAM[Constants.STATUS_B1] |= 0b_0000_0001;
         }
         else
         {
             // carry löschen
-            ChangeBoth(Constants.STATUS_B1, Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1110));
+            memory.RAM[Constants.STATUS_B1] &= 0b_1111_1110;
         }
 
         StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangePC(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -329,7 +329,7 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangePC(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -345,7 +345,7 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangePC(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -361,7 +361,7 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+        ChangePC(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -375,33 +375,33 @@ public class CommandService : ICommandService
         switch (bit)
         {
             case 0:
-                memory.RAM[file] = Convert.ToByte(memory.RAM[file] & 0b_1111_1110);
+                memory.RAM[file] &= 0b_1111_1110;
                 break;
             case 1:
-                memory.RAM[file] = Convert.ToByte(memory.RAM[file] & 0b_1111_1101);
+                memory.RAM[file] &= 0b_1111_1101;
                 break;
             case 2:
-                memory.RAM[file] = Convert.ToByte(memory.RAM[file] & 0b_1111_1011);
+                memory.RAM[file] &= 0b_1111_1011;
                 break;
             case 3:
-                memory.RAM[file] = Convert.ToByte(memory.RAM[file] & 0b_1111_0111);
+                memory.RAM[file] &= 0b_1111_0111;
                 break;
             case 4:
-                memory.RAM[file] = Convert.ToByte(memory.RAM[file] & 0b_1110_1111);
+                memory.RAM[file] &= 0b_1110_1111;
                 break;
             case 5:
-                memory.RAM[file] = Convert.ToByte(memory.RAM[file] & 0b_1101_1111);
+                memory.RAM[file] &= 0b_1101_1111;
                 break;
             case 6:
-                memory.RAM[file] = Convert.ToByte(memory.RAM[file] & 0b_1011_1111);
+                memory.RAM[file] &= 0b_1011_1111;
                 break;
             default: // bit = 7
-                memory.RAM[file] = Convert.ToByte(memory.RAM[file] & 0b_0111_1111);
+                memory.RAM[file] &= 0b_0111_1111;
                 break;
         }
 
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangePC(1);
         //cycles: 1
         memory.CycleCounter++;
     }
@@ -411,34 +411,33 @@ public class CommandService : ICommandService
         switch (bit)
         {
             case 0:
-                memory.RAM[file] = Convert.ToByte(memory.RAM[file] | 0b_0000_0001);
+                memory.RAM[file] |= 0b_0000_0001;
                 break;
             case 1:
-                memory.RAM[file] = Convert.ToByte(memory.RAM[file] | 0b_0000_0010);
+                memory.RAM[file] |= 0b_0000_0010;
                 break;
             case 2:
-                memory.RAM[file] = Convert.ToByte(memory.RAM[file] | 0b_0000_0100);
+                memory.RAM[file] |= 0b_0000_0100;
                 break;
             case 3:
-                memory.RAM[file] = Convert.ToByte(memory.RAM[file] | 0b_0000_1000);
+                memory.RAM[file] |= 0b_0000_1000;
                 break;
             case 4:
-                memory.RAM[file] = Convert.ToByte(memory.RAM[file] | 0b_0001_0000);
+                memory.RAM[file] |= 0b_0001_0000;
                 break;
             case 5:
-                memory.RAM[file] = Convert.ToByte(memory.RAM[file] | 0b_0010_0000);
+                memory.RAM[file] |= 0b_0010_0000;
                 break;
             case 6:
-                memory.RAM[file] = Convert.ToByte(memory.RAM[file] | 0b_0100_0000);
+                memory.RAM[file] |= 0b_0100_0000;
                 break;
             default: // bit = 7
-                memory.RAM[file] = Convert.ToByte(memory.RAM[file] | 0b_1000_0000);
+                memory.RAM[file] |= 0b_1000_0000;
                 break;
         }
 
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
-
+        ChangePC(1);
         //cycles: 1
         memory.CycleCounter++;
     }
@@ -474,7 +473,7 @@ public class CommandService : ICommandService
                 break;
         }
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + summand));
+        ChangePC((byte)summand);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -534,7 +533,7 @@ public class CommandService : ICommandService
                 break;
         }
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +summand ));
+        ChangePC((byte)summand);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -583,7 +582,7 @@ public class CommandService : ICommandService
         memory.W_Reg = (short)result;
 
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangePC(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -601,7 +600,7 @@ public class CommandService : ICommandService
 
 
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangePC(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -638,7 +637,7 @@ public class CommandService : ICommandService
     public void CLRWDT() //clear watchdog timer -> wdt fehlt
     {
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangePC(1);
         //cycles: 1
         memory.CycleCounter++;
     }
@@ -652,8 +651,11 @@ public class CommandService : ICommandService
         //bits 11-12 für PCL aus PCLATH 3,4:
         pcl_high = pcl_high + (memory.RAM[Constants.PCLATH_B1] & 0b_0001_1000);
 
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(pcl_low));
-        ChangeBoth(Constants.PCLATH_B1, Convert.ToByte(pcl_high));
+        //execution löschen
+        SrcModel[memory.PC].IsExecuted = false;
+
+        memory.RAM[Constants.PCL_B1] = (byte)pcl_low;
+        memory.RAM[Constants.PCLATH_B1] = (byte)pcl_high;
 
         //cycles: 2
         memory.CycleCounter++;
@@ -670,7 +672,7 @@ public class CommandService : ICommandService
         memory.W_Reg = (short)result;
 
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangePC(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -680,7 +682,7 @@ public class CommandService : ICommandService
     {
         memory.W_Reg = Convert.ToByte(literal);
         ///PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangePC(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -688,13 +690,15 @@ public class CommandService : ICommandService
 
     public void RETFIE() //return from interrupt -> fertig
     {
+        SrcModel[memory.PC].IsExecuted = false;
+
         //top of stack in PC
         int returnAddress = memory.PCStack.Pop();
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(returnAddress));
+        memory.RAM[Constants.PCL_B1] = Convert.ToByte(returnAddress);
 
         //GlobalInterruptEnable setzen
         int wert = memory.RAM[Constants.INTCON_B1] | 0b_1000_0000;
-        ChangeBoth(Constants.INTCON_B1, Convert.ToByte(wert));
+        memory.RAM[Constants.INTCON_B1] = Convert.ToByte(wert); 
 
         //cycles: 2
         memory.CycleCounter++;
@@ -705,9 +709,11 @@ public class CommandService : ICommandService
     {
         memory.W_Reg = Convert.ToByte(literal);
 
+        SrcModel[memory.PC].IsExecuted = false;
+
         // top of stack in PC
         int returnAddress = memory.PCStack.Pop();
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(returnAddress));
+        memory.RAM[Constants.PCL_B1]= Convert.ToByte(returnAddress);
 
         //cycles: 2
         memory.CycleCounter++;
@@ -716,9 +722,10 @@ public class CommandService : ICommandService
 
     public void RETURN() //return from subroutine -> fertig
     {
+        SrcModel[memory.PC].IsExecuted = false;
         //top of stack in PC
         int returnAddress = memory.PCStack.Pop();
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(returnAddress));
+        memory.RAM[Constants.PCL_B1] = Convert.ToByte(returnAddress);
 
         //cycles: 2
         memory.CycleCounter++;
@@ -730,11 +737,11 @@ public class CommandService : ICommandService
     {
         //clear power down status
         int PD = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_0111);
-        ChangeBoth(Constants.STATUS_B1, Convert.ToByte(PD));
+        memory.RAM[Constants.STATUS_B1] = Convert.ToByte(PD);
 
         //set time out status
         int TO = Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0001_0000);
-        ChangeBoth(Constants.STATUS_B1, Convert.ToByte(TO));
+        memory.RAM[Constants.STATUS_B1] = Convert.ToByte(TO);
 
         //clear Watchdog and prescaler
 
@@ -758,7 +765,7 @@ public class CommandService : ICommandService
         memory.W_Reg = (short)result;
 
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] +1 ));
+        ChangePC(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -772,9 +779,9 @@ public class CommandService : ICommandService
 
         checkZ(result);
         memory.W_Reg = (short)result;
-        ;
+        
         //PC hochzählen
-        ChangeBoth(Constants.PCL_B1, Convert.ToByte(memory.RAM[Constants.PCL_B1] + 1));
+        ChangePC(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -994,44 +1001,6 @@ public class CommandService : ICommandService
         }
     }
 
-    public void ChangeBoth(int index, byte wert)
-    {
-        switch (index)
-        {
-            case 0x00:
-                memory.RAM[Constants.INDF_B1] = wert;
-                memory.RAM[Constants.INDF_B2] = wert;
-                break;
-            case 0x02:
-                SrcModel[memory.PC].IsExecuted = false;
-                memory.RAM[Constants.PCL_B1] = wert;
-                memory.RAM[Constants.PCL_B2] = wert;
-                break;
-            case 0x03:
-                memory.RAM[Constants.STATUS_B1] = wert;
-                memory.RAM[Constants.STATUS_B2] = wert;
-                //Werte für GUI updaten
-                memory.Z_Flag = (short)((wert & 0b_0000_0100) >> 2);
-                memory.DC_Flag = (short)((wert & 0b_0000_0010) >> 1);
-                memory.C_Flag = (short)(wert & 0b_0000_0001);
-                break;
-            case 0x04:
-                memory.RAM[Constants.FSR_B1] = wert;
-                memory.RAM[Constants.FSR_B2] = wert;
-                break;
-            case 0x0A:
-                memory.RAM[Constants.PCLATH_B1] = wert;
-                memory.RAM[Constants.PCLATH_B2] = wert;
-                break;
-            case 0x0B:
-                memory.RAM[Constants.INTCON_B1] = wert;
-                memory.RAM[Constants.INTCON_B2] = wert;
-                break;
-            default:
-                break;
-        }
-    }
-
     public void checkZ(int result)
     {
         byte wert;
@@ -1043,7 +1012,7 @@ public class CommandService : ICommandService
         {
             wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1011);
         }
-        ChangeBoth(Constants.STATUS_B1, wert);
+        memory.RAM[Constants.STATUS_B1] = wert;
         memory.Z_Flag = (short)((wert & 0b_0000_0100)>>2); //wert für GUI updaten
     }
 
@@ -1062,7 +1031,7 @@ public class CommandService : ICommandService
             {
                 wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1101);
             }
-            ChangeBoth(Constants.STATUS_B1, wert);
+            memory.RAM[Constants.STATUS_B1] = wert;
             memory.DC_Flag = (short)((wert & 0b_0000_0010) >> 1); //Wert für GUI updaten
             if ((literal1 + literal2) > 255) // Carry prüfen
             {
@@ -1072,7 +1041,7 @@ public class CommandService : ICommandService
             {
                 wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1110);
             }
-            ChangeBoth(Constants.STATUS_B1, wert);
+            memory.RAM[Constants.STATUS_B1] = wert;
             memory.C_Flag = (short)(wert & 0b_0000_0001); //Wert für GUI updaten
         }
 
@@ -1087,7 +1056,7 @@ public class CommandService : ICommandService
             {
                 wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0010);
             }
-            ChangeBoth(Constants.STATUS_B1, wert);
+            memory.RAM[Constants.STATUS_B1] = wert;
             memory.DC_Flag = (short)((wert & 0b_0000_0010) >> 1); //Wert für GUI updaten
             if ((literal1 - literal2) < 0) //Carry prüfen
             {
@@ -1097,7 +1066,7 @@ public class CommandService : ICommandService
             {
                 wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0001);
             }
-            ChangeBoth(Constants.STATUS_B1, wert);
+            memory.RAM[Constants.STATUS_B1] = wert;
             memory.C_Flag = (short)(wert & 0b_0000_0001); //Wert für GUI updaten
         }
     }
@@ -1131,6 +1100,12 @@ public class CommandService : ICommandService
             //result stored in f
             memory.RAM[file] = Convert.ToByte(result);
         }
+    }
+
+    private void ChangePC (byte wert)
+    {
+        SrcModel[memory.PC].IsExecuted = false;
+        memory.RAM[Constants.PCL_B1] += wert;
     }
 
     public CommandService(Memory memory, SourceFileModel SrcModel)

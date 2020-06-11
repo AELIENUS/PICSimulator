@@ -24,7 +24,7 @@ namespace CommandTest
         {
             int literal = 0;
             
-            com.checkZ(mem, literal);
+            com.checkZ(literal);
 
             int z = mem.RAM[Constants.STATUS_B1] & 0b_0000_0100;
             Assert.AreEqual(4, z);
@@ -35,7 +35,7 @@ namespace CommandTest
         {
             int literal = 3;
 
-            com.checkZ(mem, literal);
+            com.checkZ(literal);
 
             int z = mem.RAM[Constants.STATUS_B1] & 0b_0000_0100;
             Assert.AreEqual(0, z);
@@ -48,7 +48,7 @@ namespace CommandTest
             int lit1 = 0;
             int lit2 = 6;
 
-            com.check_DC_C(mem, lit1, lit2, "+");
+            com.check_DC_C(lit1, lit2, "+");
 
 
             int dc = mem.RAM[Constants.STATUS_B1] & 0b_0000_0010;
@@ -62,7 +62,7 @@ namespace CommandTest
             int lit1 = 0;
             int lit2 = 6;
 
-            com.check_DC_C(mem, lit1, lit2, "+");
+            com.check_DC_C(lit1, lit2, "+");
 
             int c = mem.RAM[Constants.STATUS_B1] & 0b_0000_0001;
             Assert.AreEqual(0, c);
@@ -73,7 +73,7 @@ namespace CommandTest
         {
             int lit1 = 136;
 
-            com.check_DC_C(mem, lit1, lit1, "+");
+            com.check_DC_C(lit1, lit1, "+");
 
 
             int dc = mem.RAM[Constants.STATUS_B1] & 0b_0000_0010;
@@ -87,7 +87,7 @@ namespace CommandTest
         {
             int lit1 = 136;
 
-            com.check_DC_C(mem, lit1, lit1, "+");
+            com.check_DC_C(lit1, lit1, "+");
 
 
 
@@ -106,7 +106,7 @@ namespace CommandTest
             int lit1 = 6;
             int lit2 = 2;
 
-            com.check_DC_C(mem, lit1, lit2, "-");
+            com.check_DC_C(lit1, lit2, "-");
 
             int dc = mem.RAM[Constants.STATUS_B1] & 0b_0000_0010;
 
@@ -120,7 +120,7 @@ namespace CommandTest
             int lit1 = 6;
             int lit2 = 2;
 
-            com.check_DC_C(mem, lit1, lit2, "-");
+            com.check_DC_C(lit1, lit2, "-");
 
             int c = mem.RAM[Constants.STATUS_B1] & 0b_0000_0001;
 
@@ -134,7 +134,7 @@ namespace CommandTest
             int lit1 = 68;
             int lit2 = 136;
 
-            com.check_DC_C(mem, lit1, lit2, "-");
+            com.check_DC_C(lit1, lit2, "-");
 
 
             int dc = mem.RAM[Constants.STATUS_B1] & 0b_0000_0010;
@@ -149,7 +149,7 @@ namespace CommandTest
             int lit1 = 68;
             int lit2 = 136;
 
-            com.check_DC_C(mem, lit1, lit2, "-");
+            com.check_DC_C(lit1, lit2, "-");
 
             int c = mem.RAM[Constants.STATUS_B1] & 0b_0000_0001;
 
@@ -176,7 +176,7 @@ namespace CommandTest
             int result = 15;
             int d = 0;
 
-            com.StoreSwitchedOnD(mem, file, result, d);
+            com.StoreSwitchedOnD(file, result, d);
 
             Assert.AreEqual(15, mem.W_Reg);
         }
@@ -188,7 +188,7 @@ namespace CommandTest
             int result = 15;
             int d = 1;
 
-            com.StoreSwitchedOnD(mem, file, result, d);
+            com.StoreSwitchedOnD(file, result, d);
 
             Assert.AreEqual(15, mem.RAM[file]);
         }

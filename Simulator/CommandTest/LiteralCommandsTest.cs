@@ -26,7 +26,7 @@ namespace CommandTest
             int literal = 10;
             mem.W_Reg = 6;
 
-            com.ADDLW(mem, literal);
+            com.ADDLW(literal);
 
             Assert.AreEqual(16, mem.W_Reg);
         }
@@ -37,7 +37,7 @@ namespace CommandTest
             int literal = 250;
             mem.W_Reg = 10;
 
-            com.ADDLW(mem, literal);
+            com.ADDLW(literal);
 
             Assert.AreEqual(4, mem.W_Reg);
         }
@@ -48,7 +48,7 @@ namespace CommandTest
             int literal = 10;
             mem.W_Reg = 6;
 
-            com.ANDLW(mem, literal);
+            com.ANDLW(literal);
 
             Assert.AreEqual(2, mem.W_Reg);
         }
@@ -58,7 +58,7 @@ namespace CommandTest
         {
             int address = 0x_0f;
  
-            com.CALL(mem, address);
+            com.CALL(address);
 
             Assert.AreEqual(0x_0f, mem.RAM[Constants.PCL_B1]);
         }
@@ -69,7 +69,7 @@ namespace CommandTest
             int address = 0x_0f;
             int return_address = mem.RAM[Constants.PCL_B1] +1;
        
-            com.CALL(mem, address);
+            com.CALL(address);
 
             Assert.AreEqual(return_address, mem.PCStack.Pop());
         }
@@ -79,7 +79,7 @@ namespace CommandTest
         {
             int address = 0x_0f;
 
-            com.GOTO(mem, address);
+            com.GOTO(address);
 
             Assert.AreEqual(0x_0f, mem.RAM[Constants.PCL_B1]);
         }
@@ -90,7 +90,7 @@ namespace CommandTest
             int literal = 10;
             mem.W_Reg = 6;
 
-            com.IORLW(mem, literal);
+            com.IORLW(literal);
 
             Assert.AreEqual(14, mem.W_Reg);
         }
@@ -101,7 +101,7 @@ namespace CommandTest
             int literal = 10;
             mem.W_Reg = 6;
 
-            com.MOVLW(mem, literal);
+            com.MOVLW(literal);
 
             Assert.AreEqual(10, mem.W_Reg);
         }
@@ -111,7 +111,7 @@ namespace CommandTest
         {
             mem.PCStack.Push(0x_0f);
 
-            com.RETFIE(mem);
+            com.RETFIE();
 
             Assert.AreEqual(0x_0f, mem.RAM[Constants.PCL_B1]);
         }
@@ -121,7 +121,7 @@ namespace CommandTest
         {
             mem.PCStack.Push(0x_0f);
 
-            com.RETFIE(mem);
+            com.RETFIE();
 
             int GIE = mem.RAM[Constants.INTCON_B1] & 0b_1000_0000;
             Assert.AreEqual(128, GIE);
@@ -133,7 +133,7 @@ namespace CommandTest
             mem.PCStack.Push(0x_0f);
             int literal = 10;
 
-            com.RETLW(mem, literal);
+            com.RETLW(literal);
 
             Assert.AreEqual(10, mem.W_Reg);
         }
@@ -144,7 +144,7 @@ namespace CommandTest
             mem.PCStack.Push(0x_0f);
             int literal = 10;
 
-            com.RETLW(mem, literal);
+            com.RETLW(literal);
 
             Assert.AreEqual(0x_0f, mem.RAM[Constants.PCL_B1]);
         }
@@ -154,7 +154,7 @@ namespace CommandTest
         {
             mem.PCStack.Push(0x_0f);
 
-            com.RETURN(mem);
+            com.RETURN();
 
             Assert.AreEqual(0x_0f, mem.RAM[Constants.PCL_B1]);
         }
@@ -162,7 +162,7 @@ namespace CommandTest
         [Test]
         public void Sleep_PD()
         {
-            com.SLEEP(mem);
+            com.SLEEP();
 
             int pd = mem.RAM[Constants.STATUS_B1] & 0b_0000_1000;
             Assert.AreEqual(0, pd);
@@ -171,7 +171,7 @@ namespace CommandTest
         [Test]
         public void Sleep_TO()
         {
-            com.SLEEP(mem);
+            com.SLEEP();
 
             int to = mem.RAM[Constants.STATUS_B1] & 0b_0001_0000;
             Assert.AreEqual(16, to);
@@ -183,7 +183,7 @@ namespace CommandTest
             int literal = 10;
             mem.W_Reg = 6;
 
-            com.SUBLW(mem, literal);
+            com.SUBLW(literal);
 
             Assert.AreEqual(4, mem.W_Reg);
         }
@@ -194,7 +194,7 @@ namespace CommandTest
             int literal = 10;
             mem.W_Reg = 20;
 
-            com.SUBLW(mem, literal);
+            com.SUBLW(literal);
 
             Assert.AreEqual(246, mem.W_Reg);
         }
@@ -205,7 +205,7 @@ namespace CommandTest
             int literal = 10;
             mem.W_Reg = 6;
 
-            com.XORLW(mem, literal);
+            com.XORLW(literal);
 
             Assert.AreEqual(12, mem.W_Reg);
         }

@@ -38,7 +38,7 @@ namespace Application.Model
                 //Indirekte Addressierung
                 if(index == 0x00)
                 {
-                    index = RAMList[0].Byte0.Value;
+                    index = RAMList[0].Byte4.Value;
                 }
                 double portionIndexDouble = index / 16;
                 int portionIndex = (int)Math.Floor(portionIndexDouble);
@@ -83,9 +83,10 @@ namespace Application.Model
             }
             set
             {
+                //Indirekte Adressierung
                 if(index == 0x00)
                 {
-                    index = RAMList[0].Byte0.Value;
+                    index = RAMList[0].Byte4.Value;
                 }
                 double portionIndexDouble = index / 16;
                 int portionIndex = (int)Math.Floor(portionIndexDouble);

@@ -94,6 +94,8 @@ namespace Application.ViewModel
                             SrcFileModel.SourceFile = _dialogService.Open();
                             //TODO: was passiert wenn ein SrcFileModel überschrieben wird?
                             _fileService.CreateFileList(SrcFileModel);
+                            //Memory reset um Fehler vorzubeugen
+                            Memory.PowerReset();
                         }));
             }
         }

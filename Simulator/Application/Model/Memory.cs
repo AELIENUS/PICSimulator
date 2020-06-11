@@ -24,8 +24,13 @@ namespace Application.Model
             set
             {
                 _CycleCounter++;
-                // Timer0 hochzählen
-                RAM.IncTimer0(0);
+                // Timer0 hochzählen, wenn Pin 4 von Port A nicht als ClockSource ausgewählt wurde
+                // wenn T0CS gesetzt ist, dann dann wird PIN4 von Port A als ClockSource genommen.
+                //ist T0CS = 0?
+                if ((RAM[81] & 0b0010_0000) == 0)
+                {
+                    RAM.IncTimer0();
+                }
                 //Laufzeit neu berechnen
                 Laufzeit ++;
                 RaisePropertyChanged();
@@ -241,7 +246,7 @@ namespace Application.Model
             W_Reg = 0x0000;
 
             Reset_GPR();
-
+            RAM.PrescaleCounter = 0;
             _CycleCounter = 0;
         }
 

@@ -57,10 +57,14 @@ namespace Application.Services
             }
             set
             {
-                //INTF Interrupt
-                SetPortBPin0(value);
-                RaisePropertyChanged();
-                RaisePropertyChanged("Value");
+                //TRISB[0] Eingang?
+                if ((_RAMModel.RAMList[8].Byte6.Value & 0b0000_0001) > 0)
+                {
+                    //INTF Interrupt
+                    SetPortBPin0(value);
+                    RaisePropertyChanged();
+                    RaisePropertyChanged("Value");
+                }
             }
         }
 
@@ -80,16 +84,20 @@ namespace Application.Services
             }
             set
             {
-                if (value == true)
+                //TRISB[1] Eingang?
+                if ((_RAMModel.RAMList[8].Byte6.Value & 0b0000_0010) > 0)
                 {
-                    Value |= 0b0000_0010;
+                    if (value == true)
+                    {
+                        Value |= 0b0000_0010;
+                    }
+                    else
+                    {
+                        Value &= 0b1111_1101;
+                    }
+                    RaisePropertyChanged();
+                    RaisePropertyChanged("Value");
                 }
-                else
-                {
-                    Value &= 0b1111_1101;
-                }
-                RaisePropertyChanged();
-                RaisePropertyChanged("Value");
             }
         }
 
@@ -109,16 +117,21 @@ namespace Application.Services
             }
             set
             {
-                if (value == true)
+                //TRISB[2] Eingang?
+                if ((_RAMModel.RAMList[8].Byte6.Value & 0b0000_0100) > 0)
                 {
-                    Value |= 0b0000_0100;
+                    if (value == true)
+                    {
+                        Value |= 0b0000_0100;
+                    }
+                    else
+                    {
+                        Value &= 0b1111_1011;
+                    }
+                    RaisePropertyChanged();
+                    RaisePropertyChanged("Value");
                 }
-                else
-                {
-                    Value &= 0b1111_1011;
-                }
-                RaisePropertyChanged();
-                RaisePropertyChanged("Value");
+
             }
         }
 
@@ -138,16 +151,20 @@ namespace Application.Services
             }
             set
             {
-                if (value == true)
+                //TRISB[3] Eingang?
+                if ((_RAMModel.RAMList[8].Byte6.Value & 0b0000_1000) > 0)
                 {
-                    Value |= 0b000_1000;
+                    if (value == true)
+                    {
+                        Value |= 0b000_1000;
+                    }
+                    else
+                    {
+                        Value &= 0b1111_0111;
+                    }
+                    RaisePropertyChanged();
+                    RaisePropertyChanged("Value");
                 }
-                else
-                {
-                    Value &= 0b1111_0111;
-                }
-                RaisePropertyChanged();
-                RaisePropertyChanged("Value");
             }
         }
 
@@ -167,16 +184,20 @@ namespace Application.Services
             }
             set
             {
-                if (value == true)
+                //TRISB[4] Eingang?
+                if ((_RAMModel.RAMList[8].Byte6.Value & 0b0001_0000) > 0)
                 {
-                    Value |= 0b0001_0000;
+                    if (value == true)
+                    {
+                        Value |= 0b0001_0000;
+                    }
+                    else
+                    {
+                        Value &= 0b1110_1111;
+                    }
+                    RaisePropertyChanged();
+                    RaisePropertyChanged("Value");
                 }
-                else
-                {
-                    Value &= 0b1110_1111;
-                }
-                RaisePropertyChanged();
-                RaisePropertyChanged("Value");
             }
         }
 
@@ -196,16 +217,20 @@ namespace Application.Services
             }
             set
             {
-                if (value == true)
+                //TRISB[5] Eingang?
+                if ((_RAMModel.RAMList[8].Byte6.Value & 0b0010_0000) > 0)
                 {
-                    Value |= 0b0010_0000;
+                    if (value == true)
+                    {
+                        Value |= 0b0010_0000;
+                    }
+                    else
+                    {
+                        Value &= 0b1101_1111;
+                    }
+                    RaisePropertyChanged();
+                    RaisePropertyChanged("Value");
                 }
-                else
-                {
-                    Value &= 0b1101_1111;
-                }
-                RaisePropertyChanged();
-                RaisePropertyChanged("Value");
             }
         }
 
@@ -225,16 +250,20 @@ namespace Application.Services
             }
             set
             {
-                if (value == true)
+                //TRISB[6] Eingang?
+                if ((_RAMModel.RAMList[8].Byte6.Value & 0b0100_0000) > 0)
                 {
-                    Value |= 0b0100_0000;
+                    if (value == true)
+                    {
+                        Value |= 0b0100_0000;
+                    }
+                    else
+                    {
+                        Value &= 0b1011_1111;
+                    }
+                    RaisePropertyChanged();
+                    RaisePropertyChanged("Value");
                 }
-                else
-                {
-                    Value &= 0b1011_1111;
-                }
-                RaisePropertyChanged();
-                RaisePropertyChanged("Value");
             }
         }
 
@@ -254,16 +283,20 @@ namespace Application.Services
             }
             set
             {
-                if (value == true)
+                //TRISB[7] Eingang?
+                if ((_RAMModel.RAMList[8].Byte6.Value & 0b1000_0000) > 0)
                 {
-                    Value |= 0b1000_0000;
+                    if (value == true)
+                    {
+                        Value |= 0b1000_0000;
+                    }
+                    else
+                    {
+                        Value &= 0b0111_1111;
+                    }
+                    RaisePropertyChanged();
+                    RaisePropertyChanged("Value");
                 }
-                else
-                {
-                    Value &= 0b0111_1111;
-                }
-                RaisePropertyChanged();
-                RaisePropertyChanged("Value");
             }
         }
 
@@ -299,6 +332,11 @@ namespace Application.Services
             {
                 Value &= 0b1111_1110;
             }
+        }
+        
+        void SetPortBUpperNibble(bool valueToSet)
+        {
+
         }
     }
 }

@@ -272,33 +272,23 @@ namespace Application.Model
                         RAMList[portionIndex].Byte4.Value = value;
                         break;
                     case 5:
-                        RAMList[portionIndex].Byte5.Value = value;
                         if (portionIndex == 0)
                         {
-                            PortA.RaisePropertyChanged("Value");
-                            PortA.RaisePropertyChanged("Pin0");
-                            PortA.RaisePropertyChanged("Pin1");
-                            PortA.RaisePropertyChanged("Pin2");
-                            PortA.RaisePropertyChanged("Pin3");
-                            PortA.RaisePropertyChanged("Pin4");
-                            PortA.RaisePropertyChanged("Pin5");
-                            PortA.RaisePropertyChanged("Pin6");
-                            PortA.RaisePropertyChanged("Pin7");
+                            SetPortA(value);
+                        }
+                        else
+                        {
+                            RAMList[portionIndex].Byte5.Value = value;
                         }
                         break;
                     case 6:
-                        RAMList[portionIndex].Byte6.Value = value;
                         if(portionIndex == 0)
                         {
-                            PortB.RaisePropertyChanged("Value");
-                            PortB.RaisePropertyChanged("Pin0");
-                            PortB.RaisePropertyChanged("Pin1");
-                            PortB.RaisePropertyChanged("Pin2");
-                            PortB.RaisePropertyChanged("Pin3");
-                            PortB.RaisePropertyChanged("Pin4");
-                            PortB.RaisePropertyChanged("Pin5");
-                            PortB.RaisePropertyChanged("Pin6");
-                            PortB.RaisePropertyChanged("Pin7");
+                            SetPortB(value);
+                        }
+                        else
+                        {
+                            RAMList[portionIndex].Byte6.Value = value;
                         }
                         break;
                     case 7:
@@ -404,7 +394,114 @@ namespace Application.Model
             RAMList[0].Byte11.Value |= 0b0000_0100;
             RAMList[8].Byte11.Value |= 0b0000_0100;
         }
-            
+
+        private void SetPortA(byte valueToSet)
+        {
+            //TRISA[0] auf Ausgang?
+            if ((RAMList[8].Byte5.Value & 0b0000_0001) == 0)
+            {
+                RAMList[0].Byte5.Value |= (byte)(valueToSet & 0b0000_0001);
+            }
+            //TRISA[1] auf Ausgang
+            if ((RAMList[8].Byte5.Value & 0b0000_0010) == 0)
+            {
+                RAMList[0].Byte5.Value |= (byte)(valueToSet & 0b0000_0010);
+            }
+            //TRISA[2] auf Ausgang
+            if ((RAMList[8].Byte5.Value & 0b0000_0100) == 0)
+            {
+                RAMList[0].Byte5.Value |= (byte)(valueToSet & 0b0000_0100);
+            }
+            //TRISA[3] auf Ausgang
+            if ((RAMList[8].Byte5.Value & 0b0000_1000) == 0)
+            {
+                RAMList[0].Byte5.Value |= (byte)(valueToSet & 0b0000_1000);
+            }
+            //TRISA[4] auf Ausgang
+            if ((RAMList[8].Byte5.Value & 0b0001_0000) == 0)
+            {
+                RAMList[0].Byte5.Value |= (byte)(valueToSet & 0b0001_0000);
+            }
+            //TRISA[5] auf Ausgang
+            if ((RAMList[8].Byte5.Value & 0b0010_0000) == 0)
+            {
+                RAMList[0].Byte5.Value |= (byte)(valueToSet & 0b0010_0000);
+            }
+            //TRISA[6] auf Ausgang
+            if ((RAMList[8].Byte5.Value & 0b0100_0000) == 0)
+            {
+                RAMList[0].Byte5.Value |= (byte)(valueToSet & 0b0100_0000);
+            }
+            //TRISA[7] auf Ausgang
+            if ((RAMList[8].Byte5.Value & 0b1000_0000) == 0)
+            {
+                RAMList[0].Byte5.Value |= (byte)(valueToSet & 0b1000_0000);
+            }
+            //RaisePropertyChanged
+            PortA.RaisePropertyChanged("Value");
+            PortA.RaisePropertyChanged("Pin0");
+            PortA.RaisePropertyChanged("Pin1");
+            PortA.RaisePropertyChanged("Pin2");
+            PortA.RaisePropertyChanged("Pin3");
+            PortA.RaisePropertyChanged("Pin4");
+            PortA.RaisePropertyChanged("Pin5");
+            PortA.RaisePropertyChanged("Pin6");
+            PortA.RaisePropertyChanged("Pin7");
+        }
+
+        private void SetPortB(byte valueToSet)
+        {
+            //TRISB[0] auf Ausgang?
+            if((RAMList[8].Byte6.Value & 0b0000_0001) == 0)
+            {
+                RAMList[0].Byte6.Value |= (byte)(valueToSet & 0b0000_0001);
+            }
+            //TRISB[1] auf Ausgang
+            if ((RAMList[8].Byte6.Value & 0b0000_0010) == 0)
+            {
+                RAMList[0].Byte6.Value |= (byte)(valueToSet & 0b0000_0010);
+            }
+            //TRISB[2] auf Ausgang
+            if ((RAMList[8].Byte6.Value & 0b0000_0100) == 0)
+            {
+                RAMList[0].Byte6.Value |= (byte)(valueToSet & 0b0000_0100);
+            }
+            //TRISB[3] auf Ausgang
+            if ((RAMList[8].Byte6.Value & 0b0000_1000) == 0)
+            {
+                RAMList[0].Byte6.Value |= (byte)(valueToSet & 0b0000_1000);
+            }
+            //TRISB[4] auf Ausgang
+            if ((RAMList[8].Byte6.Value & 0b0001_0000) == 0)
+            {
+                RAMList[0].Byte6.Value |= (byte)(valueToSet & 0b0001_0000);
+            }
+            //TRISB[5] auf Ausgang
+            if ((RAMList[8].Byte6.Value & 0b0010_0000) == 0)
+            {
+                RAMList[0].Byte6.Value |= (byte)(valueToSet & 0b0010_0000);
+            }
+            //TRISB[6] auf Ausgang
+            if ((RAMList[8].Byte6.Value & 0b0100_0000) == 0)
+            {
+                RAMList[0].Byte6.Value |= (byte)(valueToSet & 0b0100_0000);
+            }
+            //TRISB[7] auf Ausgang
+            if ((RAMList[8].Byte6.Value & 0b1000_0000) == 0)
+            {
+                RAMList[0].Byte6.Value |= (byte)(valueToSet & 0b1000_0000);
+            }
+            //RaisePropertyChanged
+            PortB.RaisePropertyChanged("Value");
+            PortB.RaisePropertyChanged("Pin0");
+            PortB.RaisePropertyChanged("Pin1");
+            PortB.RaisePropertyChanged("Pin2");
+            PortB.RaisePropertyChanged("Pin3");
+            PortB.RaisePropertyChanged("Pin4");
+            PortB.RaisePropertyChanged("Pin5");
+            PortB.RaisePropertyChanged("Pin6");
+            PortB.RaisePropertyChanged("Pin7");
+        }        
 
         public RAMModel()
         {

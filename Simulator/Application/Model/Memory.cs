@@ -13,6 +13,20 @@ namespace Application.Model
     {
         #region properties
 
+        private bool _IsISR = false;
+
+        public bool IsISR
+        {
+            get
+            {
+                return _IsISR;
+            }
+            set
+            {
+                _IsISR = value;
+            }
+        }
+
         private short _CycleCounter;
 
         public short CycleCounter
@@ -250,6 +264,7 @@ namespace Application.Model
             Reset_GPR();
             RAM.PrescaleCounter = 1;
             _CycleCounter = 0;
+            _IsISR = false;
         }
 
        public void OtherReset()

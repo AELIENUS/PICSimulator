@@ -57,14 +57,8 @@ namespace Application.Services
             }
             set
             {
-                if (value == true)
-                {
-                    Value |= 0b0000_0001;
-                }
-                else
-                {
-                    Value &= 0b1111_1110;
-                }
+                //INTF Interrupt
+                SetPortBPin0(value);
                 RaisePropertyChanged();
                 RaisePropertyChanged("Value");
             }
@@ -273,5 +267,38 @@ namespace Application.Services
             }
         }
 
+        void SetPortBPin0(bool valueToSet)
+        {
+            //INTEDG überprüfen
+            if((_RAMModel.RAMList[8].Byte0.Value & 0b0100_0000)>0)
+            {
+                //Flag bei steigender Flanke
+                if((valueToSet == true) 
+                    && ((_RAMModel.RAMList[0].Byte6.Value & 0b0000_0001)==0))
+                {
+                    //Set INTF
+                    _RAMModel.RAMList[0].Byte11.Value |= 0b0000_0010;
+                }
+            }
+            else
+            {
+                //Flag bei fallender Flanke
+                if ((valueToSet == false)
+                    && ((_RAMModel.RAMList[0].Byte6.Value & 0b0000_0001) > 0))
+                {
+                    //Set INTF
+                    _RAMModel.RAMList[0].Byte11.Value |= 0b0000_0010;
+                }
+            }
+            //wert Setzen
+            if (valueToSet == true)
+            {
+                Value |= 0b0000_0001;
+            }
+            else
+            {
+                Value &= 0b1111_1110;
+            }
+        }
     }
 }

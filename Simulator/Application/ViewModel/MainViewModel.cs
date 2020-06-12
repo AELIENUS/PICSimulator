@@ -56,44 +56,6 @@ namespace Application.ViewModel
                 RaisePropertyChanged();
             }
         }
-        /*
-        private PortA _PortA;
-
-        public PortA PortA
-        {
-            get
-            {
-                return _PortA;
-            }
-            set
-            {
-                if(_PortA.Equals(value))
-                {
-                    return;
-                }
-                _PortA = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        private PortB _PortB;
-
-        public PortB PortB
-        {
-            get
-            {
-                return _PortB;
-            }
-            set
-            {
-                if (_PortB.Equals(value))
-                {
-                    return;
-                }
-                _PortB = value;
-                RaisePropertyChanged();
-            }
-        }*/
 
         private SourceFileModel _srcFileModel;
 

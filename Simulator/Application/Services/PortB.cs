@@ -41,6 +41,20 @@ namespace Application.Services
             }
         }
 
+        private byte _PORTB_Latch = 0;
+
+        public byte PORTB_Latch
+        {
+            get
+            {
+                return _PORTB_Latch;
+            }
+            set
+            {
+                _PORTB_Latch = value;
+            }
+        }
+
         public bool Pin0
         {
             get

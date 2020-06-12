@@ -253,6 +253,12 @@ namespace Application.Model
 
             PCStack = new ObservableStack<short>(new Stack<short>(Constants.PC_STACK_CAPACITY));
 
+            RAM.PortA.Value = 0;
+            RAM.PortB.Value = 0;
+
+            RAM.PortA.PORTA_Latch = 0;
+            RAM.PortB.PORTB_Latch = 0;
+
             Reset_GPR();
             RAM.PrescaleCounter = 1;
             _CycleCounter = 0;

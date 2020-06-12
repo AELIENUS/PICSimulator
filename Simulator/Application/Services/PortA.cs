@@ -18,6 +18,20 @@ namespace Application.Services
             _RAMModel = model;
         }
 
+        private byte _PORTA_Latch = 0;
+
+        public byte PORTA_Latch
+        {
+            get
+            {
+                return _PORTA_Latch;
+            }
+            set
+            {
+                _PORTA_Latch = value;
+            }
+        }
+
         public byte Value
         {
             get

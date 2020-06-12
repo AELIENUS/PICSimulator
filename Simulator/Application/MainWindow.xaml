@@ -82,7 +82,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Content="Port A" Grid.Row="0" Grid.ColumnSpan="8"/>
-                    <Label Grid.Row="1" Grid.ColumnSpan="8" Content="{Binding Memory.RAM.RAMList[0].Byte5.Value, Converter={StaticResource elementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Grid.Row="1" Grid.ColumnSpan="8" Content="{Binding PortA.Value, Converter={StaticResource elementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding PortA.Pin7}"/>
                     <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding PortA.Pin6}"/>
                     <CheckBox Grid.Row="2" Grid.Column="2" IsChecked="{Binding PortA.Pin5}"/>
@@ -92,7 +92,7 @@
                     <CheckBox Grid.Row="2" Grid.Column="6" IsChecked="{Binding PortA.Pin1}"/>
                     <CheckBox Grid.Row="2" Grid.Column="7" IsChecked="{Binding PortA.Pin0}"/>
                     <Label Content="Port B" Grid.Row="3" Grid.ColumnSpan="8"/>
-                    <Label Grid.Row="4" Grid.ColumnSpan="8" Content="{Binding Memory.RAM.RAMList[0].Byte6.Value, Converter={StaticResource elementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Grid.Row="4" Grid.ColumnSpan="8" Content="{Binding PortBl.Value, Converter={StaticResource elementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <CheckBox Grid.Row="5" Grid.Column="0" IsChecked="{Binding PortB.Pin7}"/>
                     <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding PortB.Pin6}"/>
                     <CheckBox Grid.Row="5" Grid.Column="2" IsChecked="{Binding PortB.Pin5}"/>

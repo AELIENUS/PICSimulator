@@ -31,6 +31,16 @@ namespace Application.Model
             }
         }
 
+        public int PC
+        {
+            get
+            {
+                int temp;
+                temp = RAMList[0].Byte2.Value + (RAMList[0].Byte10.Value << 8);
+                return temp;
+            }
+        }
+
         private PortA _PortA;
 
         public PortA PortA
@@ -242,10 +252,12 @@ namespace Application.Model
                         if (portionIndex == 0)
                         {
                             RAMList[8].Byte2.Value = value;
+                            RaisePropertyChanged("PC");
                         }
                         if (portionIndex == 8)
                         {
                             RAMList[0].Byte2.Value = value;
+                            RaisePropertyChanged("PC");
                         }
                         RAMList[portionIndex].Byte2.Value = value;
                         break;
@@ -314,10 +326,12 @@ namespace Application.Model
                         if (portionIndex == 0)
                         {
                             RAMList[8].Byte10.Value = value;
+                            RaisePropertyChanged("PC");
                         }
                         if (portionIndex == 8)
                         {
                             RAMList[0].Byte10.Value = value;
+                            RaisePropertyChanged("PC");
                         }
                         RAMList[portionIndex].Byte10.Value = value;
                         break;

@@ -66,15 +66,7 @@ namespace Application.Model
             }
         }
 
-        public int PC
-        {
-            get
-            {
-                int temp;
-                temp = RAM[Constants.PCL_B1] + (RAM[Constants.PCLATH_B1] << 8);
-                return temp;
-            }
-        }
+       
 
 
         private ObservableStack<short> _PCStack;

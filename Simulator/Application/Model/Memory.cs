@@ -248,7 +248,7 @@ namespace Application.Model
             PCStack = new ObservableStack<short>(new Stack<short>(Constants.PC_STACK_CAPACITY));
 
             Reset_GPR();
-            RAM.PrescaleCounter = 0;
+            RAM.PrescaleCounter = 1;
             _CycleCounter = 0;
         }
 

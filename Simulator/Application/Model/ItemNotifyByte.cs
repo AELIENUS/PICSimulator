@@ -27,11 +27,10 @@ namespace Applicator.Model
                 }
                 _value = value;
                 RaisePropertyChanged("Value");
-                RaisePropertyChanged("Bit");
             }
         }
 
-        [IndexerName("Bit")]
+        /*[IndexerName("Bit")]
         public bool this[int index]
         {
             get
@@ -181,7 +180,7 @@ namespace Applicator.Model
                 }
                 RaisePropertyChanged("Bit");
             }
-        }
+        }*/
 
         public ItemNotifyByte()
         {

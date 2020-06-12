@@ -3,27 +3,49 @@ using Applicator.Model;
 using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Services
 {
-    public class PortB : ItemNotifyByte
+    public class PortB : ObservableObject
     {
-        private Memory memory;
+        private RAMModel _RAMModel;
 
-
-        public PortB(Memory mem)
+        public PortB(RAMModel model)
         {
-            memory = mem;
+            _RAMModel = model;
+        }
+
+        public byte Value
+        {
+            get
+            {
+                return _RAMModel.RAMList[0].Byte6.Value;
+            }
+            set
+            {
+                _RAMModel.RAMList[0].Byte6.Value = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged("Pin0");
+                RaisePropertyChanged("Pin1");
+                RaisePropertyChanged("Pin2");
+                RaisePropertyChanged("Pin3");
+                RaisePropertyChanged("Pin4");
+                RaisePropertyChanged("Pin5");
+                RaisePropertyChanged("Pin6");
+                RaisePropertyChanged("Pin7");
+            }
         }
 
         public bool Pin0
         {
             get
             {
-                int temp = (memory.RAM[Constants.PORTB] & 0b0000_0001);
+                int temp = (Value & 0b0000_0001);
                 if (temp > 0)
                 {
                     return true;
@@ -37,13 +59,14 @@ namespace Application.Services
             {
                 if (value == true)
                 {
-                    memory.RAM[Constants.PORTB] |= 0b0000_0001;
+                    Value |= 0b0000_0001;
                 }
                 else
                 {
-                    memory.RAM[Constants.PORTB] &= 0b1111_1110;
+                    Value &= 0b1111_1110;
                 }
                 RaisePropertyChanged();
+                RaisePropertyChanged("Value");
             }
         }
 
@@ -51,7 +74,7 @@ namespace Application.Services
         {
             get
             {
-                int temp = (memory.RAM[Constants.PORTB] & 0b0000_0010);
+                int temp = (Value & 0b0000_0010);
                 if (temp > 0)
                 {
                     return true;
@@ -65,13 +88,14 @@ namespace Application.Services
             {
                 if (value == true)
                 {
-                    memory.RAM[Constants.PORTB] |= 0b0000_0010;
+                    Value |= 0b0000_0010;
                 }
                 else
                 {
-                    memory.RAM[Constants.PORTB] &= 0b1111_1101;
+                    Value &= 0b1111_1101;
                 }
                 RaisePropertyChanged();
+                RaisePropertyChanged("Value");
             }
         }
 
@@ -79,7 +103,7 @@ namespace Application.Services
         {
             get
             {
-                int temp = (memory.RAM[Constants.PORTB] & 0b0000_0100);
+                int temp = (Value & 0b0000_0100);
                 if (temp > 0)
                 {
                     return true;
@@ -93,13 +117,14 @@ namespace Application.Services
             {
                 if (value == true)
                 {
-                    memory.RAM[Constants.PORTB] |= 0b0000_0100;
+                    Value |= 0b0000_0100;
                 }
                 else
                 {
-                    memory.RAM[Constants.PORTB] &= 0b1111_1011;
+                    Value &= 0b1111_1011;
                 }
                 RaisePropertyChanged();
+                RaisePropertyChanged("Value");
             }
         }
 
@@ -107,7 +132,7 @@ namespace Application.Services
         {
             get
             {
-                int temp = (memory.RAM[Constants.PORTB] & 0b0000_1000);
+                int temp = (Value & 0b0000_1000);
                 if (temp > 0)
                 {
                     return true;
@@ -121,13 +146,14 @@ namespace Application.Services
             {
                 if (value == true)
                 {
-                    memory.RAM[Constants.PORTB] |= 0b000_1000;
+                    Value |= 0b000_1000;
                 }
                 else
                 {
-                    memory.RAM[Constants.PORTB] &= 0b1111_0111;
+                    Value &= 0b1111_0111;
                 }
                 RaisePropertyChanged();
+                RaisePropertyChanged("Value");
             }
         }
 
@@ -135,7 +161,7 @@ namespace Application.Services
         {
             get
             {
-                int temp = (memory.RAM[Constants.PORTB] & 0b0001_0000);
+                int temp = (Value & 0b0001_0000);
                 if (temp > 0)
                 {
                     return true;
@@ -149,13 +175,14 @@ namespace Application.Services
             {
                 if (value == true)
                 {
-                    memory.RAM[Constants.PORTB] |= 0b0001_0000;
+                    Value |= 0b0001_0000;
                 }
                 else
                 {
-                    memory.RAM[Constants.PORTB] &= 0b1110_1111;
+                    Value &= 0b1110_1111;
                 }
                 RaisePropertyChanged();
+                RaisePropertyChanged("Value");
             }
         }
 
@@ -163,7 +190,7 @@ namespace Application.Services
         {
             get
             {
-                int temp = (memory.RAM[Constants.PORTB] & 0b0010_0000);
+                int temp = (Value & 0b0010_0000);
                 if (temp > 0)
                 {
                     return true;
@@ -177,13 +204,14 @@ namespace Application.Services
             {
                 if (value == true)
                 {
-                    memory.RAM[Constants.PORTB] |= 0b0010_0000;
+                    Value |= 0b0010_0000;
                 }
                 else
                 {
-                    memory.RAM[Constants.PORTB] &= 0b1101_1111;
+                    Value &= 0b1101_1111;
                 }
                 RaisePropertyChanged();
+                RaisePropertyChanged("Value");
             }
         }
 
@@ -191,7 +219,7 @@ namespace Application.Services
         {
             get
             {
-                int temp = (memory.RAM[Constants.PORTB] & 0b0100_0000);
+                int temp = (Value & 0b0100_0000);
                 if (temp > 0)
                 {
                     return true;
@@ -205,13 +233,14 @@ namespace Application.Services
             {
                 if (value == true)
                 {
-                    memory.RAM[Constants.PORTB] |= 0b0100_0000;
+                    Value |= 0b0100_0000;
                 }
                 else
                 {
-                    memory.RAM[Constants.PORTB] &= 0b1011_1111;
+                    Value &= 0b1011_1111;
                 }
                 RaisePropertyChanged();
+                RaisePropertyChanged("Value");
             }
         }
 
@@ -219,7 +248,7 @@ namespace Application.Services
         {
             get
             {
-                int temp = (memory.RAM[Constants.PORTB] & 0b1000_0000);
+                int temp = (Value & 0b1000_0000);
                 if (temp > 0)
                 {
                     return true;
@@ -233,13 +262,14 @@ namespace Application.Services
             {
                 if (value == true)
                 {
-                    memory.RAM[Constants.PORTB] |= 0b1000_0000;
+                    Value |= 0b1000_0000;
                 }
                 else
                 {
-                    memory.RAM[Constants.PORTB] &= 0b0111_1111;
+                    Value &= 0b0111_1111;
                 }
                 RaisePropertyChanged();
+                RaisePropertyChanged("Value");
             }
         }
 

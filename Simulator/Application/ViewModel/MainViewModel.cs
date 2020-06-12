@@ -56,7 +56,7 @@ namespace Application.ViewModel
                 RaisePropertyChanged();
             }
         }
-
+        /*
         private PortA _PortA;
 
         public PortA PortA
@@ -93,7 +93,7 @@ namespace Application.ViewModel
                 _PortB = value;
                 RaisePropertyChanged();
             }
-        }
+        }*/
 
         private SourceFileModel _srcFileModel;
 
@@ -263,8 +263,8 @@ namespace Application.ViewModel
             _fileService = fileService;
             _dialogService = dialogService;
             _commandService = new CommandService(memory, SrcFileModel);
-            _PortA = new PortA(memory);
-            _PortB = new PortB(memory);
+            //_PortA = new PortA(memory);
+            //_PortB = new PortB(memory);
 
             DebugCodes.Pause = false;
             DebugCodes.Reset = false;

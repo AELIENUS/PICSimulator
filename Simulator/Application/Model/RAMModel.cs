@@ -1,4 +1,5 @@
 ﻿using Application.Model;
+using Application.Services;
 using GalaSoft.MvvmLight;
 using System;
 using System.Collections;
@@ -15,7 +16,7 @@ namespace Application.Model
 {
     public class RAMModel : ObservableObject
     {
-        #region RAM 
+        #region Fields
         private ObservableCollection<RAMPortion> _RAMList;
         public ObservableCollection<RAMPortion> RAMList 
         { 
@@ -29,6 +30,45 @@ namespace Application.Model
                 RaisePropertyChanged();
             }
         }
+
+        private PortA _PortA;
+
+        public PortA PortA
+        {
+            get
+            {
+                return _PortA;
+            }
+            set
+            {
+                if (_PortA.Equals(value))
+                {
+                    return;
+                }
+                _PortA = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private PortB _PortB;
+
+        public PortB PortB
+        {
+            get
+            {
+                return _PortB;
+            }
+            set
+            {
+                if (_PortB.Equals(value))
+                {
+                    return;
+                }
+                _PortB = value;
+                RaisePropertyChanged();
+            }
+        }
+
         #endregion
 
         public int Timer0PrescaleRatio
@@ -189,6 +229,13 @@ namespace Application.Model
                         RAMList[portionIndex].Byte0.Value = value;
                         break;
                     case 1:
+                        if(portionIndex == 8)
+                        {
+                            if((RAMList[portionIndex].Byte1.Value & 0b0000_1111)!=(value & 0b0000_1111))
+                            {
+                                PrescaleCounter = 1;
+                            }
+                        }
                         RAMList[portionIndex].Byte1.Value = value;
                         break;
                     case 2:
@@ -226,9 +273,33 @@ namespace Application.Model
                         break;
                     case 5:
                         RAMList[portionIndex].Byte5.Value = value;
+                        if (portionIndex == 0)
+                        {
+                            PortA.RaisePropertyChanged("Value");
+                            PortA.RaisePropertyChanged("Pin0");
+                            PortA.RaisePropertyChanged("Pin1");
+                            PortA.RaisePropertyChanged("Pin2");
+                            PortA.RaisePropertyChanged("Pin3");
+                            PortA.RaisePropertyChanged("Pin4");
+                            PortA.RaisePropertyChanged("Pin5");
+                            PortA.RaisePropertyChanged("Pin6");
+                            PortA.RaisePropertyChanged("Pin7");
+                        }
                         break;
                     case 6:
                         RAMList[portionIndex].Byte6.Value = value;
+                        if(portionIndex == 0)
+                        {
+                            PortB.RaisePropertyChanged("Value");
+                            PortB.RaisePropertyChanged("Pin0");
+                            PortB.RaisePropertyChanged("Pin1");
+                            PortB.RaisePropertyChanged("Pin2");
+                            PortB.RaisePropertyChanged("Pin3");
+                            PortB.RaisePropertyChanged("Pin4");
+                            PortB.RaisePropertyChanged("Pin5");
+                            PortB.RaisePropertyChanged("Pin6");
+                            PortB.RaisePropertyChanged("Pin7");
+                        }
                         break;
                     case 7:
                         RAMList[portionIndex].Byte7.Value = value;
@@ -296,15 +367,15 @@ namespace Application.Model
             if (RAMList[0].Byte1.Value == 255
                 && PrescaleCounter == Timer0PrescaleRatio)
             {
-                PrescaleCounter = 0;
+                PrescaleCounter = 1;
                 Timer0Overflow();
             }
             else
             {
-                if(PrescaleCounter == Timer0PrescaleRatio)
+                if(PrescaleCounter >= Timer0PrescaleRatio)
                 {
                     RAMList[0].Byte1.Value++;
-                    PrescaleCounter = 0;
+                    PrescaleCounter = 1;
                 }
                 else
                 {
@@ -333,32 +404,6 @@ namespace Application.Model
             RAMList[0].Byte11.Value |= 0b0000_0100;
             RAMList[8].Byte11.Value |= 0b0000_0100;
         }
-
-        public void SetPortAPin4(object valueToSet)
-        {
-/*            //PortA PIN 4 ist source von Timer0 
-            if ((RAMList[8].Byte1.Value & 0b0010_0000) > 0)
-            {
-                if((RAMList[8].Byte1.Value & 0b0100_0000) == 0)
-                {
-                    //steigende Flanke
-                    if((valueToSet == true)
-                        && ((RAMList[0].Byte5.Value & 0b0001_0000) == 0))
-                    {
-                        IncTimer0();
-                    }
-                }
-                else
-                {
-                    //fallende Flanke
-                    if ((valueToSet == false)
-                        && ((RAMList[0].Byte5.Value & 0b0001_0000) > 0))
-                    {
-                        IncTimer0();
-                    }
-                }
-            }
-  */      }
             
 
         public RAMModel()
@@ -368,6 +413,8 @@ namespace Application.Model
             {
                 _RAMList[i] = new RAMPortion();
             }
+            _PortA = new PortA(this);
+            _PortB = new PortB(this);
         }
     }
 }

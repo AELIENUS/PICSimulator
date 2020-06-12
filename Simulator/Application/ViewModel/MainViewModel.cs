@@ -207,9 +207,6 @@ namespace Application.ViewModel
         }
         #endregion
 
-        #region Methoden
-        #endregion
-
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>

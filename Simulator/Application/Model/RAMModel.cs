@@ -288,6 +288,10 @@ namespace Application.Model
                         {
                             SetPortA(value);
                         }
+                        else if (portionIndex == 8)
+                        {
+                            SetTrisA(value);
+                        }
                         else
                         {
                             RAMList[portionIndex].Byte5.Value = value;
@@ -297,6 +301,10 @@ namespace Application.Model
                         if(portionIndex == 0)
                         {
                             SetPortB(value);
+                        }
+                        else if(portionIndex == 8)
+                        {
+                            SetTrisB(value);
                         }
                         else
                         {
@@ -353,6 +361,7 @@ namespace Application.Model
 
         }
 
+        #region Timer
         public void IncTimer0()
         {
             if((RAMList[8].Byte1.Value & 0b0000_1000) == 0)
@@ -408,48 +417,193 @@ namespace Application.Model
             RAMList[0].Byte11.Value |= 0b0000_0100;
             RAMList[8].Byte11.Value |= 0b0000_0100;
         }
-
+        #endregion
+        #region SetPort
         private void SetPortA(byte valueToSet)
         {
             //TRISA[0] auf Ausgang?
             if ((RAMList[8].Byte5.Value & 0b0000_0001) == 0)
             {
-                RAMList[0].Byte5.Value |= (byte)(valueToSet & 0b0000_0001);
+                if((valueToSet&0b0000_0001)==0)
+                {
+                    RAMList[0].Byte5.Value &= 0b1111_1110;
+                }
+                else
+                {
+                    RAMList[0].Byte5.Value |= 0b0000_0001;
+                }
+            }
+            else
+            {
+                if ((valueToSet & 0b0000_0001) == 0)
+                {
+                    PortA.PORTA_Latch &= 0b1111_1110;
+                }
+                else
+                {
+                    PortA.PORTA_Latch |= 0b0000_0001;
+                }
             }
             //TRISA[1] auf Ausgang
             if ((RAMList[8].Byte5.Value & 0b0000_0010) == 0)
             {
-                RAMList[0].Byte5.Value |= (byte)(valueToSet & 0b0000_0010);
+                if ((valueToSet & 0b0000_0010) == 0)
+                {
+                    RAMList[0].Byte5.Value &= 0b1111_1101;
+                }
+                else
+                {
+                    RAMList[0].Byte5.Value |= 0b0000_0010;
+                }
+            }
+            else
+            {
+                if ((valueToSet & 0b0000_0010) == 0)
+                {
+                    PortA.PORTA_Latch &= 0b1111_1101;
+                }
+                else
+                {
+                    PortA.PORTA_Latch |= 0b0000_0010;
+                }
             }
             //TRISA[2] auf Ausgang
             if ((RAMList[8].Byte5.Value & 0b0000_0100) == 0)
             {
-                RAMList[0].Byte5.Value |= (byte)(valueToSet & 0b0000_0100);
+                if ((valueToSet & 0b0000_0100) == 0)
+                {
+                    RAMList[0].Byte5.Value &= 0b1111_1011;
+                }
+                else
+                {
+                    RAMList[0].Byte5.Value |= 0b0000_0100;
+                }
+            }
+            else
+            {
+                if ((valueToSet & 0b0000_0100) == 0)
+                {
+                    PortA.PORTA_Latch &= 0b1111_1011;
+                }
+                else
+                {
+                    PortA.PORTA_Latch |= 0b0000_0100;
+                }
             }
             //TRISA[3] auf Ausgang
             if ((RAMList[8].Byte5.Value & 0b0000_1000) == 0)
             {
-                RAMList[0].Byte5.Value |= (byte)(valueToSet & 0b0000_1000);
+                if ((valueToSet & 0b0000_1000) == 0)
+                {
+                    RAMList[0].Byte5.Value &= 0b1111_0111;
+                }
+                else
+                {
+                    RAMList[0].Byte5.Value |= 0b0000_1000;
+                }
+            }
+            else
+            {
+                if ((valueToSet & 0b0000_1000) == 0)
+                {
+                    PortA.PORTA_Latch &= 0b1111_0111;
+                }
+                else
+                {
+                    PortA.PORTA_Latch |= 0b0000_1000;
+                }
             }
             //TRISA[4] auf Ausgang
             if ((RAMList[8].Byte5.Value & 0b0001_0000) == 0)
             {
-                RAMList[0].Byte5.Value |= (byte)(valueToSet & 0b0001_0000);
+                if ((valueToSet & 0b0001_0000) == 0)
+                {
+                    RAMList[0].Byte5.Value &= 0b1110_1111;
+                }
+                else
+                {
+                    RAMList[0].Byte5.Value |= 0b0001_0000;
+                }
+            }
+            else
+            {
+                if ((valueToSet & 0b0001_0000) == 0)
+                {
+                    PortA.PORTA_Latch &= 0b1110_1111;
+                }
+                else
+                {
+                    PortA.PORTA_Latch |= 0b0001_0000;
+                }
             }
             //TRISA[5] auf Ausgang
             if ((RAMList[8].Byte5.Value & 0b0010_0000) == 0)
             {
-                RAMList[0].Byte5.Value |= (byte)(valueToSet & 0b0010_0000);
+                if ((valueToSet & 0b0010_0000) == 0)
+                {
+                    RAMList[0].Byte5.Value &= 0b1101_1111;
+                }
+                else
+                {
+                    RAMList[0].Byte5.Value |= 0b0010_0000;
+                }
+            }
+            else
+            {
+                if ((valueToSet & 0b0010_0000) == 0)
+                {
+                    PortA.PORTA_Latch &= 0b1101_1111;
+                }
+                else
+                {
+                    PortA.PORTA_Latch |= 0b0010_0000;
+                }
             }
             //TRISA[6] auf Ausgang
             if ((RAMList[8].Byte5.Value & 0b0100_0000) == 0)
             {
-                RAMList[0].Byte5.Value |= (byte)(valueToSet & 0b0100_0000);
+                if ((valueToSet & 0b0100_0000) == 0)
+                {
+                    RAMList[0].Byte5.Value &= 0b1011_1111;
+                }
+                else
+                {
+                    RAMList[0].Byte5.Value |= 0b0100_0000;
+                }
+            }
+            else
+            {
+                if ((valueToSet & 0b0100_0000) == 0)
+                {
+                    PortA.PORTA_Latch &= 0b1011_1111;
+                }
+                else
+                {
+                    PortA.PORTA_Latch |= 0b0100_0000;
+                }
             }
             //TRISA[7] auf Ausgang
             if ((RAMList[8].Byte5.Value & 0b1000_0000) == 0)
             {
-                RAMList[0].Byte5.Value |= (byte)(valueToSet & 0b1000_0000);
+                if ((valueToSet & 0b1000_0000) == 0)
+                {
+                    RAMList[0].Byte5.Value &= 0b0111_1111;
+                }
+                else
+                {
+                    RAMList[0].Byte5.Value |= 0b1000_0000;
+                }
+            }
+            else
+            {
+                if ((valueToSet & 0b1000_0000) == 0)
+                {
+                    PortA.PORTA_Latch &= 0b0111_1111;
+                }
+                else
+                {
+                    PortA.PORTA_Latch |= 0b1000_0000;
+                }
             }
             //RaisePropertyChanged
             PortA.RaisePropertyChanged("Value");
@@ -466,45 +620,196 @@ namespace Application.Model
         private void SetPortB(byte valueToSet)
         {
             //TRISB[0] auf Ausgang?
-            if((RAMList[8].Byte6.Value & 0b0000_0001) == 0)
+            if ((RAMList[8].Byte6.Value & 0b0000_0001) == 0)
             {
-                RAMList[0].Byte6.Value |= (byte)(valueToSet & 0b0000_0001);
+                if ((valueToSet & 0b0000_0001) == 0)
+                {
+                    RAMList[0].Byte6.Value &= 0b1111_1110;
+                }
+                else
+                {
+                    RAMList[0].Byte6.Value |= 0b0000_0001;
+                }
+            }
+            else
+            {
+                if ((valueToSet & 0b0000_0001) == 0)
+                {
+                    PortB.PORTB_Latch &= 0b1111_1110;
+                }
+                else
+                {
+                    PortB.PORTB_Latch |= 0b0000_0001;
+                }
             }
             //TRISB[1] auf Ausgang
             if ((RAMList[8].Byte6.Value & 0b0000_0010) == 0)
             {
-                RAMList[0].Byte6.Value |= (byte)(valueToSet & 0b0000_0010);
+                if ((valueToSet & 0b0000_0010) == 0)
+                {
+                    RAMList[0].Byte6.Value &= 0b1111_1101;
+                }
+                else
+                {
+                    RAMList[0].Byte6.Value |= 0b0000_0010;
+                }
             }
+            else
+            {
+                if ((valueToSet & 0b0000_0010) == 0)
+                {
+                    PortB.PORTB_Latch &= 0b1111_1101;
+                }
+                else
+                {
+                    PortB.PORTB_Latch |= 0b0000_0010;
+                }
+            }
+
             //TRISB[2] auf Ausgang
             if ((RAMList[8].Byte6.Value & 0b0000_0100) == 0)
             {
-                RAMList[0].Byte6.Value |= (byte)(valueToSet & 0b0000_0100);
+                if ((valueToSet & 0b0000_0100) == 0)
+                {
+                    RAMList[0].Byte6.Value &= 0b1111_1011;
+                }
+                else
+                {
+                    RAMList[0].Byte6.Value |= 0b0000_0100;
+                }
             }
+            else
+            {
+                if ((valueToSet & 0b0000_0100) == 0)
+                {
+                    PortB.PORTB_Latch &= 0b1111_1011;
+                }
+                else
+                {
+                    PortB.PORTB_Latch |= 0b0000_0100;
+                }
+            }
+
             //TRISB[3] auf Ausgang
             if ((RAMList[8].Byte6.Value & 0b0000_1000) == 0)
             {
-                RAMList[0].Byte6.Value |= (byte)(valueToSet & 0b0000_1000);
+                if ((valueToSet & 0b0000_1000) == 0)
+                {
+                    RAMList[0].Byte6.Value &= 0b1111_0111;
+                }
+                else
+                {
+                    RAMList[0].Byte6.Value |= 0b0000_1000;
+                }
             }
+            else
+            {
+                if ((valueToSet & 0b0000_1000) == 0)
+                {
+                    PortB.PORTB_Latch &= 0b1111_0111;
+                }
+                else
+                {
+                    PortB.PORTB_Latch |= 0b0000_1000;
+                }
+            }
+
             //TRISB[4] auf Ausgang
             if ((RAMList[8].Byte6.Value & 0b0001_0000) == 0)
             {
-                RAMList[0].Byte6.Value |= (byte)(valueToSet & 0b0001_0000);
+                if ((valueToSet & 0b0001_0000) == 0)
+                {
+                    RAMList[0].Byte6.Value &= 0b1110_1111;
+                }
+                else
+                {
+                    RAMList[0].Byte6.Value |= 0b0001_0000;
+                }
             }
+            else
+            {
+                if ((valueToSet & 0b0001_0000) == 0)
+                {
+                    PortB.PORTB_Latch &= 0b1110_1111;
+                }
+                else
+                {
+                    PortB.PORTB_Latch |= 0b0001_0000;
+                }
+            }
+
             //TRISB[5] auf Ausgang
             if ((RAMList[8].Byte6.Value & 0b0010_0000) == 0)
             {
-                RAMList[0].Byte6.Value |= (byte)(valueToSet & 0b0010_0000);
+                if ((valueToSet & 0b0010_0000) == 0)
+                {
+                    RAMList[0].Byte6.Value &= 0b1101_1111;
+                }
+                else
+                {
+                    RAMList[0].Byte6.Value |= 0b0010_0000;
+                }
             }
+            else
+            {
+                if ((valueToSet & 0b0010_0000) == 0)
+                {
+                    PortB.PORTB_Latch &= 0b1101_1111;
+                }
+                else
+                {
+                    PortB.PORTB_Latch |= 0b0010_0000;
+                }
+            }
+
             //TRISB[6] auf Ausgang
             if ((RAMList[8].Byte6.Value & 0b0100_0000) == 0)
             {
-                RAMList[0].Byte6.Value |= (byte)(valueToSet & 0b0100_0000);
+                if ((valueToSet & 0b0100_0000) == 0)
+                {
+                    RAMList[0].Byte6.Value &= 0b1011_1111;
+                }
+                else
+                {
+                    RAMList[0].Byte6.Value |= 0b0100_0000;
+                }
             }
+            else
+            {
+                if ((valueToSet & 0b0100_0000) == 0)
+                {
+                    PortB.PORTB_Latch &= 0b1011_1111;
+                }
+                else
+                {
+                    PortB.PORTB_Latch |= 0b0100_0000;
+                }
+            }
+
             //TRISB[7] auf Ausgang
             if ((RAMList[8].Byte6.Value & 0b1000_0000) == 0)
             {
-                RAMList[0].Byte6.Value |= (byte)(valueToSet & 0b1000_0000);
+                if ((valueToSet & 0b1000_0000) == 0)
+                {
+                    RAMList[0].Byte6.Value &= 0b0111_1111;
+                }
+                else
+                {
+                    RAMList[0].Byte6.Value |= 0b1000_0000;
+                }
             }
+            else
+            {
+                if ((valueToSet & 0b1000_0000) == 0)
+                {
+                    PortB.PORTB_Latch &= 0b0111_1111;
+                }
+                else
+                {
+                    PortB.PORTB_Latch |= 0b1000_0000;
+                }
+            }
+
             //RaisePropertyChanged
             PortB.RaisePropertyChanged("Value");
             PortB.RaisePropertyChanged("Pin0");
@@ -515,7 +820,213 @@ namespace Application.Model
             PortB.RaisePropertyChanged("Pin5");
             PortB.RaisePropertyChanged("Pin6");
             PortB.RaisePropertyChanged("Pin7");
-        }        
+        }
+        #endregion
+        #region TRIS
+        private void SetTrisB(byte valueToSet)
+        {
+            //Pin0
+            if((valueToSet & 0b0000_0001) == 0 && (RAMList[8].Byte6.Value & 0b0000_0001) > 0)
+            {
+                if ((PortB.PORTB_Latch & 0b0000_0001) == 0)
+                {
+                    PortB.Value &= 0b1111_1110;
+                }
+                else
+                {
+                    PortB.Value |= 0b0000_0001;
+                }
+            }
+            //Pin1
+            if ((valueToSet & 0b0000_0010) == 0 && (RAMList[8].Byte6.Value & 0b0000_0010) > 0)
+            {
+                if ((PortB.PORTB_Latch & 0b0000_0010) == 0)
+                {
+                    PortB.Value &= 0b1111_1101;
+                }
+                else
+                {
+                    PortB.Value |= 0b0000_0010;
+                }
+            }
+            //Pin2
+            if ((valueToSet & 0b0000_0100) == 0 && (RAMList[8].Byte6.Value & 0b0000_0100) > 0)
+            {
+                if ((PortB.PORTB_Latch & 0b0000_0100) == 0)
+                {
+                    PortB.Value &= 0b1111_1011;
+                }
+                else
+                {
+                    PortB.Value |= 0b0000_0100;
+                }
+            }
+            //Pin3
+            if ((valueToSet & 0b0000_1000) == 0 && (RAMList[8].Byte6.Value & 0b0000_1000) > 0)
+            {
+                if ((PortB.PORTB_Latch & 0b0000_1000) == 0)
+                {
+                    PortB.Value &= 0b1111_0111;
+                }
+                else
+                {
+                    PortB.Value |= 0b0000_1000;
+                }
+            }
+            //Pin4
+            if ((valueToSet & 0b0001_0000) == 0 && (RAMList[8].Byte6.Value & 0b0001_0000) > 0)
+            {
+                if ((PortB.PORTB_Latch & 0b0001_0000) == 0)
+                {
+                    PortB.Value &= 0b1110_1111;
+                }
+                else
+                {
+                    PortB.Value |= 0b0001_0000;
+                }
+            }
+            //Pin5
+            if ((valueToSet & 0b0010_0000) == 0 && (RAMList[8].Byte6.Value & 0b0010_0000) > 0)
+            {
+                if ((PortB.PORTB_Latch & 0b0010_0000) == 0)
+                {
+                    PortB.Value &= 0b1101_1111;
+                }
+                else
+                {
+                    PortB.Value |= 0b0010_0000;
+                }
+            }
+            //Pin6
+            if ((valueToSet & 0b0100_0000) == 0 && (RAMList[8].Byte6.Value & 0b0100_0000) > 0)
+            {
+                if ((PortB.PORTB_Latch & 0b0100_0000) == 0)
+                {
+                    PortB.Value &= 0b1011_1111;
+                }
+                else
+                {
+                    PortB.Value |= 0b0100_0000;
+                }
+            }
+            //Pin7
+            if ((valueToSet & 0b1000_0000) == 0 && (RAMList[8].Byte6.Value & 0b1000_0000) > 0)
+            {
+                if ((PortB.PORTB_Latch & 0b1000_0000) == 0)
+                {
+                    PortB.Value &= 0b0111_1111;
+                }
+                else
+                {
+                    PortB.Value |= 0b1000_0000;
+                }
+            }
+
+            RAMList[8].Byte6.Value = valueToSet;
+        }
+
+        private void SetTrisA(byte valueToSet)
+        {
+            //Pin0
+            if ((valueToSet & 0b0000_0001) == 0 && (RAMList[8].Byte5.Value & 0b0000_0001) > 0)
+            {
+                if ((PortA.PORTA_Latch & 0b0000_0001) == 0)
+                {
+                    PortA.Value &= 0b1111_1110;
+                }
+                else
+                {
+                    PortA.Value |= 0b0000_0001;
+                }
+            }
+            //Pin1
+            if ((valueToSet & 0b0000_0010) == 0 && (RAMList[8].Byte5.Value & 0b0000_0010) > 0)
+            {
+                if ((PortA.PORTA_Latch & 0b0000_0010) == 0)
+                {
+                    PortA.Value &= 0b1111_1101;
+                }
+                else
+                {
+                    PortA.Value |= 0b0000_0010;
+                }
+            }
+            //Pin2
+            if ((valueToSet & 0b0000_0100) == 0 && (RAMList[8].Byte5.Value & 0b0000_0100) > 0)
+            {
+                if ((PortA.PORTA_Latch & 0b0000_0100) == 0)
+                {
+                    PortA.Value &= 0b1111_1011;
+                }
+                else
+                {
+                    PortA.Value |= 0b0000_0100;
+                }
+            }
+            //Pin3
+            if ((valueToSet & 0b0000_1000) == 0 && (RAMList[8].Byte5.Value & 0b0000_1000) > 0)
+            {
+                if ((PortA.PORTA_Latch & 0b0000_1000) == 0)
+                {
+                    PortA.Value &= 0b1111_0111;
+                }
+                else
+                {
+                    PortA.Value |= 0b0000_1000;
+                }
+            }
+            //Pin4
+            if ((valueToSet & 0b0001_0000) == 0 && (RAMList[8].Byte5.Value & 0b0001_0000) > 0)
+            {
+                if ((PortA.PORTA_Latch & 0b0001_0000) == 0)
+                {
+                    PortA.Value &= 0b1110_1111;
+                }
+                else
+                {
+                    PortA.Value |= 0b0001_0000;
+                }
+            }
+            //Pin5
+            if ((valueToSet & 0b0010_0000) == 0 && (RAMList[8].Byte5.Value & 0b0010_0000) > 0)
+            {
+                if ((PortA.PORTA_Latch & 0b0010_0000) == 0)
+                {
+                    PortA.Value &= 0b1101_1111;
+                }
+                else
+                {
+                    PortA.Value |= 0b0010_0000;
+                }
+            }
+            //Pin6
+            if ((valueToSet & 0b0100_0000) == 0 && (RAMList[8].Byte5.Value & 0b0100_0000) > 0)
+            {
+                if ((PortA.PORTA_Latch & 0b0100_0000) == 0)
+                {
+                    PortA.Value &= 0b1011_1111;
+                }
+                else
+                {
+                    PortA.Value |= 0b0100_0000;
+                }
+            }
+            //Pin7
+            if ((valueToSet & 0b1000_0000) == 0 && (RAMList[8].Byte5.Value & 0b1000_0000) > 0)
+            {
+                if ((PortA.PORTA_Latch & 0b1000_0000) == 0)
+                {
+                    PortA.Value &= 0b0111_1111;
+                }
+                else
+                {
+                    PortA.Value |= 0b1000_0000;
+                }
+            }
+
+            RAMList[8].Byte5.Value = valueToSet;
+        }
+        #endregion
 
         public RAMModel()
         {

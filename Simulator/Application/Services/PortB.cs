@@ -20,15 +20,24 @@ namespace Application.Services
             _RAMModel = model;
         }
 
+        private byte _value;
+
         public byte Value
         {
             get
             {
-                return _RAMModel.RAMList[0].Byte6.Value;
+                return _value;
             }
             set
             {
-                _RAMModel.RAMList[0].Byte6.Value = value;
+                if (_RAMModel.RAMList[8].Byte6.Value < 255)
+                {
+                    SetPortBWithTRIS(value);
+                }
+                else
+                {
+                    _value = value;
+                }
                 RaisePropertyChanged();
                 RaisePropertyChanged("Pin0");
                 RaisePropertyChanged("Pin1");
@@ -382,10 +391,41 @@ namespace Application.Services
                 Value &= 0b1111_1110;
             }
         }
-        
-        void SetPortBUpperNibble(bool valueToSet)
-        {
 
+        private void SetPortBWithTRIS(byte value)
+        {
+            if ((_RAMModel.RAMList[8].Byte6.Value & 0b0000_0001) > 0)
+            {
+                _value |= (value |= 0b0000_0001);
+            }
+            if ((_RAMModel.RAMList[8].Byte6.Value & 0b0000_0010) > 0)
+            {
+                _value |= (value |= 0b0000_0010);
+            }
+            if ((_RAMModel.RAMList[8].Byte6.Value & 0b0000_0100) > 0)
+            {
+                _value |= (value |= 0b0000_0100);
+            }
+            if ((_RAMModel.RAMList[8].Byte6.Value & 0b0000_1000) > 0)
+            {
+                _value |= (value |= 0b0000_1000);
+            }
+            if ((_RAMModel.RAMList[8].Byte6.Value & 0b0001_0000) > 0)
+            {
+                _value |= (value |= 0b0001_0000);
+            }
+            if ((_RAMModel.RAMList[8].Byte6.Value & 0b0010_0000) > 0)
+            {
+                _value |= (value |= 0b0010_0000);
+            }
+            if ((_RAMModel.RAMList[8].Byte6.Value & 0b0100_0000) > 0)
+            {
+                _value |= (value |= 0b0100_0000);
+            }
+            if ((_RAMModel.RAMList[8].Byte6.Value & 0b1000_0000) > 0)
+            {
+                _value |= (value |= 0b1000_0000);
+            }
         }
     }
 }

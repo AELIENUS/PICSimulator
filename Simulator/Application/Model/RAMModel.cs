@@ -1037,6 +1037,8 @@ namespace Application.Model
             }
             _PortA = new PortA(this);
             _PortB = new PortB(this);
+            _RAMList[0].Byte5 = new PortADummy(_PortA);
+            _RAMList[0].Byte6 = new PortBDummy(_PortB);
         }
     }
 }

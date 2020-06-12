@@ -22,12 +22,14 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.75*"/>
+                <RowDefinition Height="0.5*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -61,7 +63,7 @@
                 </Grid>
 
             </GroupBox>
-            <GroupBox Grid.Row="2" Grid.Column="0" Header="Pogram Counter">
+            <GroupBox Grid.Row="1" Grid.Column="1" Header="Pogram Counter">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="130"/>
@@ -74,7 +76,7 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="{Binding Memory.RAM.RAMList[0].Byte2.Value, StringFormat='PC (ohne PCLATH): {0}'}" Grid.Row="0" Grid.Column="0"/>
-                    <TextBlock Text="{Binding Memory.PC, StringFormat='PC (mit PCLATH): {0}'}" Grid.Row="1" Grid.Column="0"/>
+                    <TextBlock Text="{Binding Memory.RAM.PC, StringFormat='PC (mit PCLATH): {0}'}" Grid.Row="1" Grid.Column="0"/>
                     <TextBlock Text="PC Stack:" Grid.Row="0" Grid.Column="1"/>
 
                     <ListView ItemsSource="{Binding Memory.PCStack.Collection}" Grid.Row="1" Grid.Column="1">
@@ -82,7 +84,7 @@
                 </Grid>
 
             </GroupBox>
-            <GroupBox Header="Edit Port A" Grid.Row="1" Grid.Column="1">
+            <GroupBox Header="Edit Port A" Grid.Row="1" Grid.Column="2">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -121,7 +123,7 @@
                     <Label Grid.Row="2" Grid.Column="7" HorizontalAlignment="Left" Content="Bit0" VerticalAlignment="Center"></Label>
                 </Grid> 
             </GroupBox>
-            <GroupBox Header="Edit Port B" Grid.Row="2" Grid.Column="1" >
+            <GroupBox Header="Edit Port B" Grid.Row="2" Grid.Column="2" >
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -161,7 +163,7 @@
 
                 </Grid>
             </GroupBox>
-            <GroupBox Grid.Row="3" Grid.Column="1" Header="Specials">
+            <GroupBox Grid.Row="3" Grid.Column="2" Header="Specials">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -184,7 +186,7 @@
                 </Grid>
             </GroupBox>
            
-            <DataGrid Grid.Row="3" Grid.Column="0" Grid.RowSpan="4" ItemsSource="{Binding SrcFileModel.ListOfCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
+            <DataGrid Grid.Row="2" Grid.Column="0" Grid.RowSpan="6" Grid.ColumnSpan="2" ItemsSource="{Binding SrcFileModel.ListOfCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridCheckBoxColumn Header="Debug"  Binding="{Binding IsDebug, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"/>
                     <DataGridTextColumn Header="Code" Binding="{Binding Line, Mode=OneWay}"/>
@@ -205,7 +207,7 @@
                     </Style>
                 </DataGrid.RowStyle>
             </DataGrid>
-            <DockPanel Grid.Row="4" Grid.Column="1" Grid.RowSpan="3" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DockPanel.Dock="Top">
+            <DockPanel Grid.Row="4" Grid.Column="2" Grid.RowSpan="4" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DockPanel.Dock="Top">
                 <DataGrid x:Name="memoryGrid" LoadingRow="DataGrid_LoadingRow" ItemsSource="{Binding Memory.RAM.RAMList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="0xR0" Binding="{Binding Byte0.Value}"/>

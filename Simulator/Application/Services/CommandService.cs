@@ -709,6 +709,7 @@ public class CommandService : ICommandService
         //cycles: 2
         memory.CycleCounter++;
         memory.CycleCounter++;
+        memory.IsISR = false;
     }
 
     public void RETLW (int literal) //return with literal in w -> fertig
@@ -802,7 +803,11 @@ public class CommandService : ICommandService
         
         while (true)
         {
-            if (memory.RAM.PC == 0x7ff)
+            if(memory.IsISR == false)
+            {
+                CheckForInterrupts();
+            }
+            if (memory.PC == 0x7ff)
             {
                 memory.RAM[Constants.PCL_B1] = 0;
                 memory.RAM[Constants.PCLATH_B1] = 0;
@@ -1119,7 +1124,77 @@ public class CommandService : ICommandService
         memory.RAM[Constants.PCL_B1] += wert;
     }
 
-    #endregion
+
+    private void CheckForInterrupts() //INTCON DA MAIN MAN
+    {
+        //GIE gesetzt?
+        if((memory.RAM[Constants.INTCON_B1] & 0b1000_0000)>0)
+        {
+            //GIE gesetzt
+            //T0IE gesetzt?
+            if ((memory.RAM[Constants.INTCON_B1] & 0b0010_0000) > 0)
+            {
+                //T0IE gesetzt
+                CheckForTimer0Interrupt();
+            }
+            //EEIE gesetzt?
+            if ((memory.RAM[Constants.INTCON_B1] & 0b0100_0000) > 0)
+            {
+                //EEIE gesetzt
+                CheckForEEPROMWrittenInterrupt();
+            }
+            //INTE gesetzt?
+            if ((memory.RAM[Constants.INTCON_B1] & 0b0001_0000) > 0)
+            {
+                //INTE gesetzt
+                CheckForRB0Interrupt();
+            }
+            //RBIE gesetzt
+            if ((memory.RAM[Constants.INTCON_B1] & 0b0000_1000) > 0)
+            {
+                //RBIE gesetzt
+                CheckForPortBInterrupt();
+            }
+        }
+    }
+
+    private void CheckForTimer0Interrupt()
+    {
+        //T0IF gesetzt
+        if((memory.RAM[Constants.INTCON_B1] & 0b0000_0100) > 0)
+        {
+            Interrupt();
+        }
+    }
+
+    private void CheckForEEPROMWrittenInterrupt()
+    {
+
+    }
+
+    private void CheckForRB0Interrupt()
+    {
+        //INTF Interrupt Flag gesetzt?
+        if((memory.RAM[Constants.INTCON_B1] & 0b0000_0010) >0)
+        {
+            Interrupt();
+        }
+    }
+
+    private void CheckForPortBInterrupt()
+    {
+
+    }
+
+    private void Interrupt()
+    {
+        //Push PC to Stack
+        memory.PCStack.Push((short)memory.PC);
+        //Set PC to Interrupt Vector
+        memory.RAM[Constants.PCL_B1] = (byte)Constants.PERIPHERAL_INTERRUPT_VECTOR_ADDRESS;
+        memory.IsISR = true;
+    }
+#endregion
 
     public CommandService(Memory memory, SourceFileModel SrcModel)
     {

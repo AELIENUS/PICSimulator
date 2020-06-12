@@ -807,7 +807,7 @@ public class CommandService : ICommandService
             {
                 CheckForInterrupts();
             }
-            if (memory.PC == 0x7ff)
+            if (memory.RAM.PC == 0x7ff)
             {
                 memory.RAM[Constants.PCL_B1] = 0;
                 memory.RAM[Constants.PCLATH_B1] = 0;
@@ -1189,7 +1189,7 @@ public class CommandService : ICommandService
     private void Interrupt()
     {
         //Push PC to Stack
-        memory.PCStack.Push((short)memory.PC);
+        memory.PCStack.Push((short)memory.RAM.PC);
         //Set PC to Interrupt Vector
         memory.RAM[Constants.PCL_B1] = (byte)Constants.PERIPHERAL_INTERRUPT_VECTOR_ADDRESS;
         memory.IsISR = true;

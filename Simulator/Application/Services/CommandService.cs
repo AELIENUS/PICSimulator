@@ -1099,7 +1099,10 @@ public class CommandService : ICommandService
 
     private void CheckForPortBInterrupt()
     {
-
+        if ((memory.RAM[Constants.INTCON_B1] & 0b0000_0001) > 0)
+        {
+            Interrupt();
+        }
     }
 
     private void Interrupt()

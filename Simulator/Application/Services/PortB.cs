@@ -20,15 +20,24 @@ namespace Application.Services
             _RAMModel = model;
         }
 
+        private byte _value;
+
         public byte Value
         {
             get
             {
-                return _RAMModel.RAMList[0].Byte6.Value;
+                return _value;
             }
             set
             {
-                _RAMModel.RAMList[0].Byte6.Value = value;
+                if (_RAMModel.RAMList[8].Byte6.Value < 255)
+                {
+                    SetPortBWithTRIS(value);
+                }
+                else
+                {
+                    _value = value;
+                }
                 RaisePropertyChanged();
                 RaisePropertyChanged("Pin0");
                 RaisePropertyChanged("Pin1");
@@ -201,6 +210,15 @@ namespace Application.Services
                 //TRISB[4] Eingang?
                 if ((_RAMModel.RAMList[8].Byte6.Value & 0b0001_0000) > 0)
                 {
+                    //Werte unterschiedlich?
+                    if(((value == true) && ((_RAMModel.RAMList[0].Byte6.Value & 0b0001_0000)==0)) 
+                        || ((value == false) && ((_RAMModel.RAMList[0].Byte6.Value & 0b0001_0000) > 0)))
+                    {
+                        //Setze RBIF
+                        _RAMModel.RAMList[0].Byte11.Value |= 0b0000_0001;
+                        _RAMModel.RAMList[8].Byte11.Value |= 0b0000_0001;
+                    }
+                    //Werte Setzen
                     if (value == true)
                     {
                         Value |= 0b0001_0000;
@@ -234,6 +252,14 @@ namespace Application.Services
                 //TRISB[5] Eingang?
                 if ((_RAMModel.RAMList[8].Byte6.Value & 0b0010_0000) > 0)
                 {
+                    //Werte unterschiedlich?
+                    if (((value == true) && ((_RAMModel.RAMList[0].Byte6.Value & 0b0010_0000) == 0))
+                        || ((value == false) && ((_RAMModel.RAMList[0].Byte6.Value & 0b0010_0000) > 0)))
+                    {
+                        //Setze RBIF
+                        _RAMModel.RAMList[0].Byte11.Value |= 0b0000_0001;
+                        _RAMModel.RAMList[8].Byte11.Value |= 0b0000_0001;
+                    }
                     if (value == true)
                     {
                         Value |= 0b0010_0000;
@@ -267,6 +293,14 @@ namespace Application.Services
                 //TRISB[6] Eingang?
                 if ((_RAMModel.RAMList[8].Byte6.Value & 0b0100_0000) > 0)
                 {
+                    //Werte unterschiedlich?
+                    if (((value == true) && ((_RAMModel.RAMList[0].Byte6.Value & 0b0100_0000) == 0))
+                        || ((value == false) && ((_RAMModel.RAMList[0].Byte6.Value & 0b0100_0000) > 0)))
+                    {
+                        //Setze RBIF
+                        _RAMModel.RAMList[0].Byte11.Value |= 0b0000_0001;
+                        _RAMModel.RAMList[8].Byte11.Value |= 0b0000_0001;
+                    }
                     if (value == true)
                     {
                         Value |= 0b0100_0000;
@@ -300,6 +334,14 @@ namespace Application.Services
                 //TRISB[7] Eingang?
                 if ((_RAMModel.RAMList[8].Byte6.Value & 0b1000_0000) > 0)
                 {
+                    //Werte unterschiedlich?
+                    if (((value == true) && ((_RAMModel.RAMList[0].Byte6.Value & 0b1000_0000) == 0))
+                        || ((value == false) && ((_RAMModel.RAMList[0].Byte6.Value & 0b1000_0000) > 0)))
+                    {
+                        //Setze RBIF
+                        _RAMModel.RAMList[0].Byte11.Value |= 0b0000_0001;
+                        _RAMModel.RAMList[8].Byte11.Value |= 0b0000_0001;
+                    }
                     if (value == true)
                     {
                         Value |= 0b1000_0000;
@@ -325,6 +367,7 @@ namespace Application.Services
                 {
                     //Set INTF
                     _RAMModel.RAMList[0].Byte11.Value |= 0b0000_0010;
+                    _RAMModel.RAMList[8].Byte11.Value |= 0b0000_0010;
                 }
             }
             else
@@ -335,6 +378,7 @@ namespace Application.Services
                 {
                     //Set INTF
                     _RAMModel.RAMList[0].Byte11.Value |= 0b0000_0010;
+                    _RAMModel.RAMList[8].Byte11.Value |= 0b0000_0010;
                 }
             }
             //wert Setzen
@@ -347,10 +391,41 @@ namespace Application.Services
                 Value &= 0b1111_1110;
             }
         }
-        
-        void SetPortBUpperNibble(bool valueToSet)
-        {
 
+        private void SetPortBWithTRIS(byte value)
+        {
+            if ((_RAMModel.RAMList[8].Byte6.Value & 0b0000_0001) > 0)
+            {
+                _value |= (value |= 0b0000_0001);
+            }
+            if ((_RAMModel.RAMList[8].Byte6.Value & 0b0000_0010) > 0)
+            {
+                _value |= (value |= 0b0000_0010);
+            }
+            if ((_RAMModel.RAMList[8].Byte6.Value & 0b0000_0100) > 0)
+            {
+                _value |= (value |= 0b0000_0100);
+            }
+            if ((_RAMModel.RAMList[8].Byte6.Value & 0b0000_1000) > 0)
+            {
+                _value |= (value |= 0b0000_1000);
+            }
+            if ((_RAMModel.RAMList[8].Byte6.Value & 0b0001_0000) > 0)
+            {
+                _value |= (value |= 0b0001_0000);
+            }
+            if ((_RAMModel.RAMList[8].Byte6.Value & 0b0010_0000) > 0)
+            {
+                _value |= (value |= 0b0010_0000);
+            }
+            if ((_RAMModel.RAMList[8].Byte6.Value & 0b0100_0000) > 0)
+            {
+                _value |= (value |= 0b0100_0000);
+            }
+            if ((_RAMModel.RAMList[8].Byte6.Value & 0b1000_0000) > 0)
+            {
+                _value |= (value |= 0b1000_0000);
+            }
         }
     }
 }

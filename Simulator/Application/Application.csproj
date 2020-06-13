@@ -70,10 +70,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\AbstractByte.cs" />
     <Compile Include="Model\DebugCodes.cs" />
     <Compile Include="Model\LineOfCode.cs" />
     <Compile Include="Model\ItemNotifyByte.cs" />
     <Compile Include="Model\Memory.cs" />
+    <Compile Include="Model\PortADummy.cs" />
+    <Compile Include="Model\PortBDummy.cs" />
     <Compile Include="Services\ObservableStack.cs" />
     <Compile Include="Model\RAMModel.cs" />
     <Compile Include="Model\RAMPortion.cs" />

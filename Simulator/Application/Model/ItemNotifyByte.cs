@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Application.Model;
+using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Applicator.Model
 {
-    public class ItemNotifyByte: ObservableObject
+    public class ItemNotifyByte: AbstractByte
     {
         private byte _value;
 
-        public byte Value 
+        public override byte Value 
         {
             get
             {

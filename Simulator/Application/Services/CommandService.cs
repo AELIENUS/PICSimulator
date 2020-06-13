@@ -18,6 +18,8 @@ public class CommandService : ICommandService
 {
     private Memory memory;
     private SourceFileModel SrcModel;
+    private 
+    short befehl;
 
     #region byte-oriented file register operations
     public void ADDWF(int file, int d) //add w and f 
@@ -35,7 +37,7 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -49,7 +51,7 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -63,7 +65,7 @@ public class CommandService : ICommandService
         checkZ(0);
 
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -76,7 +78,7 @@ public class CommandService : ICommandService
         checkZ(0);
 
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -89,7 +91,7 @@ public class CommandService : ICommandService
         checkZ(result);
         StoreSwitchedOnD(file, result, d);
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -107,7 +109,7 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -123,30 +125,14 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
 
         if (result == 0) //bei überspringen ein nop ausführen (damit breakpunkte etc funktionieren, muss der erste teil der Run-while schleife ausgeführt werden
         {
-            if (memory.RAM.PC == 0x7ff)
-            {
-                memory.RAM[Constants.PCL_B1] = 0;
-                memory.RAM[Constants.PCLATH_B1] = 0;
-            }
-            SrcModel[memory.RAM.PC].IsExecuted = true;
-            while (true)
-            {
-                if (DebugCodes.Pause | SrcModel[memory.RAM.PC].IsDebug)
-                {
-                    //loop forever
-                }
-                else
-                {
-                    break;
-                }
-            }
+            BeginLoop();
             NOP();
         }
     }
@@ -162,7 +148,7 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -178,30 +164,14 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
 
         if (result == 0) //bei überspringen ein nop ausführen (damit breakpunkte etc funktionieren, muss der erste teil der Run-while schleife ausgeführt werden
         {
-            if (memory.RAM.PC == 0x7ff)
-            {
-                memory.RAM[Constants.PCL_B1] = 0;
-                memory.RAM[Constants.PCLATH_B1] = 0;
-            }
-            SrcModel[memory.RAM.PC].IsExecuted = true;
-            while (true)
-            {
-                if (DebugCodes.Pause | SrcModel[memory.RAM.PC].IsDebug)
-                {
-                    //loop forever
-                }
-                else
-                {
-                    break;
-                }
-            }
+            BeginLoop();
             NOP();
         }
     }
@@ -215,7 +185,7 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(file, result, d);
         
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -230,7 +200,7 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -238,15 +208,10 @@ public class CommandService : ICommandService
 
     public void MOVWF (int file) // move w to f
     {
-        if (file == 0x_0A) //PCLATCH -> aktuelle Adresse muss in Stack gepusht werden
-        {
-            int returnAdress = memory.RAM[Constants.PCL_B1] + 1;
-            memory.PCStack.Push((short)returnAdress);
-        }
         memory.RAM[file] = Convert.ToByte(memory.W_Reg);
 
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -255,7 +220,7 @@ public class CommandService : ICommandService
     public void NOP () // no operation
     {
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -279,11 +244,13 @@ public class CommandService : ICommandService
             // carry löschen
             memory.RAM[Constants.STATUS_B1] &= 0b_1111_1110;
         }
+        // carry für GUI updaten
+        memory.C_Flag = (short)(memory.RAM[Constants.STATUS_B1] & 0b_0000_0001); //Wert für GUI updaten
 
         StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -309,11 +276,13 @@ public class CommandService : ICommandService
             // carry löschen
             memory.RAM[Constants.STATUS_B1] &= 0b_1111_1110;
         }
+        // carry für GUI updaten
+        memory.C_Flag = (short)(memory.RAM[Constants.STATUS_B1] & 0b_0000_0001); //Wert für GUI updaten
 
         StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -334,7 +303,7 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -350,7 +319,7 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -366,7 +335,7 @@ public class CommandService : ICommandService
         StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -406,7 +375,7 @@ public class CommandService : ICommandService
         }
 
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
         //cycles: 1
         memory.CycleCounter++;
     }
@@ -442,7 +411,7 @@ public class CommandService : ICommandService
         }
 
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
         //cycles: 1
         memory.CycleCounter++;
     }
@@ -478,31 +447,15 @@ public class CommandService : ICommandService
                 break;
         }
         //PC hochzählen
-        ChangePC((byte)summand);
+        ChangePC_Fetch((byte)summand);
 
         //cycles: 1
         memory.CycleCounter++;
 
         if (summand == 2) //bei überspringen ein nop ausführen (damit breakpunkte etc funktionieren, muss der erste teil der Run-while schleife ausgeführt werden
         {
-            if (memory.RAM.PC == 0x7ff)
-            {
-                memory.RAM[Constants.PCL_B1] = 0;
-                memory.RAM[Constants.PCLATH_B1] = 0;
-            }
-            SrcModel[memory.RAM.PC].IsExecuted = true;
-            while (true)
-            {
-                if (DebugCodes.Pause | SrcModel[memory.RAM.PC].IsDebug)
-                {
-                    //loop forever
-                }
-                else
-                {
-                    break;
-                }
-            }
-            //weiterer cycle im nop
+            BeginLoop();
+            //weiterer cycle (theoretisch im nop)
             memory.CycleCounter++;
         }
     }
@@ -538,31 +491,15 @@ public class CommandService : ICommandService
                 break;
         }
         //PC hochzählen
-        ChangePC((byte)summand);
+        ChangePC_Fetch((byte)summand);
 
         //cycles: 1
         memory.CycleCounter++;
 
         if (summand == 2) //bei überspringen ein nop ausführen (damit breakpunkte etc funktionieren, muss der erste teil der Run-while schleife ausgeführt werden
         {
-            if (memory.RAM.PC == 0x7ff)
-            {
-                memory.RAM[Constants.PCL_B1] = 0;
-                memory.RAM[Constants.PCLATH_B1] = 0;
-            }
-            SrcModel[memory.RAM.PC].IsExecuted = true;
-            while (true)
-            {
-                if (DebugCodes.Pause | SrcModel[memory.RAM.PC].IsDebug)
-                {
-                    //loop forever
-                }
-                else
-                {
-                    break;
-                }
-            }
-            //weiterer cycle im nop
+            BeginLoop();
+            //weiterer cycle (theoretisch im nop)
             memory.CycleCounter++;
         }
     }
@@ -587,7 +524,7 @@ public class CommandService : ICommandService
         memory.W_Reg = (short)result;
 
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -605,7 +542,7 @@ public class CommandService : ICommandService
 
 
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -613,58 +550,41 @@ public class CommandService : ICommandService
 
     public void CALL(int address) // call subroutine -> fertig
     {
-        int returnAdress = memory.RAM.PC + 1;
+        //ganzen 13 bit PC auf Stack pushen
+        int returnAdress = memory.RAM.RAMList[0].Byte2.Value + (memory.RAM.RAMList[0].Byte10.Value << 8) +1;
         memory.PCStack.Push((short)returnAdress);
 
         //cycles: 2, aber beide in GOTO
-        //wegen direktem Sprung: Anfang der Run-while schleife durchführen
-        if (memory.RAM.PC == 0x7ff)
-        {
-            memory.RAM[Constants.PCL_B1] = 0;
-            memory.RAM[Constants.PCLATH_B1] = 0;
-        }
-        SrcModel[memory.RAM.PC].IsExecuted = true;
-        while (true)
-        {
-            if (DebugCodes.Pause | SrcModel[memory.RAM.PC].IsDebug)
-            {
-                //loop forever
-            }
-            else
-            {
-                break;
-            }
-        }
-
+        
         GOTO(address);
     }
 
     public void CLRWDT() //clear watchdog timer -> wdt fehlt
     {
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
         //cycles: 1
         memory.CycleCounter++;
     }
 
     public void GOTO (int address) //go to address -> fertig
     {
-        //bits 0-10 für PCL:
-        int pcl_low = (int)address & 0b_0000_0000_1111_1111; //kommt in PCL
-        int pcl_high = ((int)address & 0b_0000_0111_0000_0000) >> 8; //kommt in PCLATH
-
-        //bits 11-12 für PCL aus PCLATH 3,4:
-        pcl_high = pcl_high + (memory.RAM[Constants.PCLATH_B1] & 0b_0001_1000);
+        //bit 0-10 aus address, bit 11-12 aus PCLATH <3,4>
+        int new_pc = address + ((memory.RAM[Constants.PCLATH_B1] & 0b_0001_1000) << 11);
 
         //execution löschen
-        SrcModel[memory.RAM.PC].IsExecuted = false;
+        SrcModel[memory.RAM.PC_Without_Clear].IsExecuted = false;
 
-        memory.RAM[Constants.PCL_B1] = (byte)pcl_low;
-        memory.RAM[Constants.PCLATH_B1] = (byte)pcl_high;
+        //PCL setzen
+        int newPCL = address & 0b_0111_1111;
+        memory.RAM[Constants.PCL_B1] = Convert.ToByte(newPCL);
 
         //cycles: 2
         memory.CycleCounter++;
         memory.CycleCounter++;
+
+        memory.RAM.lol = true;
+        memory.RAM.PC_JumpAdress = new_pc;
     }
 
     public void IORLW (int literal) //inclusive OR literal with w   -> fertig
@@ -677,7 +597,7 @@ public class CommandService : ICommandService
         memory.W_Reg = (short)result;
 
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -687,7 +607,7 @@ public class CommandService : ICommandService
     {
         memory.W_Reg = Convert.ToByte(literal);
         ///PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -695,7 +615,7 @@ public class CommandService : ICommandService
 
     public void RETFIE() //return from interrupt -> fertig
     {
-        SrcModel[memory.RAM.PC].IsExecuted = false;
+        SrcModel[memory.RAM.PC_Without_Clear].IsExecuted = false;
 
         //top of stack in PC
         int returnAddress = memory.PCStack.Pop();
@@ -716,7 +636,7 @@ public class CommandService : ICommandService
     {
         memory.W_Reg = Convert.ToByte(literal);
 
-        SrcModel[memory.RAM.PC].IsExecuted = false;
+        SrcModel[memory.RAM.PC_Without_Clear].IsExecuted = false;
 
         // top of stack in PC
         int returnAddress = memory.PCStack.Pop();
@@ -730,7 +650,7 @@ public class CommandService : ICommandService
 
     public void RETURN() //return from subroutine -> fertig
     {
-        SrcModel[memory.RAM.PC].IsExecuted = false;
+        SrcModel[memory.RAM.PC_Without_Clear].IsExecuted = false;
         //top of stack in PC
         int returnAddress = memory.PCStack.Pop();
         returnAddress &= 0b_1111_1111;
@@ -774,7 +694,7 @@ public class CommandService : ICommandService
         memory.W_Reg = (short)result;
 
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -790,7 +710,7 @@ public class CommandService : ICommandService
         memory.W_Reg = (short)result;
         
         //PC hochzählen
-        ChangePC(1);
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -800,32 +720,13 @@ public class CommandService : ICommandService
     #region run
     public void Run ()
     {
-        
         while (true)
         {
-            if(memory.IsISR == false)
-            {
-                CheckForInterrupts();
-            }
-            if (memory.RAM.PC == 0x7ff)
-            {
-                memory.RAM[Constants.PCL_B1] = 0;
-                memory.RAM[Constants.PCLATH_B1] = 0;
-            }
-            SrcModel[memory.RAM.PC].IsExecuted = true;
-            while (true)
-            {
-                if(DebugCodes.Pause | SrcModel[memory.RAM.PC].IsDebug)
-                {
-                    //loop forever
-                }
-                else
-                {
-                    break;
-                }
-            }            
+            BeginLoop();
+            befehl = SrcModel[memory.RAM.PC_With_Clear].ProgramCode;
             Thread.Sleep(200);
-            switch (SrcModel[memory.RAM.PC].ProgramCode)
+            
+            switch (befehl)
             {
                 case 0b_0000_0000_0000_1000:
                     RETURN(); //Return from Subroutine
@@ -852,12 +753,12 @@ public class CommandService : ICommandService
                     AnalyzeNibble3();
                     break;
             }
+
         }
     }
 
     public void AnalyzeNibble3()
     {
-        short befehl = SrcModel[memory.RAM.PC].ProgramCode;
         int nibble3 = (int)befehl & 0b_0011_0000_0000_0000; //bitoperation nur auf int ausführbar
         switch (nibble3)
         {
@@ -889,10 +790,13 @@ public class CommandService : ICommandService
 
     public void AnalyzeBits11_12() //bit-oriented operations genauer analysieren
     {
-        short befehl = SrcModel[memory.RAM.PC].ProgramCode;
         int bits11_12 = ((int)befehl & 0b_0000_1100_0000_0000) >> 10;
         int bits = ((int)befehl & 0b_0000_0011_1000_0000) >> 7;
         int file = (int)befehl & 0b_0000_0000_0111_1111;
+        if (file == 0x02) //wenn PCL beschrieben wird
+        {
+            memory.RAM.PCL_was_Manipulated = true;
+        }
         switch (bits11_12)
         {
             case 0:
@@ -914,7 +818,6 @@ public class CommandService : ICommandService
     
     public void AnalyzeNibble2Literal() 
     {
-        short befehl = SrcModel[memory.RAM.PC].ProgramCode;
         int nibble2 = (int)befehl & 0b_0000_1111_0000_0000;
         int literal = (int)befehl & 0b_0000_0000_1111_1111;
         switch (nibble2)
@@ -955,7 +858,6 @@ public class CommandService : ICommandService
 
     public void AnalyzeNibble2Byte() 
     {
-        short befehl = SrcModel[memory.RAM.PC].ProgramCode;
         int nibble2 = (int)befehl & 0b_0000_1111_0000_0000;
         int file = (int)befehl & 0b_0000_0000_0111_1111;
         int d = ((int)befehl & 0b_0000_0000_1000_0000)>>7;
@@ -1113,15 +1015,29 @@ public class CommandService : ICommandService
         }
         else
         {
+            if (file == 0x02)
+            {
+                SrcModel.ListOfCode[memory.RAM.PC_Without_Clear].IsExecuted = false;
+                memory.RAM.PCL_was_Manipulated = true;
+            }
             //result stored in f
             memory.RAM[file] = Convert.ToByte(result);
         }
     }
 
-    private void ChangePC (byte wert)
+    private void ChangePC_Fetch (byte wert)
     {
-        SrcModel[memory.RAM.PC].IsExecuted = false;
-        memory.RAM[Constants.PCL_B1] += wert;
+        SrcModel[memory.RAM.PC_Without_Clear].IsExecuted = false;
+        if (memory.RAM[Constants.PCL_B1] == 0b_1111_1111)
+        {
+            memory.RAM[Constants.PCL_B1] = (byte)(0 + wert);
+            //PCLATH erhöhen
+            memory.RAM[Constants.PCLATH_B1] += 1;
+        }
+        else
+        {
+            memory.RAM[Constants.PCL_B1] += wert;
+        }
     }
 
 
@@ -1189,12 +1105,37 @@ public class CommandService : ICommandService
     private void Interrupt()
     {
         //Push PC to Stack
-        memory.PCStack.Push((short)memory.RAM.PC);
+        memory.PCStack.Push((short)memory.RAM.PC_Without_Clear);
         //Set PC to Interrupt Vector
         memory.RAM[Constants.PCL_B1] = (byte)Constants.PERIPHERAL_INTERRUPT_VECTOR_ADDRESS;
         memory.IsISR = true;
     }
-#endregion
+
+    private void BeginLoop()
+    {
+        if (memory.IsISR == false)
+        {
+            CheckForInterrupts();
+        }
+        if (memory.RAM.PC_Without_Clear == 0x7ff)
+        {
+            memory.RAM[Constants.PCL_B1] = 0;
+            memory.RAM[Constants.PCLATH_B1] = 0;
+        }
+        SrcModel[memory.RAM.PC_Without_Clear].IsExecuted = true;
+        while (true)
+        {
+            if (DebugCodes.Pause || SrcModel[memory.RAM.PC_Without_Clear].IsDebug)
+            {
+                //loop forever
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+    #endregion
 
     public CommandService(Memory memory, SourceFileModel SrcModel)
     {

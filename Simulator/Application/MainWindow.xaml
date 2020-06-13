@@ -43,7 +43,7 @@
                 <MenuItem Header="_Single Step" Command="{Binding SingleStepCommand}"/>
                 <MenuItem Header="_Power Reset" Command="{Binding ResetCommand}"/>
             </Menu>
-            <GroupBox Grid.Row="1" Grid.Column="0" Header="Zeiten">
+            <GroupBox Grid.Row="1" Grid.Column="0" Header="Time">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="130"/>
@@ -55,10 +55,10 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Quartzfrequenz (Hz):" Grid.Row="0" Grid.Column="0"/>
+                    <TextBlock Text="Quartzfrequency (Hz):" Grid.Row="0" Grid.Column="0"/>
                     <ComboBox ItemsSource="{Binding Source={x:Static Services:Constants.QuartzFrequencyList}}" Grid.Column="1" SelectedItem="{Binding Path=Memory.Quartzfrequenz}">
                     </ComboBox>
-                    <TextBlock Text="{Binding Path=Memory.Laufzeit, StringFormat='Laufzeit: {0:N}µs'}" Grid.Row="1" Grid.Column="0"/>
+                    <TextBlock Text="{Binding Path=Memory.Laufzeit, StringFormat='Running time: {0:F2}µs'}" Grid.Row="1" Grid.Column="0"/>
                     
                 </Grid>
 
@@ -74,17 +74,19 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="{Binding Memory.RAM.RAMList[0].Byte2.Value, StringFormat='PC (ohne PCLATH): {0}'}" Grid.Row="0" Grid.Column="0"/>
-                    <TextBlock Text="{Binding Memory.RAM.PC, StringFormat='PC (mit PCLATH): {0}'}" Grid.Row="1" Grid.Column="0"/>
+                    <TextBlock Text="{Binding Memory.RAM.PC_Without_Clear, StringFormat='PC: {0}'}" Grid.Row="0" Grid.Column="0"/>
+                    <TextBlock Text="{Binding Memory.RAM.RAMList[0].Byte2.Value, StringFormat='PCL: {0}'}" Grid.Row="1" Grid.Column="0"/>
+                    <TextBlock Text="{Binding Memory.RAM.RAMList[0].Byte10.Value, StringFormat='PCLATH: {0}'}" Grid.Row="2" Grid.Column="0"/>
                     <TextBlock Text="PC Stack:" Grid.Row="0" Grid.Column="1"/>
 
-                    <ListView ItemsSource="{Binding Memory.PCStack.Collection}" Grid.Row="1" Grid.Column="1">
+                    <ListView ItemsSource="{Binding Memory.PCStack.Collection}" Grid.Row="1" Grid.Column="1" Grid.RowSpan="3">
                     </ListView>
                 </Grid>
 
             </GroupBox>
-            <GroupBox Header="Edit Port A" Grid.Row="1" Grid.Column="2">
+            <GroupBox Header="Edit Port A" Grid.Row="1" Grid.Column="2" >
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -163,7 +165,7 @@
 
                 </Grid>
             </GroupBox>
-            <GroupBox Grid.Row="3" Grid.Column="2" Header="Specials">
+            <GroupBox Grid.Row="3" Grid.Column="2" Header="Special register">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>

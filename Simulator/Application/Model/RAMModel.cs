@@ -1,16 +1,7 @@
-﻿using Application.Model;
-using Application.Services;
+﻿using Application.Services;
 using GalaSoft.MvvmLight;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Animation;
 
 namespace Application.Model
 {
@@ -28,16 +19,6 @@ namespace Application.Model
             {
                 _RAMList = value;
                 RaisePropertyChanged();
-            }
-        }
-
-        public int PC
-        {
-            get
-            {
-                int temp;
-                temp = RAMList[0].Byte2.Value + (RAMList[0].Byte10.Value << 8);
-                return temp;
             }
         }
 
@@ -79,6 +60,78 @@ namespace Application.Model
             }
         }
 
+        private bool _lol;
+
+        public bool lol
+        {
+            get
+            {
+                return _lol;
+            }
+            set
+            {
+                _lol = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool _PCL_was_Manipulated;
+
+        public bool PCL_was_Manipulated
+        {
+            get
+            {
+                return _PCL_was_Manipulated;
+            }
+            set
+            {
+                _PCL_was_Manipulated = value;
+
+            }
+        }
+
+        public int PC_JumpAdress;
+
+        public int PC_With_Clear
+        {
+            get
+            {
+
+                if (PCL_was_Manipulated == true)
+                {
+                    PCL_was_Manipulated = false;
+                    return RAMList[0].Byte2.Value + (RAMList[0].Byte10.Value << 8);
+                }
+                else if (lol == true)
+                {
+                    lol = false;
+                    return PC_JumpAdress;
+                }
+                else
+                {
+                    return RAMList[0].Byte2.Value;
+                }
+            }
+        }
+
+        public int PC_Without_Clear
+        {
+            get
+            {
+                if (PCL_was_Manipulated == true)
+                {
+                    return RAMList[0].Byte2.Value + (RAMList[0].Byte10.Value << 8);
+                }
+                else if (lol == true)
+                {
+                    return PC_JumpAdress;
+                }
+                else
+                {
+                    return RAMList[0].Byte2.Value;
+                }
+            }
+        }
         #endregion
 
         public int Timer0PrescaleRatio
@@ -252,12 +305,14 @@ namespace Application.Model
                         if (portionIndex == 0)
                         {
                             RAMList[8].Byte2.Value = value;
-                            RaisePropertyChanged("PC");
+                            RaisePropertyChanged("PC_With_Clear");
+                            RaisePropertyChanged("PC_Without_Clear");
                         }
                         if (portionIndex == 8)
                         {
                             RAMList[0].Byte2.Value = value;
-                            RaisePropertyChanged("PC");
+                            RaisePropertyChanged("PC_With_Clear");
+                            RaisePropertyChanged("PC_Without_Clear");
                         }
                         RAMList[portionIndex].Byte2.Value = value;
                         break;
@@ -324,12 +379,14 @@ namespace Application.Model
                         if (portionIndex == 0)
                         {
                             RAMList[8].Byte10.Value = value;
-                            RaisePropertyChanged("PC");
+                            RaisePropertyChanged("PC_With_Clear");
+                            RaisePropertyChanged("PC_Without_Clear");
                         }
                         if (portionIndex == 8)
                         {
                             RAMList[0].Byte10.Value = value;
-                            RaisePropertyChanged("PC");
+                            RaisePropertyChanged("PC_With_Clear");
+                            RaisePropertyChanged("PC_Without_Clear");
                         }
                         RAMList[portionIndex].Byte10.Value = value;
                         break;

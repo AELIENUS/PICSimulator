@@ -27,9 +27,9 @@ namespace Application.Model
             }
         }
 
-        private short _CycleCounter;
+        private double _CycleCounter;
 
-        public short CycleCounter
+        public double CycleCounter
         {
             get
             {
@@ -51,23 +51,23 @@ namespace Application.Model
             }
         }
 
-        private float _Laufzeit;
-        public float Laufzeit //in µs
+        private double _Laufzeit;
+        public double Laufzeit //in µs
         {
             get
             {
-                _Laufzeit = (CycleCounter*4) / (Quartzfrequenz/1000000); //ein Cycle besteht aus 4 Quarztakten
+                _Laufzeit = (CycleCounter*4) / (Quartzfrequenz/1000000) ; //ein Cycle besteht aus 4 Quarztakten
                 return _Laufzeit;
             }
             set
             {
-                _Laufzeit = (CycleCounter*4) / (Quartzfrequenz/1000000);
+                _Laufzeit = (CycleCounter*4) / (Quartzfrequenz/1000000) ;
                 RaisePropertyChanged();
             }
         }
 
-        private int _Quartzfrequenz = 16000000;
-        public int Quartzfrequenz 
+        private double _Quartzfrequenz = 16000000;
+        public double Quartzfrequenz 
         { 
             get
             {
@@ -176,6 +176,7 @@ namespace Application.Model
             }
         }
 
+
         private RAMModel _ram;
         
         public RAMModel RAM
@@ -186,10 +187,6 @@ namespace Application.Model
             }
             set
             {
-                if (value.Equals(_ram))
-                {
-                    return;
-                }
                 _ram = value;
                 RaisePropertyChanged();
             }
@@ -258,6 +255,9 @@ namespace Application.Model
 
             RAM.PortA.PORTA_Latch = 0;
             RAM.PortB.PORTB_Latch = 0;
+
+            RAM.PCL_was_Manipulated = false;
+            RAM.lol = false;
 
             Reset_GPR();
             RAM.PrescaleCounter = 1;

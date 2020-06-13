@@ -68,11 +68,15 @@ namespace Application.Services
 
         public void Push(T item)
         {
-            if(Collection.Count>= Constants.PC_STACK_CAPACITY)
-            {
-                Collection.RemoveAt(0);
-            }
             System.Windows.Application a = System.Windows.Application.Current;
+            if (Collection.Count>= Constants.PC_STACK_CAPACITY)
+            {
+                a.Dispatcher.Invoke(
+                    DispatcherPriority.Background, new Action(() =>
+                        {
+                            Collection.RemoveAt(0);
+                        }));
+            }
             a.Dispatcher.Invoke(
                 DispatcherPriority.Background, new Action(() =>
                 {

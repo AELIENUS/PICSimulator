@@ -112,7 +112,7 @@ namespace Application.ViewModel
                         {
                             if (SrcFileModel.ListOfCode != null)
                             {
-                                SrcFileModel[Memory.RAM.PC].IsDebug = false;
+                                SrcFileModel[Memory.RAM.PC_Without_Clear].IsDebug = false;
                                 DebugCodes.Pause = false;
                                 if (ThreadRun.ThreadState == System.Threading.ThreadState.Unstarted)
                                 {
@@ -151,31 +151,41 @@ namespace Application.ViewModel
                         {
                             if (SrcFileModel.ListOfCode != null)
                             {
-                                if ((SrcFileModel[Memory.RAM.PC].ProgramCode & 0b_0011_0000_0000_0000) == 8192) //auf call & goto prüfen
+                                // hier wird PC_without_Clear genommen, der die gestetzten Flags nicht löscht 
+                                if ((SrcFileModel[Memory.RAM.PC_Without_Clear].ProgramCode & 0b_0011_0000_0000_0000) == 8192) //auf call & goto prüfen
                                 {
-                                    int pc = SrcFileModel[Memory.RAM.PC].ProgramCode & 0b0000_0111_1111_1111; //sprungadresse debug = treu
-                                    SrcFileModel[pc].IsDebug = true;
+                                    //sprungadresse debug = true
+                                    int adress = SrcFileModel[Memory.RAM.PC_Without_Clear].ProgramCode & 0b0000_0111_1111_1111;
+                                    SrcFileModel[adress].IsDebug = true;
                                 }
-                                else if (SrcFileModel[Memory.RAM.PC].ProgramCode == 0b0000_0000_0000_1001 //retfie
-                                    | SrcFileModel[Memory.RAM.PC].ProgramCode == 0b0000_0000_0000_1000 //return
-                                    | (SrcFileModel[Memory.RAM.PC].ProgramCode & 0b0011_1100_0000_0000) == 0b0011_0100_0000_0000) //retlw
+                                else if (SrcFileModel[Memory.RAM.PC_Without_Clear].ProgramCode == 0b0000_0000_0000_1001 //retfie
+                                    || SrcFileModel[Memory.RAM.PC_Without_Clear].ProgramCode == 0b0000_0000_0000_1000 //return
+                                    || (SrcFileModel[Memory.RAM.PC_Without_Clear].ProgramCode & 0b0011_1100_0000_0000) == 0b0011_0100_0000_0000) //retlw
                                 {
                                     SrcFileModel[Memory.PCStack.Peek()].IsDebug = true;
                                 }
                                 //skip-befehle prüfen
-                                else if ((SrcFileModel[Memory.RAM.PC].ProgramCode & 0b_0011_1111_0000_0000) == 0b_0000_1011_0000_0000 //decfsz
-                                    | (SrcFileModel[Memory.RAM.PC].ProgramCode & 0b_0011_1111_0000_0000) == 0b_0000_1111_0000_0000 //incfsz
-                                    | (SrcFileModel[Memory.RAM.PC].ProgramCode & 0b_0011_1100_0000_0000) == 0b_0001_1000_0000_0000 //btfsc
-                                    | (SrcFileModel[Memory.RAM.PC].ProgramCode & 0b_0011_1100_0000_0000) == 0b_0001_1000_0000_0000 //btfss
+                                else if ((SrcFileModel[Memory.RAM.PC_Without_Clear].ProgramCode & 0b_0011_1111_0000_0000) == 0b_0000_1011_0000_0000 //decfsz
+                                    || (SrcFileModel[Memory.RAM.PC_Without_Clear].ProgramCode & 0b_0011_1111_0000_0000) == 0b_0000_1111_0000_0000 //incfsz
+                                    || (SrcFileModel[Memory.RAM.PC_Without_Clear].ProgramCode & 0b_0011_1100_0000_0000) == 0b_0001_1000_0000_0000 //btfsc
+                                    || (SrcFileModel[Memory.RAM.PC_Without_Clear].ProgramCode & 0b_0011_1100_0000_0000) == 0b_0001_1000_0000_0000 //btfss
                                     ) 
                                 {
                                     //nicht ganz korrekt, aber der einfachheit halber nächste und übernächste adresse debuggen
-                                    SrcFileModel[Memory.RAM.PC + 1].IsDebug = true;
-                                    SrcFileModel[Memory.RAM.PC + 2].IsDebug = true;
+                                    SrcFileModel[Memory.RAM.PC_Without_Clear + 1].IsDebug = true;
+                                    SrcFileModel[Memory.RAM.PC_Without_Clear + 2].IsDebug = true;
+                                }
+                                //auf manipulation des PCL prüfen (Ziel-File-Adresse der Operation == PCL && d-bit == 1)
+                                else if ((SrcFileModel[Memory.RAM.PC_Without_Clear].ProgramCode & 0b0000_0000_1000_0000) > 0
+                                    && ( ((SrcFileModel[Memory.RAM.PC_Without_Clear].ProgramCode & 0b0000_0000_0111_1111) == 0x_02) 
+                                        || ((SrcFileModel[Memory.RAM.PC_Without_Clear].ProgramCode & 0b0000_0000_0111_1111) == 0x_82))) //wenn die Ziel-File-Adresse der Operation der PCL ist
+                                {
+                                    //dann muss PC = PCLATH + PCL (nach operation) benutzt werden
+                                    SrcFileModel[Memory.RAM[Constants.PCL_B1] + Memory.RAM[Constants.PCLATH_B1]].IsDebug = true; //PCL vor operation wird genommen -> falsch
                                 }
                                 else
                                 {
-                                    SrcFileModel[Memory.RAM.PC + 1].IsDebug = true;
+                                    SrcFileModel[Memory.RAM.PC_Without_Clear + 1].IsDebug = true;
                                 }
                                 _runCommand.Execute(null);
                             }
@@ -198,7 +208,7 @@ namespace Application.ViewModel
                             {
                                 DebugCodes.Pause = true;
 
-                                SrcFileModel[Memory.RAM.PC + 1].IsDebug = true;
+                                SrcFileModel[Memory.RAM.PC_Without_Clear + 1].IsDebug = true;
                                 _fileService.Reset(SrcFileModel);
                             }
                             Memory.PowerReset();

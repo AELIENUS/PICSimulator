@@ -60,17 +60,17 @@ namespace Application.Model
             }
         }
 
-        private bool _lol;
+        private bool _PC_was_Jump;
 
-        public bool lol
+        public bool PC_was_Jump
         {
             get
             {
-                return _lol;
+                return _PC_was_Jump;
             }
             set
             {
-                _lol = value;
+                _PC_was_Jump = value;
                 RaisePropertyChanged();
             }
         }
@@ -102,9 +102,9 @@ namespace Application.Model
                     PCL_was_Manipulated = false;
                     return RAMList[0].Byte2.Value + (RAMList[0].Byte10.Value << 8);
                 }
-                else if (lol == true)
+                else if (PC_was_Jump == true)
                 {
-                    lol = false;
+                    PC_was_Jump = false;
                     return PC_JumpAdress;
                 }
                 else
@@ -122,7 +122,7 @@ namespace Application.Model
                 {
                     return RAMList[0].Byte2.Value + (RAMList[0].Byte10.Value << 8);
                 }
-                else if (lol == true)
+                else if (PC_was_Jump == true)
                 {
                     return PC_JumpAdress;
                 }
@@ -130,6 +130,30 @@ namespace Application.Model
                 {
                     return RAMList[0].Byte2.Value;
                 }
+            }
+        }
+
+        public int Z_Flag
+        {
+            get
+            {
+                return (RAMList[0].Byte3.Value & 0b_0000_0100) >>2;
+            }
+        }
+
+        public int C_Flag
+        {
+            get
+            {
+                return (RAMList[0].Byte3.Value & 0b_0000_0001);
+            }
+        }
+
+        public int DC_Flag
+        {
+            get
+            {
+                return (RAMList[0].Byte3.Value & 0b_0000_0010) >> 1;
             }
         }
         #endregion
@@ -320,10 +344,16 @@ namespace Application.Model
                         if (portionIndex == 0)
                         {
                             RAMList[8].Byte3.Value = value;
+                            RaisePropertyChanged("Z_Flag");
+                            RaisePropertyChanged("C_Flag");
+                            RaisePropertyChanged("DC_Flag");
                         }
                         if (portionIndex == 8)
                         {
                             RAMList[0].Byte3.Value = value;
+                            RaisePropertyChanged("Z_Flag");
+                            RaisePropertyChanged("C_Flag");
+                            RaisePropertyChanged("DC_Flag");
                         }
                         RAMList[portionIndex].Byte3.Value = value;
                         break;

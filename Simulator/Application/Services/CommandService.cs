@@ -244,8 +244,6 @@ public class CommandService : ICommandService
             // carry löschen
             memory.RAM[Constants.STATUS_B1] &= 0b_1111_1110;
         }
-        // carry für GUI updaten
-        memory.C_Flag = (short)(memory.RAM[Constants.STATUS_B1] & 0b_0000_0001); //Wert für GUI updaten
 
         StoreSwitchedOnD(file, result, d);
 
@@ -276,8 +274,6 @@ public class CommandService : ICommandService
             // carry löschen
             memory.RAM[Constants.STATUS_B1] &= 0b_1111_1110;
         }
-        // carry für GUI updaten
-        memory.C_Flag = (short)(memory.RAM[Constants.STATUS_B1] & 0b_0000_0001); //Wert für GUI updaten
 
         StoreSwitchedOnD(file, result, d);
 
@@ -583,7 +579,7 @@ public class CommandService : ICommandService
         memory.CycleCounter++;
         memory.CycleCounter++;
 
-        memory.RAM.lol = true;
+        memory.RAM.PC_was_Jump = true;
         memory.RAM.PC_JumpAdress = new_pc;
     }
 
@@ -675,6 +671,12 @@ public class CommandService : ICommandService
         //clear Watchdog and prescaler
 
         //processor in sleep mode, oscilatoor stopped,  page 14.8
+
+        //wenn watchdog aktiviert: fpr 2,3sec schlafen
+        Thread.Sleep(2300);
+
+        //PC hochzählen
+        ChangePC_Fetch(1);
 
         //cycles: 1
         memory.CycleCounter++;
@@ -931,7 +933,6 @@ public class CommandService : ICommandService
             wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1011);
         }
         memory.RAM[Constants.STATUS_B1] = wert;
-        memory.Z_Flag = (short)((wert & 0b_0000_0100)>>2); //wert für GUI updaten
     }
 
     public void check_DC_C(int literal1, int literal2, string op)
@@ -950,7 +951,7 @@ public class CommandService : ICommandService
                 wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1101);
             }
             memory.RAM[Constants.STATUS_B1] = wert;
-            memory.DC_Flag = (short)((wert & 0b_0000_0010) >> 1); //Wert für GUI updaten
+
             if ((literal1 + literal2) > 255) // Carry prüfen
             {
                 wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0001);
@@ -960,7 +961,6 @@ public class CommandService : ICommandService
                 wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1110);
             }
             memory.RAM[Constants.STATUS_B1] = wert;
-            memory.C_Flag = (short)(wert & 0b_0000_0001); //Wert für GUI updaten
         }
 
         else //op = "-"
@@ -975,7 +975,7 @@ public class CommandService : ICommandService
                 wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0010);
             }
             memory.RAM[Constants.STATUS_B1] = wert;
-            memory.DC_Flag = (short)((wert & 0b_0000_0010) >> 1); //Wert für GUI updaten
+
             if ((literal1 - literal2) < 0) //Carry prüfen
             {
                 wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] & 0b_1111_1110);
@@ -985,7 +985,6 @@ public class CommandService : ICommandService
                 wert = Convert.ToByte(memory.RAM[Constants.STATUS_B1] | 0b_0000_0001);
             }
             memory.RAM[Constants.STATUS_B1] = wert;
-            memory.C_Flag = (short)(wert & 0b_0000_0001); //Wert für GUI updaten
         }
     }
 

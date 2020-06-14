@@ -121,60 +121,7 @@ namespace Application.Model
             }
         }
 
-        private short _Z_Flag;
-        public short Z_Flag
-        {
-            get
-            {
-                return _Z_Flag;
-            }
-            set
-            {
-                if (value == _Z_Flag)
-                {
-                    return;
-                }
-                _Z_Flag = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        private short _C_Flag;
-
-        public short C_Flag
-        {
-            get
-            {
-                return _C_Flag;
-            }
-            set
-            {
-                if (value == _C_Flag)
-                {
-                    return;
-                }
-                _C_Flag = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        private short _DC_Flag;
-        public short DC_Flag
-        {
-            get
-            {
-                return _DC_Flag;
-            }
-            set
-            {
-                if (value == _DC_Flag)
-                {
-                    return;
-                }
-                _DC_Flag = value;
-                RaisePropertyChanged();
-            }
-        }
+        
 
 
         private RAMModel _ram;
@@ -257,7 +204,7 @@ namespace Application.Model
             RAM.PortB.PORTB_Latch = 0;
 
             RAM.PCL_was_Manipulated = false;
-            RAM.lol = false;
+            RAM.PC_was_Jump = false;
 
             Reset_GPR();
             RAM.PrescaleCounter = 1;

@@ -28,6 +28,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="0.75*"/>
                 <RowDefinition Height="0.5*"/>
                 <RowDefinition Height="*"/>
@@ -43,7 +44,7 @@
                 <MenuItem Header="_Single Step" Command="{Binding SingleStepCommand}"/>
                 <MenuItem Header="_Power Reset" Command="{Binding ResetCommand}"/>
             </Menu>
-            <GroupBox Grid.Row="1" Grid.Column="0" Header="Time">
+            <GroupBox Grid.Row="1" Grid.Column="0" Header="Time" Grid.RowSpan="2">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="130"/>
@@ -63,7 +64,7 @@
                 </Grid>
 
             </GroupBox>
-            <GroupBox Grid.Row="1" Grid.Column="1" Header="Pogram Counter">
+            <GroupBox Grid.Row="1" Grid.Column="1" Header="Pogram Counter" Grid.RowSpan="2">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="130"/>
@@ -179,16 +180,18 @@
                     </Grid.RowDefinitions>
                     <Label Content="W_Reg" Grid.Row="0" Grid.Column="0"></Label>
                     <Label Grid.Row="1" Grid.Column="0" Content="{Binding Memory.W_Reg, Converter={StaticResource shortConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
-                    <Label Content="C-Flag" Grid.Row="0" Grid.Column="1"/>
-                    <Label Grid.Row="1" Grid.Column="1" Content="{Binding Memory.C_Flag}"/>
+                    <Label Content="Z-Flag" Grid.Row="0" Grid.Column="1"/>
+                    <Label Grid.Row="1" Grid.Column="1" Content="{Binding Memory.RAM.Z_Flag}"/>
                     <Label Content="DC-Flag" Grid.Row="0" Grid.Column="2"/>
-                    <Label Grid.Row="1" Grid.Column="2" Content="{Binding Memory.DC_Flag}"/>
-                    <Label Content="Z-Flag" Grid.Row="0" Grid.Column="3"/>
-                    <Label Grid.Row="1" Grid.Column="3" Content="{Binding Memory.Z_Flag}"/>
+                    <Label Grid.Row="1" Grid.Column="2" Content="{Binding Memory.RAM.DC_Flag}"/>
+                    <Label Content="C-Flag" Grid.Row="0" Grid.Column="3"/>
+                    <Label Grid.Row="1" Grid.Column="3" Content="{Binding Memory.RAM.C_Flag}"/>
+                    
+                    
                 </Grid>
             </GroupBox>
            
-            <DataGrid Grid.Row="2" Grid.Column="0" Grid.RowSpan="6" Grid.ColumnSpan="2" ItemsSource="{Binding SrcFileModel.ListOfCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
+            <DataGrid Grid.Row="3" Grid.Column="0" Grid.RowSpan="6" Grid.ColumnSpan="2" ItemsSource="{Binding SrcFileModel.ListOfCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridCheckBoxColumn Header="Debug"  Binding="{Binding IsDebug, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"/>
                     <DataGridTextColumn Header="Code" Binding="{Binding Line, Mode=OneWay}"/>
@@ -209,7 +212,7 @@
                     </Style>
                 </DataGrid.RowStyle>
             </DataGrid>
-            <DockPanel Grid.Row="4" Grid.Column="2" Grid.RowSpan="4" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DockPanel.Dock="Top">
+            <DockPanel Grid.Row="4" Grid.Column="2" Grid.RowSpan="5" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DockPanel.Dock="Top">
                 <DataGrid x:Name="memoryGrid" LoadingRow="DataGrid_LoadingRow" ItemsSource="{Binding Memory.RAM.RAMList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="0xR0" Binding="{Binding Byte0.Value}"/>

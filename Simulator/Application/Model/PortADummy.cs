@@ -16,11 +16,21 @@ namespace Application.Model
         {
             get
             {
-                return _PortA.Value;
+                return _PortA._value;
             }
             set
             {
-                _PortA.Value = value;
+                _PortA._value = value;
+                RaisePropertyChanged();
+                _PortA.RaisePropertyChanged("Value");
+                _PortA.RaisePropertyChanged("Pin0");
+                _PortA.RaisePropertyChanged("Pin1");
+                _PortA.RaisePropertyChanged("Pin2");
+                _PortA.RaisePropertyChanged("Pin3");
+                _PortA.RaisePropertyChanged("Pin4");
+                _PortA.RaisePropertyChanged("Pin5");
+                _PortA.RaisePropertyChanged("Pin6");
+                _PortA.RaisePropertyChanged("Pin7");
             }
         }
 

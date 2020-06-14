@@ -917,11 +917,11 @@ namespace Application.Model
             {
                 if ((PortB.PORTB_Latch & 0b0000_0001) == 0)
                 {
-                    PortB.Value &= 0b1111_1110;
+                    RAMList[0].Byte6.Value &= 0b1111_1110;
                 }
                 else
                 {
-                    PortB.Value |= 0b0000_0001;
+                    RAMList[0].Byte6.Value |= 0b0000_0001;
                 }
             }
             //Pin1
@@ -929,11 +929,11 @@ namespace Application.Model
             {
                 if ((PortB.PORTB_Latch & 0b0000_0010) == 0)
                 {
-                    PortB.Value &= 0b1111_1101;
+                    RAMList[0].Byte6.Value &= 0b1111_1101;
                 }
                 else
                 {
-                    PortB.Value |= 0b0000_0010;
+                    RAMList[0].Byte6.Value |= 0b0000_0010;
                 }
             }
             //Pin2
@@ -941,11 +941,11 @@ namespace Application.Model
             {
                 if ((PortB.PORTB_Latch & 0b0000_0100) == 0)
                 {
-                    PortB.Value &= 0b1111_1011;
+                    RAMList[0].Byte6.Value &= 0b1111_1011;
                 }
                 else
                 {
-                    PortB.Value |= 0b0000_0100;
+                    RAMList[0].Byte6.Value |= 0b0000_0100;
                 }
             }
             //Pin3
@@ -953,11 +953,11 @@ namespace Application.Model
             {
                 if ((PortB.PORTB_Latch & 0b0000_1000) == 0)
                 {
-                    PortB.Value &= 0b1111_0111;
+                    RAMList[0].Byte6.Value &= 0b1111_0111;
                 }
                 else
                 {
-                    PortB.Value |= 0b0000_1000;
+                    RAMList[0].Byte6.Value |= 0b0000_1000;
                 }
             }
             //Pin4
@@ -965,11 +965,11 @@ namespace Application.Model
             {
                 if ((PortB.PORTB_Latch & 0b0001_0000) == 0)
                 {
-                    PortB.Value &= 0b1110_1111;
+                    RAMList[0].Byte6.Value &= 0b1110_1111;
                 }
                 else
                 {
-                    PortB.Value |= 0b0001_0000;
+                    RAMList[0].Byte6.Value |= 0b0001_0000;
                 }
             }
             //Pin5
@@ -977,11 +977,11 @@ namespace Application.Model
             {
                 if ((PortB.PORTB_Latch & 0b0010_0000) == 0)
                 {
-                    PortB.Value &= 0b1101_1111;
+                    RAMList[0].Byte6.Value &= 0b1101_1111;
                 }
                 else
                 {
-                    PortB.Value |= 0b0010_0000;
+                    RAMList[0].Byte6.Value |= 0b0010_0000;
                 }
             }
             //Pin6
@@ -989,11 +989,11 @@ namespace Application.Model
             {
                 if ((PortB.PORTB_Latch & 0b0100_0000) == 0)
                 {
-                    PortB.Value &= 0b1011_1111;
+                    RAMList[0].Byte6.Value &= 0b1011_1111;
                 }
                 else
                 {
-                    PortB.Value |= 0b0100_0000;
+                    RAMList[0].Byte6.Value |= 0b0100_0000;
                 }
             }
             //Pin7
@@ -1001,11 +1001,11 @@ namespace Application.Model
             {
                 if ((PortB.PORTB_Latch & 0b1000_0000) == 0)
                 {
-                    PortB.Value &= 0b0111_1111;
+                    RAMList[0].Byte6.Value &= 0b0111_1111;
                 }
                 else
                 {
-                    PortB.Value |= 0b1000_0000;
+                    RAMList[0].Byte6.Value |= 0b1000_0000;
                 }
             }
 
@@ -1019,11 +1019,11 @@ namespace Application.Model
             {
                 if ((PortA.PORTA_Latch & 0b0000_0001) == 0)
                 {
-                    PortA.Value &= 0b1111_1110;
+                    RAMList[0].Byte5.Value &= 0b1111_1110;
                 }
                 else
                 {
-                    PortA.Value |= 0b0000_0001;
+                    RAMList[0].Byte5.Value |= 0b0000_0001;
                 }
             }
             //Pin1
@@ -1031,11 +1031,11 @@ namespace Application.Model
             {
                 if ((PortA.PORTA_Latch & 0b0000_0010) == 0)
                 {
-                    PortA.Value &= 0b1111_1101;
+                    RAMList[0].Byte5.Value &= 0b1111_1101;
                 }
                 else
                 {
-                    PortA.Value |= 0b0000_0010;
+                    RAMList[0].Byte5.Value |= 0b0000_0010;
                 }
             }
             //Pin2
@@ -1043,11 +1043,11 @@ namespace Application.Model
             {
                 if ((PortA.PORTA_Latch & 0b0000_0100) == 0)
                 {
-                    PortA.Value &= 0b1111_1011;
+                     RAMList[0].Byte5.Value &= 0b1111_1011;
                 }
                 else
                 {
-                    PortA.Value |= 0b0000_0100;
+                    RAMList[0].Byte5.Value |= 0b0000_0100;
                 }
             }
             //Pin3
@@ -1055,11 +1055,11 @@ namespace Application.Model
             {
                 if ((PortA.PORTA_Latch & 0b0000_1000) == 0)
                 {
-                    PortA.Value &= 0b1111_0111;
+                    RAMList[0].Byte5.Value &= 0b1111_0111;
                 }
                 else
                 {
-                    PortA.Value |= 0b0000_1000;
+                    RAMList[0].Byte5.Value |= 0b0000_1000;
                 }
             }
             //Pin4
@@ -1067,11 +1067,11 @@ namespace Application.Model
             {
                 if ((PortA.PORTA_Latch & 0b0001_0000) == 0)
                 {
-                    PortA.Value &= 0b1110_1111;
+                    RAMList[0].Byte5.Value &= 0b1110_1111;
                 }
                 else
                 {
-                    PortA.Value |= 0b0001_0000;
+                    RAMList[0].Byte5.Value |= 0b0001_0000;
                 }
             }
             //Pin5
@@ -1079,11 +1079,11 @@ namespace Application.Model
             {
                 if ((PortA.PORTA_Latch & 0b0010_0000) == 0)
                 {
-                    PortA.Value &= 0b1101_1111;
+                    RAMList[0].Byte5.Value &= 0b1101_1111;
                 }
                 else
                 {
-                    PortA.Value |= 0b0010_0000;
+                    RAMList[0].Byte5.Value |= 0b0010_0000;
                 }
             }
             //Pin6
@@ -1091,11 +1091,11 @@ namespace Application.Model
             {
                 if ((PortA.PORTA_Latch & 0b0100_0000) == 0)
                 {
-                    PortA.Value &= 0b1011_1111;
+                    RAMList[0].Byte5.Value &= 0b1011_1111;
                 }
                 else
                 {
-                    PortA.Value |= 0b0100_0000;
+                    RAMList[0].Byte5.Value |= 0b0100_0000;
                 }
             }
             //Pin7
@@ -1103,11 +1103,11 @@ namespace Application.Model
             {
                 if ((PortA.PORTA_Latch & 0b1000_0000) == 0)
                 {
-                    PortA.Value &= 0b0111_1111;
+                    RAMList[0].Byte5.Value &= 0b0111_1111;
                 }
                 else
                 {
-                    PortA.Value |= 0b1000_0000;
+                    RAMList[0].Byte5.Value |= 0b1000_0000;
                 }
             }
 

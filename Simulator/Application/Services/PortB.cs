@@ -20,7 +20,7 @@ namespace Application.Services
             _RAMModel = model;
         }
 
-        private byte _value;
+        public byte _value;
 
         public byte Value
         {
@@ -396,35 +396,35 @@ namespace Application.Services
         {
             if ((_RAMModel.RAMList[8].Byte6.Value & 0b0000_0001) > 0)
             {
-                _value |= (value |= 0b0000_0001);
+                _value |= (byte)(value & 0b0000_0001);
             }
             if ((_RAMModel.RAMList[8].Byte6.Value & 0b0000_0010) > 0)
             {
-                _value |= (value |= 0b0000_0010);
+                _value |= (byte)(value & 0b0000_0010);
             }
             if ((_RAMModel.RAMList[8].Byte6.Value & 0b0000_0100) > 0)
             {
-                _value |= (value |= 0b0000_0100);
+                _value |= (byte)(value & 0b0000_0100);
             }
             if ((_RAMModel.RAMList[8].Byte6.Value & 0b0000_1000) > 0)
             {
-                _value |= (value |= 0b0000_1000);
+                _value |= (byte)(value & 0b0000_1000);
             }
             if ((_RAMModel.RAMList[8].Byte6.Value & 0b0001_0000) > 0)
             {
-                _value |= (value |= 0b0001_0000);
+                _value |= (byte)(value & 0b0001_0000);
             }
             if ((_RAMModel.RAMList[8].Byte6.Value & 0b0010_0000) > 0)
             {
-                _value |= (value |= 0b0010_0000);
+                _value |= (byte)(value & 0b0010_0000);
             }
             if ((_RAMModel.RAMList[8].Byte6.Value & 0b0100_0000) > 0)
             {
-                _value |= (value |= 0b0100_0000);
+                _value |= (byte)(value & 0b0100_0000);
             }
             if ((_RAMModel.RAMList[8].Byte6.Value & 0b1000_0000) > 0)
             {
-                _value |= (value |= 0b1000_0000);
+                _value |= (byte)(value & 0b1000_0000);
             }
         }
     }

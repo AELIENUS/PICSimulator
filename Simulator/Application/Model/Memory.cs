@@ -240,11 +240,23 @@ namespace Application.Model
             RAM[Constants.EECON2]= 0x00;
             RAM[Constants.PCLATH_B2] = 0x00;
             RAM[Constants.INTCON_B2] &= 0x001;
+            W_Reg = 0x0000;
 
-            //RESETS VON OBEN ÜBERPRÜFEN
+            PCStack = new ObservableStack<short>(new Stack<short>(Constants.PC_STACK_CAPACITY));
 
-            //GPR
+            RAM.PortA.Value = 0;
+            RAM.PortB.Value = 0;
+
+            RAM.PortA.PORTA_Latch = 0;
+            RAM.PortB.PORTB_Latch = 0;
+
+            RAM.PCL_was_Manipulated = false;
+            RAM.PC_was_Jump = false;
+
             Reset_GPR();
+            RAM.PrescaleCounter = 1;
+            _CycleCounter = 0;
+            _IsISR = false;
         }
 
         private void Reset_GPR()

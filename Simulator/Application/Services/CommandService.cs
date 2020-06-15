@@ -566,7 +566,7 @@ public class CommandService : ICommandService
     public void GOTO (int address) //go to address -> fertig
     {
         //bit 0-10 aus address, bit 11-12 aus PCLATH <3,4>
-        int new_pc = address + ((memory.RAM[Constants.PCLATH_B1] & 0b_0001_1000) << 11);
+        int new_pc = address + ((memory.RAM[Constants.PCLATH_B1] & 0b_0001_1000) << 8);
 
         //execution löschen
         SrcModel[memory.RAM.PC_Without_Clear].IsExecuted = false;

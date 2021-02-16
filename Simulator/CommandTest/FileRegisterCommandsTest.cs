@@ -15,12 +15,16 @@ namespace CommandTest
         Memory mem;
         CommandService com;
         SourceFileModel src;
+        FileService fil;
 
         [SetUp]
         public void Setup()
         {
             mem = new Memory();
             src = new SourceFileModel();
+            src.SourceFile = "";
+            fil = new FileService();
+            fil.CreateFileList(src);
             com = new CommandService(mem, src);
         }
 
@@ -30,7 +34,7 @@ namespace CommandTest
             mem.RAM[file] = 10;
             mem.W_Reg = 6;
 
-            com.ADDWF(file, d0);
+            com.OperationService.ADDWF(file, d0);
 
             Assert.AreEqual(16, mem.W_Reg);
         }
@@ -42,7 +46,7 @@ namespace CommandTest
             mem.RAM[file] = 10;
             mem.W_Reg = 250;
 
-            com.ADDWF(file, d1);
+            com.OperationService.ADDWF(file, d1);
 
             Assert.AreEqual(4, mem.RAM[file]);
         }
@@ -53,7 +57,7 @@ namespace CommandTest
             mem.RAM[file] = 10;
             mem.W_Reg = 6;
 
-            com.ANDWF(file, d0);
+            com.OperationService.ANDWF(file, d0);
 
             Assert.AreEqual(2, mem.W_Reg);
         }
@@ -65,7 +69,7 @@ namespace CommandTest
             mem.RAM[file] = 10;
             mem.W_Reg = 6;
 
-            com.ANDWF(file, d1);
+            com.OperationService.ANDWF(file, d1);
 
             Assert.AreEqual(2, mem.RAM[file]);
         }
@@ -75,7 +79,7 @@ namespace CommandTest
         {
             mem.RAM[file] = 10;
 
-            com.CLRF(file);
+            com.OperationService.CLRF(file);
 
             Assert.AreEqual(0, mem.RAM[file]);
         }
@@ -85,7 +89,7 @@ namespace CommandTest
         {
             mem.W_Reg = 17;
 
-            com.CLRW();
+            com.OperationService.CLRW();
 
             Assert.AreEqual(0, mem.W_Reg);
         }
@@ -95,7 +99,7 @@ namespace CommandTest
         {
             mem.RAM[file] = 0x_13;
 
-            com.COMF(file, d1);
+            com.OperationService.COMF(file, d1);
 
             Assert.AreEqual(0x_EC, mem.RAM[file]);
         }
@@ -105,7 +109,7 @@ namespace CommandTest
         {
             mem.RAM[file] = 13;
 
-            com.DECF(file, d1);
+            com.OperationService.DECF(file, d1);
 
             Assert.AreEqual(12, mem.RAM[file]);
         }
@@ -115,7 +119,7 @@ namespace CommandTest
         {
             mem.RAM[file] = 13;
 
-            com.DECFSZ(file, d1);
+            com.OperationService.DECFSZ(file, d1);
 
             Assert.AreEqual(12, mem.RAM[file]);
         }
@@ -126,7 +130,7 @@ namespace CommandTest
             mem.RAM[file] = 13;
             mem.RAM[Constants.PCL_B1] = 7;
 
-            com.DECFSZ(file, d1);
+            com.OperationService.DECFSZ(file, d1);
 
             Assert.AreEqual(8, mem.RAM[Constants.PCL_B1]);
         }
@@ -137,7 +141,7 @@ namespace CommandTest
             mem.RAM[file] = 1;
             mem.RAM[Constants.PCL_B1] = 7;
 
-            com.DECFSZ(file, d1);
+            com.OperationService.DECFSZ(file, d1);
 
             Assert.AreEqual(9, mem.RAM[Constants.PCL_B1]);
         }
@@ -147,7 +151,7 @@ namespace CommandTest
         {
             mem.RAM[file] = 13;
 
-            com.INCF(file, d1);
+            com.OperationService.INCF(file, d1);
 
             Assert.AreEqual(14, mem.RAM[file]);
         }
@@ -157,7 +161,7 @@ namespace CommandTest
         {
             mem.RAM[file] = 13;
 
-            com.INCFSZ(file, d1);
+            com.OperationService.INCFSZ(file, d1);
 
             Assert.AreEqual(14, mem.RAM[file]);
         }
@@ -168,7 +172,7 @@ namespace CommandTest
             mem.RAM[file] = 13;
             mem.RAM[Constants.PCL_B1] = 7;
 
-            com.INCFSZ(file, d1);
+            com.OperationService.INCFSZ(file, d1);
 
             Assert.AreEqual(8, mem.RAM[Constants.PCL_B1]);
         }
@@ -179,7 +183,7 @@ namespace CommandTest
             mem.RAM[file] = 255;
             mem.RAM[Constants.PCL_B1] = 7;
 
-            com.INCFSZ(file, d1);
+            com.OperationService.INCFSZ(file, d1);
 
             Assert.AreEqual(9, mem.RAM[Constants.PCL_B1]);
         }
@@ -190,7 +194,7 @@ namespace CommandTest
             mem.RAM[file] = 10;
             mem.W_Reg = 6;
 
-            com.IORWF(file, d1);
+            com.OperationService.IORWF(file, d1);
 
             Assert.AreEqual(14, mem.RAM[file]);
         }
@@ -200,7 +204,7 @@ namespace CommandTest
         {
             mem.RAM[file] = 10;
 
-            com.MOVF(file, d0);
+            com.OperationService.MOVF(file, d0);
 
             Assert.AreEqual(10, mem.W_Reg);
         }
@@ -212,7 +216,7 @@ namespace CommandTest
             mem.RAM[file] = 6;
             mem.W_Reg = 10;
 
-            com.MOVWF(file);
+            com.OperationService.MOVWF(file);
 
             Assert.AreEqual(10, mem.RAM[file]);
         }
@@ -223,7 +227,7 @@ namespace CommandTest
         {
             mem.RAM[Constants.PCL_B1] = 10;
 
-            com.NOP();
+            com.OperationService.NOP();
 
             Assert.AreEqual(11, mem.RAM[Constants.PCL_B1]);
         }
@@ -234,7 +238,7 @@ namespace CommandTest
             mem.RAM[file] = 10;
             mem.RAM[Constants.STATUS_B1] = 1;
 
-            com.RLF(file, d1);
+            com.OperationService.RLF(file, d1);
 
             Assert.AreEqual(21, mem.RAM[file]);
         }
@@ -245,7 +249,7 @@ namespace CommandTest
             mem.RAM[file] = 10;
             mem.RAM[Constants.STATUS_B1] = 0;
 
-            com.RLF(file, d1);
+            com.OperationService.RLF(file, d1);
 
             Assert.AreEqual(20, mem.RAM[file]);
         }
@@ -256,7 +260,7 @@ namespace CommandTest
             mem.RAM[file] = 138;
             mem.RAM[Constants.STATUS_B1] = 0;
 
-            com.RLF(file, d1);
+            com.OperationService.RLF(file, d1);
 
             Assert.AreEqual(20, mem.RAM[file]);
         }
@@ -268,7 +272,7 @@ namespace CommandTest
             mem.RAM[file] = 138;
             mem.RAM[Constants.STATUS_B1] = 0;
 
-            com.RLF(file, d1);
+            com.OperationService.RLF(file, d1);
 
             Assert.AreEqual(1, mem.RAM[Constants.STATUS_B1]);
         }
@@ -279,7 +283,7 @@ namespace CommandTest
             mem.RAM[file] = 10;
             mem.RAM[Constants.STATUS_B1] = 1;
 
-            com.RRF(file, d1);
+            com.OperationService.RRF(file, d1);
 
             Assert.AreEqual(133, mem.RAM[file]);
         }
@@ -290,7 +294,7 @@ namespace CommandTest
             mem.RAM[file] = 10;
             mem.RAM[Constants.STATUS_B1] = 0;
 
-            com.RRF(file, d1);
+            com.OperationService.RRF(file, d1);
 
             Assert.AreEqual(5, mem.RAM[file]);
         }
@@ -301,7 +305,7 @@ namespace CommandTest
             mem.RAM[file] = 11;
             mem.RAM[Constants.STATUS_B1] = 0;
 
-            com.RRF(file, d1);
+            com.OperationService.RRF(file, d1);
 
             Assert.AreEqual(5, mem.RAM[file]);
         }
@@ -313,7 +317,7 @@ namespace CommandTest
             mem.RAM[file] = 11;
             mem.RAM[Constants.STATUS_B1] = 0;
 
-            com.RRF(file, d1);
+            com.OperationService.RRF(file, d1);
 
             Assert.AreEqual(1, mem.RAM[Constants.STATUS_B1]);
         }
@@ -324,7 +328,7 @@ namespace CommandTest
             mem.RAM[file] = 3;
             mem.W_Reg = 2;
 
-            com.SUBWF(file, d1);
+            com.OperationService.SUBWF(file, d1);
 
             Assert.AreEqual(1, mem.RAM[file]);
         }
@@ -335,7 +339,7 @@ namespace CommandTest
             mem.RAM[file] = 10;
             mem.W_Reg = 20;
 
-            com.SUBWF(file, d1);
+            com.OperationService.SUBWF(file, d1);
 
             Assert.AreEqual(246, mem.RAM[file]);
         }
@@ -345,7 +349,7 @@ namespace CommandTest
         {
             mem.RAM[file] = 0x_A5;
 
-            com.SWAPF(file, d1);
+            com.OperationService.SWAPF(file, d1);
 
             Assert.AreEqual(0x_5A, mem.RAM[file]);
         }
@@ -356,7 +360,7 @@ namespace CommandTest
             mem.RAM[file] = 0x_AF;
             mem.W_Reg = 0x_b5;
 
-            com.XORWF(file, d1);
+            com.OperationService.XORWF(file, d1);
 
             Assert.AreEqual(0x_1A, mem.RAM[file]);
         }

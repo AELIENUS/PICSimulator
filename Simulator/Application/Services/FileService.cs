@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace Application.Services
 {
-    class FileService : IFileService
+    public class FileService : IFileService
     {
         private string pattern = @"^[0-9A-F]+\s[0-9A-F]+";
 

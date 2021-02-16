@@ -32,7 +32,7 @@ namespace Application.ViewModel
         private IDialogService _dialogService;
         private ICommandService _commandService;
         private IFileService _fileService;
-        private Thread ThreadRun;
+        private Thread _threadRun;
         #region Properties
 
         private static CancellationTokenSource tokenSource = new CancellationTokenSource();
@@ -114,9 +114,9 @@ namespace Application.ViewModel
                             {
                                 SrcFileModel[Memory.RAM.PC_Without_Clear].IsDebug = false;
                                 DebugCodes.Pause = false;
-                                if (ThreadRun.ThreadState == System.Threading.ThreadState.Unstarted)
+                                if (_threadRun.ThreadState == System.Threading.ThreadState.Unstarted)
                                 {
-                                    ThreadRun.Start();
+                                    _threadRun.Start();
                                 }
                             }
                         }));
@@ -239,7 +239,7 @@ namespace Application.ViewModel
             DebugCodes.Reset = false;
 
             ThreadStart Start = new ThreadStart(_commandService.Run);
-            ThreadRun = new Thread(Start);
+            _threadRun = new Thread(Start);
            
         }
 

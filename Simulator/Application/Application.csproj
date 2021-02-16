@@ -90,6 +90,8 @@
     <Compile Include="Services\ICommandService.cs" />
     <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Services\IFileService.cs" />
+    <Compile Include="Services\OperationHelpers.cs" />
+    <Compile Include="Services\OperationService.cs" />
     <Compile Include="Services\PortA.cs" />
     <Compile Include="Services\PortB.cs" />
     <Compile Include="Services\ShortToBinary.cs" />

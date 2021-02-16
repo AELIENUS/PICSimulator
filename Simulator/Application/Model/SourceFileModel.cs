@@ -53,7 +53,7 @@ namespace Application.Model
         }
         
 
-        [IndexerName("lol")]
+        [IndexerName("loC")]
         public LineOfCode this[int commandIndex]
         {
             get
@@ -77,7 +77,7 @@ namespace Application.Model
                         ListOfCode[i] = value;
                     }
                 }
-                RaisePropertyChanged("lol");
+                RaisePropertyChanged("loC");
             }
         }
 

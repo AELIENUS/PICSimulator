@@ -78,7 +78,7 @@ public class CommandService : ICommandService
         }
     }
 
-    public void AnalyzeNibble3()
+    private void AnalyzeNibble3()
     {
         int nibble3 = (int)_command & 0b_0011_0000_0000_0000; //bitoperation nur auf int ausführbar
         switch (nibble3)
@@ -109,7 +109,7 @@ public class CommandService : ICommandService
         }
     }
 
-    public void AnalyzeBits11_12() //bit-oriented operations genauer analysieren
+    private void AnalyzeBits11_12() //bit-oriented operations genauer analysieren
     {
         int bits11_12 = ((int)_command & 0b_0000_1100_0000_0000) >> 10;
         int bits = ((int)_command & 0b_0000_0011_1000_0000) >> 7;
@@ -137,7 +137,7 @@ public class CommandService : ICommandService
         }
     }
     
-    public void AnalyzeNibble2Literal() 
+    private void AnalyzeNibble2Literal() 
     {
         int nibble2 = (int)_command & 0b_0000_1111_0000_0000;
         int literal = (int)_command & 0b_0000_0000_1111_1111;
@@ -177,7 +177,7 @@ public class CommandService : ICommandService
         }
     }
 
-    public void AnalyzeNibble2Byte() 
+    private void AnalyzeNibble2Byte() 
     {
         int nibble2 = (int)_command & 0b_0000_1111_0000_0000;
         int file = (int)_command & 0b_0000_0000_0111_1111;

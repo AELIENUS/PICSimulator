@@ -4,7 +4,7 @@ using Applicator.Model;
 
 namespace Application.Services
 {
-    public class CommandService
+    public class ApplicationService
     {
         private Memory _memory;
         private SourceFileModel _srcModel;
@@ -335,17 +335,17 @@ namespace Application.Services
         }
     
 
-        public CommandService(Memory memory, SourceFileModel srcModel)
+        public ApplicationService(Memory memory, SourceFileModel srcModel)
         {
             this._memory = memory;
             this._srcModel = srcModel;
             /// diese sehr schlecht, da das Objekt selbst übergeben wird
-            _operationService = new OperationService(this);
+            _operationService = new OperationService(this, _memory, _srcModel);
         }
 
-        public CommandService()
+        public ApplicationService()
         {
-            _operationService = new OperationService(this);
+            _operationService = new OperationService(this, _memory, _srcModel);
         }
 
     }

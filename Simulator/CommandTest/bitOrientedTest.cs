@@ -9,7 +9,7 @@ namespace CommandTest
     class bitOrientedTest
     {
         Memory mem;
-        CommandService com;
+        ApplicationService com;
         SourceFileModel src;
         FileService fil;
 
@@ -21,7 +21,7 @@ namespace CommandTest
             src.SourceFile = "";
             fil = new FileService();
             fil.CreateFileList(src);
-            com = new CommandService(mem, src);
+            com = new ApplicationService(mem, src);
         }
 
         [Test]

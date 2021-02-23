@@ -8,7 +8,7 @@ namespace CommandTest
     public class CheckTests
     {
         Memory mem;
-        CommandService com;
+        ApplicationService com;
         SourceFileModel src;
 
         [SetUp]
@@ -16,7 +16,7 @@ namespace CommandTest
         {
             mem = new Memory();
             src = new SourceFileModel();
-            com = new CommandService(mem, src);
+            com = new ApplicationService(mem, src);
         }
 
         [Test]

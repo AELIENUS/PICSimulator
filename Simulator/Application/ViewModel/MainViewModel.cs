@@ -30,7 +30,7 @@ namespace Application.ViewModel
     public class MainViewModel : ViewModelBase
     {
         private IDialogService _dialogService;
-        private ICommandService _commandService;
+        private CommandService _commandService;
         private IFileService _fileService;
         private Thread _threadRun;
         #region Properties
@@ -224,14 +224,17 @@ namespace Application.ViewModel
             SourceFileModel sourceFileModel,
             Memory memory,
             IFileService fileService,
-            IDialogService dialogService
+            IDialogService dialogService,
+            CommandService commandService
             /* hier werden services injected-> Service ist Interface im Helpers ordner*/)
         {
             _memory = memory;
             _srcFileModel = sourceFileModel;
             _fileService = fileService;
             _dialogService = dialogService;
-            _commandService = new CommandService(memory, SrcFileModel);
+            _commandService = commandService;
+            _commandService.Memory = memory;
+            _commandService.SrcModel = sourceFileModel;
             //_PortA = new PortA(memory);
             //_PortB = new PortB(memory);
 
@@ -244,7 +247,7 @@ namespace Application.ViewModel
         }
 
         public MainViewModel() : 
-            this(new SourceFileModel(), new Memory(), new FileService(), new DialogService()) 
+            this(new SourceFileModel(), new Memory(), new FileService(), new DialogService(), new CommandService())
         {
 
         }

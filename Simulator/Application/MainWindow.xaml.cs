@@ -17,6 +17,7 @@ namespace Application
 
         void DataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
         {
+            //TODO: muss ins ViewModel, da Anzeigelogik.
             if(e.Row.GetIndex() < 16)
             {
                 StringBuilder sb = new StringBuilder();

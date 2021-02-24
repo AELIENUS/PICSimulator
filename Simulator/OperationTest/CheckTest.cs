@@ -1,17 +1,18 @@
 using Application.Model;
 using Application.Services;
-using NUnit.Framework;
 using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CommandTest
+namespace OperationTest
 {
+    [TestClass]
     public class CheckTests
     {
         Memory mem;
         ApplicationService com;
         SourceFileModel src;
 
-        [SetUp]
+        [TestInitialize]
         public void Setup()
         {
             mem = new Memory();
@@ -19,7 +20,7 @@ namespace CommandTest
             com = new ApplicationService(mem, src);
         }
 
-        [Test]
+        [TestMethod]
         public void CheckZ_true()
         {
             int literal = 0;
@@ -30,7 +31,7 @@ namespace CommandTest
             Assert.AreEqual(4, z);
         }
 
-        [Test]
+        [TestMethod]
         public void CheckZ_false()
         {
             int literal = 3;
@@ -42,7 +43,7 @@ namespace CommandTest
         }
 
         #region Check dc, c plus
-        [Test]
+        [TestMethod]
         public void Check_DC_falsePlus()
         {
             int lit1 = 0;
@@ -56,7 +57,7 @@ namespace CommandTest
             Assert.AreEqual(0, dc);
         }
 
-        [Test]
+        [TestMethod]
         public void Check_C_falsePlus()
         {
             int lit1 = 0;
@@ -68,7 +69,7 @@ namespace CommandTest
             Assert.AreEqual(0, c);
         }
 
-        [Test]
+        [TestMethod]
         public void Check_DC_truePlus()
         {
             int lit1 = 136;
@@ -82,7 +83,7 @@ namespace CommandTest
 
         }
 
-        [Test]
+        [TestMethod]
         public void Check_C_truePlus()
         {
             int lit1 = 136;
@@ -100,7 +101,7 @@ namespace CommandTest
 
         #region Check DC, C Minus
 
-        [Test]
+        [TestMethod]
         public void Check_DC_falseMinus()
         {
             int lit1 = 6;
@@ -114,7 +115,7 @@ namespace CommandTest
             Assert.AreEqual(2, dc);
         }
 
-        [Test]
+        [TestMethod]
         public void Check_C_falseMinus()
         {
             int lit1 = 6;
@@ -128,7 +129,7 @@ namespace CommandTest
             Assert.AreEqual(1, c);
         }
 
-        [Test]
+        [TestMethod]
         public void Check_DC_trueMinus()
         {
             int lit1 = 68;
@@ -143,7 +144,7 @@ namespace CommandTest
             Assert.AreEqual(0, dc);
         }
 
-        [Test]
+        [TestMethod]
         public void Check_C_trueMinus()
         {
             int lit1 = 68;
@@ -159,7 +160,7 @@ namespace CommandTest
 
         #endregion
 
-        [Test]
+        [TestMethod]
         public void TestBit_SkipClear_True()
         {
             int lit1 = 0;
@@ -169,7 +170,7 @@ namespace CommandTest
             Assert.AreEqual(2, result);
         }
 
-        [Test]
+        [TestMethod]
         public void StoreSwitchedOnD_0()
         {
             int file = 0x_0f;
@@ -181,7 +182,7 @@ namespace CommandTest
             Assert.AreEqual(15, mem.W_Reg);
         }
 
-        [Test]
+        [TestMethod]
         public void StoreSwitchedOnD_1()
         {
             int file = 0x_0f;

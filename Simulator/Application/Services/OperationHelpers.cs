@@ -13,7 +13,7 @@ public class OperationHelpers
         _srcModel = srcModel;
     }
 
-    public void checkZ(int result)
+    public void CheckZ(int result)
     {
         byte wert;
         if (result == 0)
@@ -28,7 +28,7 @@ public class OperationHelpers
         _memory.RAM[Constants.STATUS_B1] = wert;
     }
 
-    public void check_DC_C(int literal1, int literal2, string op)
+    public void Check_DC_C(int literal1, int literal2, string op)
     {
         int literal1low = literal1 & 0b_0000_1111;
         int literal2low = literal2 & 0b_0000_1111;
@@ -85,7 +85,7 @@ public class OperationHelpers
         }
     }
 
-    public int bitTest(int content, int skip)
+    public int BitTest(int content, int skip)
     { // wenn skip = 0 soll bei clear geskipped werden, ist skip = 1, soll bei set geskipped werden
         if (skip == 0)
         {

@@ -39,8 +39,8 @@ public class OperationService
             result = result - 256;
         }
 
-        OperationHelpers.check_DC_C(_memory.RAM[file], _memory.W_Reg, "+");
-        OperationHelpers.checkZ(result);
+        OperationHelpers.Check_DC_C(_memory.RAM[file], _memory.W_Reg, "+");
+        OperationHelpers.CheckZ(result);
 
         OperationHelpers.StoreSwitchedOnD(file, result, d);
 
@@ -55,7 +55,7 @@ public class OperationService
     {
         int result = _memory.W_Reg & _memory.RAM[file];
 
-        OperationHelpers.checkZ(result);
+        OperationHelpers.CheckZ(result);
         OperationHelpers.StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
@@ -70,7 +70,7 @@ public class OperationService
         _memory.RAM[file] = 0;
 
         // z flag setzen
-        OperationHelpers.checkZ(0);
+        OperationHelpers.CheckZ(0);
 
         //PC hochzählen
         OperationHelpers.ChangePC_Fetch(1);
@@ -83,7 +83,7 @@ public class OperationService
     {
         _memory.W_Reg = 0;
         // z flag setzen
-        OperationHelpers.checkZ(0);
+        OperationHelpers.CheckZ(0);
 
         //PC hochzählen
         OperationHelpers.ChangePC_Fetch(1);
@@ -96,7 +96,7 @@ public class OperationService
     {
         int result = _memory.RAM[file] ^ 0b_1111_1111;
 
-        OperationHelpers.checkZ(result);
+        OperationHelpers.CheckZ(result);
         OperationHelpers.StoreSwitchedOnD(file, result, d);
         //PC hochzählen
         OperationHelpers.ChangePC_Fetch(1);
@@ -114,7 +114,7 @@ public class OperationService
             result = result + 256;
         }
 
-        OperationHelpers.checkZ(result);
+        OperationHelpers.CheckZ(result);
         OperationHelpers.StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
@@ -155,7 +155,7 @@ public class OperationService
             result = result - 256;
         }
 
-        OperationHelpers.checkZ(result);
+        OperationHelpers.CheckZ(result);
         OperationHelpers.StoreSwitchedOnD(file, result, d);
 
         //PC hochzählen
@@ -192,7 +192,7 @@ public class OperationService
     {
         int result = (int) _memory.W_Reg | (int) _memory.RAM[file];
 
-        OperationHelpers.checkZ(result);
+        OperationHelpers.CheckZ(result);
 
         OperationHelpers.StoreSwitchedOnD(file, result, d);
         
@@ -207,7 +207,7 @@ public class OperationService
     {
         int result = _memory.RAM[file];
 
-        OperationHelpers.checkZ(result);
+        OperationHelpers.CheckZ(result);
 
         OperationHelpers.StoreSwitchedOnD(file, result, d);
 
@@ -305,8 +305,8 @@ public class OperationService
             result = result + 256;
         }
 
-        OperationHelpers.check_DC_C(_memory.RAM[file], _memory.W_Reg, "-");
-        OperationHelpers.checkZ(result);
+        OperationHelpers.Check_DC_C(_memory.RAM[file], _memory.W_Reg, "-");
+        OperationHelpers.CheckZ(result);
 
         OperationHelpers.StoreSwitchedOnD(file, result, d);
 
@@ -338,7 +338,7 @@ public class OperationService
 
         int result = _memory.W_Reg ^ _memory.RAM[file];
 
-        OperationHelpers.checkZ(result);
+        OperationHelpers.CheckZ(result);
 
         OperationHelpers.StoreSwitchedOnD(file, result, d);
 
@@ -431,28 +431,28 @@ public class OperationService
         switch (bit)
         {
             case 0:
-                summand = OperationHelpers.bitTest(_memory.RAM[file] & 0b_0000_0001, 0);
+                summand = OperationHelpers.BitTest(_memory.RAM[file] & 0b_0000_0001, 0);
                 break;
             case 1:
-                summand = OperationHelpers.bitTest(_memory.RAM[file] & 0b_0000_0010, 0);
+                summand = OperationHelpers.BitTest(_memory.RAM[file] & 0b_0000_0010, 0);
                 break;
             case 2:
-                summand = OperationHelpers.bitTest(_memory.RAM[file] & 0b_0000_0100, 0);
+                summand = OperationHelpers.BitTest(_memory.RAM[file] & 0b_0000_0100, 0);
                 break;
             case 3:
-                summand = OperationHelpers.bitTest(_memory.RAM[file] & 0b_0000_1000, 0);
+                summand = OperationHelpers.BitTest(_memory.RAM[file] & 0b_0000_1000, 0);
                 break;
             case 4:
-                summand = OperationHelpers.bitTest(_memory.RAM[file] & 0b_0001_0000, 0);
+                summand = OperationHelpers.BitTest(_memory.RAM[file] & 0b_0001_0000, 0);
                 break;
             case 5:
-                summand = OperationHelpers.bitTest(_memory.RAM[file] & 0b_0010_0000, 0);
+                summand = OperationHelpers.BitTest(_memory.RAM[file] & 0b_0010_0000, 0);
                 break;
             case 6:
-                summand = OperationHelpers.bitTest(_memory.RAM[file] & 0b_0100_0000, 0);
+                summand = OperationHelpers.BitTest(_memory.RAM[file] & 0b_0100_0000, 0);
                 break;
             default: // bit = 7
-                summand = OperationHelpers.bitTest(_memory.RAM[file] & 0b_1000_0000, 0);
+                summand = OperationHelpers.BitTest(_memory.RAM[file] & 0b_1000_0000, 0);
                 break;
         }
         //PC hochzählen
@@ -475,28 +475,28 @@ public class OperationService
         switch (bit)
         {
             case 0:
-                summand = OperationHelpers.bitTest(_memory.RAM[file] & 0b_0000_0001, 1);
+                summand = OperationHelpers.BitTest(_memory.RAM[file] & 0b_0000_0001, 1);
                 break;
             case 1:
-                summand = OperationHelpers.bitTest(_memory.RAM[file] & 0b_0000_0010, 1);
+                summand = OperationHelpers.BitTest(_memory.RAM[file] & 0b_0000_0010, 1);
                 break;
             case 2:
-                summand = OperationHelpers.bitTest(_memory.RAM[file] & 0b_0000_0100, 1);
+                summand = OperationHelpers.BitTest(_memory.RAM[file] & 0b_0000_0100, 1);
                 break;
             case 3:
-                summand = OperationHelpers.bitTest(_memory.RAM[file] & 0b_0000_1000, 1);
+                summand = OperationHelpers.BitTest(_memory.RAM[file] & 0b_0000_1000, 1);
                 break;
             case 4:
-                summand = OperationHelpers.bitTest(_memory.RAM[file] & 0b_0001_0000, 1);
+                summand = OperationHelpers.BitTest(_memory.RAM[file] & 0b_0001_0000, 1);
                 break;
             case 5:
-                summand = OperationHelpers.bitTest(_memory.RAM[file] & 0b_0010_0000, 1);
+                summand = OperationHelpers.BitTest(_memory.RAM[file] & 0b_0010_0000, 1);
                 break;
             case 6:
-                summand = OperationHelpers.bitTest(_memory.RAM[file] & 0b_0100_0000, 1);
+                summand = OperationHelpers.BitTest(_memory.RAM[file] & 0b_0100_0000, 1);
                 break;
             default: // bit = 7
-                summand = OperationHelpers.bitTest(_memory.RAM[file] & 0b_1000_0000, 1);
+                summand = OperationHelpers.BitTest(_memory.RAM[file] & 0b_1000_0000, 1);
                 break;
         }
         //PC hochzählen
@@ -526,8 +526,8 @@ public class OperationService
         }
 
 
-        OperationHelpers.check_DC_C(literal, _memory.W_Reg, "+");
-        OperationHelpers.checkZ(result);
+        OperationHelpers.Check_DC_C(literal, _memory.W_Reg, "+");
+        OperationHelpers.CheckZ(result);
 
         _memory.W_Reg = (short)result;
 
@@ -545,7 +545,7 @@ public class OperationService
 
         result = _memory.W_Reg & literal;
 
-        OperationHelpers.checkZ(result);
+        OperationHelpers.CheckZ(result);
         _memory.W_Reg = (short)result;
 
 
@@ -601,7 +601,7 @@ public class OperationService
 
         result = (int) _memory.W_Reg | literal;
 
-        OperationHelpers.checkZ (result);
+        OperationHelpers.CheckZ (result);
         _memory.W_Reg = (short)result;
 
         //PC hochzählen
@@ -697,8 +697,8 @@ public class OperationService
     public void SUBLW(int literal) // subtract w from literal -> fertig
     {
         int result = literal - _memory.W_Reg;
-        OperationHelpers.check_DC_C(literal, _memory.W_Reg, "-");
-        OperationHelpers.checkZ(result);
+        OperationHelpers.Check_DC_C(literal, _memory.W_Reg, "-");
+        OperationHelpers.CheckZ(result);
 
         if (result < 0)
         {
@@ -720,7 +720,7 @@ public class OperationService
 
         result = _memory.W_Reg ^ literal;
 
-        OperationHelpers.checkZ(result);
+        OperationHelpers.CheckZ(result);
         _memory.W_Reg = (short)result;
         
         //PC hochzählen

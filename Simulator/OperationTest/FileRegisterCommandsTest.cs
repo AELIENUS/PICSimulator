@@ -1,12 +1,14 @@
 ﻿using Application.Model;
 using Application.Services;
-using NUnit.Framework;
+
 using System;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CommandTest
+namespace OperationTest
 {
-    class FileRegisterCommandsTest
+    [TestClass]
+    public class FileRegisterCommandsTest
     {
         int file = 0x_0f;
         int d0 = 0;
@@ -17,7 +19,7 @@ namespace CommandTest
         SourceFileModel src;
         FileService fil;
 
-        [SetUp]
+        [TestInitialize]
         public void Setup()
         {
             mem = new Memory();
@@ -28,7 +30,7 @@ namespace CommandTest
             com = new ApplicationService(mem, src);
         }
 
-        [Test]
+        [TestMethod]
         public void ADDWF_d0()
         {
             mem.RAM[file] = 10;
@@ -40,7 +42,7 @@ namespace CommandTest
         }
 
 
-        [Test]
+        [TestMethod]
         public void ADDWF_d1_Overflow()
         {
             mem.RAM[file] = 10;
@@ -51,7 +53,7 @@ namespace CommandTest
             Assert.AreEqual(4, mem.RAM[file]);
         }
 
-        [Test]
+        [TestMethod]
         public void ANDWF_d0()
         {
             mem.RAM[file] = 10;
@@ -63,7 +65,7 @@ namespace CommandTest
         }
 
 
-        [Test]
+        [TestMethod]
         public void ANDWF_d1()
         {
             mem.RAM[file] = 10;
@@ -74,7 +76,7 @@ namespace CommandTest
             Assert.AreEqual(2, mem.RAM[file]);
         }
 
-        [Test]
+        [TestMethod]
         public void CLRF()
         {
             mem.RAM[file] = 10;
@@ -84,7 +86,7 @@ namespace CommandTest
             Assert.AreEqual(0, mem.RAM[file]);
         }
 
-        [Test]
+        [TestMethod]
         public void CLRW()
         {
             mem.W_Reg = 17;
@@ -94,7 +96,7 @@ namespace CommandTest
             Assert.AreEqual(0, mem.W_Reg);
         }
 
-        [Test]
+        [TestMethod]
         public void COMF()
         {
             mem.RAM[file] = 0x_13;
@@ -104,7 +106,7 @@ namespace CommandTest
             Assert.AreEqual(0x_EC, mem.RAM[file]);
         }
 
-        [Test]
+        [TestMethod]
         public void DECF()
         {
             mem.RAM[file] = 13;
@@ -114,7 +116,7 @@ namespace CommandTest
             Assert.AreEqual(12, mem.RAM[file]);
         }
 
-        [Test]
+        [TestMethod]
         public void DECFSZ_wert()
         {
             mem.RAM[file] = 13;
@@ -124,7 +126,7 @@ namespace CommandTest
             Assert.AreEqual(12, mem.RAM[file]);
         }
 
-        [Test]
+        [TestMethod]
         public void DECFSZ_noSkip()
         {
             mem.RAM[file] = 13;
@@ -135,7 +137,7 @@ namespace CommandTest
             Assert.AreEqual(8, mem.RAM[Constants.PCL_B1]);
         }
 
-        [Test]
+        [TestMethod]
         public void DECFSZ_Skip()
         {
             mem.RAM[file] = 1;
@@ -146,7 +148,7 @@ namespace CommandTest
             Assert.AreEqual(9, mem.RAM[Constants.PCL_B1]);
         }
 
-        [Test]
+        [TestMethod]
         public void INCF()
         {
             mem.RAM[file] = 13;
@@ -156,7 +158,7 @@ namespace CommandTest
             Assert.AreEqual(14, mem.RAM[file]);
         }
 
-        [Test]
+        [TestMethod]
         public void INCFSZ_wert()
         {
             mem.RAM[file] = 13;
@@ -166,7 +168,7 @@ namespace CommandTest
             Assert.AreEqual(14, mem.RAM[file]);
         }
 
-        [Test]
+        [TestMethod]
         public void INCFSZ_noSkip()
         {
             mem.RAM[file] = 13;
@@ -177,7 +179,7 @@ namespace CommandTest
             Assert.AreEqual(8, mem.RAM[Constants.PCL_B1]);
         }
 
-        [Test]
+        [TestMethod]
         public void INCFSZ_Skip()
         {
             mem.RAM[file] = 255;
@@ -188,7 +190,7 @@ namespace CommandTest
             Assert.AreEqual(9, mem.RAM[Constants.PCL_B1]);
         }
 
-        [Test]
+        [TestMethod]
         public void IORWF()
         {
             mem.RAM[file] = 10;
@@ -199,7 +201,7 @@ namespace CommandTest
             Assert.AreEqual(14, mem.RAM[file]);
         }
 
-        [Test]
+        [TestMethod]
         public void MOVF()
         {
             mem.RAM[file] = 10;
@@ -210,7 +212,7 @@ namespace CommandTest
         }
 
 
-        [Test]
+        [TestMethod]
         public void MOVWF()
         {
             mem.RAM[file] = 6;
@@ -222,7 +224,7 @@ namespace CommandTest
         }
 
 
-        [Test]
+        [TestMethod]
         public void NOP()
         {
             mem.RAM[Constants.PCL_B1] = 10;
@@ -232,7 +234,7 @@ namespace CommandTest
             Assert.AreEqual(11, mem.RAM[Constants.PCL_B1]);
         }
 
-        [Test]
+        [TestMethod]
         public void RLF_carry1()
         {
             mem.RAM[file] = 10;
@@ -243,7 +245,7 @@ namespace CommandTest
             Assert.AreEqual(21, mem.RAM[file]);
         }
 
-        [Test]
+        [TestMethod]
         public void RLF_carry0()
         {
             mem.RAM[file] = 10;
@@ -254,7 +256,7 @@ namespace CommandTest
             Assert.AreEqual(20, mem.RAM[file]);
         }
 
-        [Test]
+        [TestMethod]
         public void RLF_Overflow_Wert()
         {
             mem.RAM[file] = 138;
@@ -266,7 +268,7 @@ namespace CommandTest
         }
 
 
-        [Test]
+        [TestMethod]
         public void RLF_Overflow_Carry()
         {
             mem.RAM[file] = 138;
@@ -277,7 +279,7 @@ namespace CommandTest
             Assert.AreEqual(1, mem.RAM[Constants.STATUS_B1]);
         }
 
-        [Test]
+        [TestMethod]
         public void RRF_carry1()
         {
             mem.RAM[file] = 10;
@@ -288,7 +290,7 @@ namespace CommandTest
             Assert.AreEqual(133, mem.RAM[file]);
         }
 
-        [Test]
+        [TestMethod]
         public void RRF_carry0()
         {
             mem.RAM[file] = 10;
@@ -299,7 +301,7 @@ namespace CommandTest
             Assert.AreEqual(5, mem.RAM[file]);
         }
 
-        [Test]
+        [TestMethod]
         public void RRF_Overflow_Wert()
         {
             mem.RAM[file] = 11;
@@ -311,7 +313,7 @@ namespace CommandTest
         }
 
 
-        [Test]
+        [TestMethod]
         public void RRF_Overflow_Carry()
         {
             mem.RAM[file] = 11;
@@ -322,7 +324,7 @@ namespace CommandTest
             Assert.AreEqual(1, mem.RAM[Constants.STATUS_B1]);
         }
 
-        [Test]
+        [TestMethod]
         public void SUBWF()
         {
             mem.RAM[file] = 3;
@@ -333,7 +335,7 @@ namespace CommandTest
             Assert.AreEqual(1, mem.RAM[file]);
         }
 
-        [Test]
+        [TestMethod]
         public void SUBWF_Overflow()
         {
             mem.RAM[file] = 10;
@@ -344,7 +346,7 @@ namespace CommandTest
             Assert.AreEqual(246, mem.RAM[file]);
         }
 
-        [Test]
+        [TestMethod]
         public void SWAPF()
         {
             mem.RAM[file] = 0x_A5;
@@ -354,7 +356,7 @@ namespace CommandTest
             Assert.AreEqual(0x_5A, mem.RAM[file]);
         }
 
-        [Test]
+        [TestMethod]
         public void XORWF()
         {
             mem.RAM[file] = 0x_AF;

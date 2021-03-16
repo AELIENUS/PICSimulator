@@ -1,14 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using System.ComponentModel;
 using Application.Model;
 using Application.Services;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
-using System.Diagnostics;
-using System.Collections.ObjectModel;
-using System.Windows.Documents;
 using System.Threading;
 using Applicator.Model;
 using System;

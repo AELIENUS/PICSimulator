@@ -6,20 +6,23 @@ using System.Windows.Threading;
 
 namespace Application.Services
 {
+    /// <summary>
+    /// To update the ObservableCollection nested in this class and the controls, we need to get access to the thread that handles
+    /// the view and the controls, which is the main application thread and update the collection from there. This is done by
+    /// accessing the threads dispatcher.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class ObservableStack<T> : ObservableObject
     {
         #region fields 
-        private ObservableCollection<T> _Collection = new ObservableCollection<T>();
+        private ObservableCollection<T> _collection = new ObservableCollection<T>();
 
         public ObservableCollection<T> Collection
         {
-            get
-            {
-                return _Collection;
-            }
+            get => _collection;
             set
             {
-                _Collection = value;
+                _collection = value;
                 RaisePropertyChanged();
             }
         }
@@ -57,7 +60,7 @@ namespace Application.Services
             //Item holen
             var item = Collection[Collection.Count-1];
             //Item löschen
-            System.Windows.Application a = System.Windows.Application.Current;
+            var a = System.Windows.Application.Current;
             a.Dispatcher.Invoke(
                 DispatcherPriority.Background, new Action(() =>
                 {

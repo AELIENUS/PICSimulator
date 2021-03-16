@@ -179,7 +179,7 @@ namespace OperationTest
 
             com.OperationService.OperationHelpers.StoreSwitchedOnD(file, result, d);
 
-            Assert.AreEqual(15, mem.W_Reg);
+            Assert.AreEqual(15, mem.WReg);
         }
 
         [TestMethod]

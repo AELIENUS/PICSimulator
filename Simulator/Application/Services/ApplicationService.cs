@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using System.Windows.Interactivity;
 using Application.Model;
 using Applicator.Model;
 
@@ -36,103 +37,105 @@ namespace Application.Services
                 BeginLoop();
                 _command = _srcModel[_memory.RAM.PC_With_Clear].ProgramCode;
                 Thread.Sleep(200);
-            
-                switch (_command)
-                {
-                    case 0b_0000_0000_0000_1000:
-                        OperationService.RETURN(); //Return from Subroutine
-                        break;
-                    case 0b_0000_0000_0000_1001:
-                        OperationService.RETFIE(); //return from interrupt
-                        break;
-                    case 0b_0000_0000_0110_0011:
-                        OperationService.SLEEP(); //Go to standby mode
-                        break;
-                    case 0b_0000_0000_0110_0100:
-                        OperationService.CLRWDT(); //clear watchdog timer
-                        break;
-                    case 0b_0000_0000_0000_0000: // ab hier nop
-                    case 0b_0000_0000_0010_0000:
-                    case 0b_0000_0000_0100_0000:
-                    case 0b_0000_0000_0110_0000:
-                        OperationService.NOP(); //no operation 
-                        break;
-                    case short n when (n >= 0b_0000_0001_0000_0000 && n <= 0b_0000_0001_0111_1111):
-                        OperationService.CLRW(); //clear w
-                        break;
-                    default:
-                        AnalyzeNibble3();
-                        break;
-                }
+                InvokeCommand(_command);
 
             }
         }
 
-
-
-    private void AnalyzeNibble3()
-    {
-        int nibble3 = (int)_command & 0b_0011_0000_0000_0000; //bitoperation nur auf int ausführbar
-        switch (nibble3)
+        private void InvokeCommand(short command)
         {
-            case 0b_0010_0000_0000_0000:
-                int bit12 = (int)_command & 0b_0000_1000_0000_0000;
-                int address = (int)_command & 0b_0000_0111_1111_1111;
-                if (bit12 == 0b_0000_1000_0000_0000)
-                {
-                    OperationService.GOTO(address);
-                }
-                else
-                {
-                    OperationService.CALL(address);
-                }
-                break;
-            case 0b_0001_0000_0000_0000: //bit oriented operations
-                AnalyzeBits11_12();
-                break;
-            case 0b_0011_0000_0000_0000: //literal operations
-                AnalyzeNibble2Literal();
-                break;
-            case 0b_0000_0000_0000_0000: //byte oriented operations
-                AnalyzeNibble2Byte();
-                break;
-            default:
-                break;
+            switch (_command)
+            {
+                case 0b_0000_0000_0000_1000:
+                    OperationService.RETURN(); //Return from Subroutine
+                    break;
+                case 0b_0000_0000_0000_1001:
+                    OperationService.RETFIE(); //return from interrupt
+                    break;
+                case 0b_0000_0000_0110_0011:
+                    OperationService.SLEEP(); //Go to standby mode
+                    break;
+                case 0b_0000_0000_0110_0100:
+                    OperationService.CLRWDT(); //clear watchdog timer
+                    break;
+                case 0b_0000_0000_0000_0000: // ab hier nop
+                case 0b_0000_0000_0010_0000:
+                case 0b_0000_0000_0100_0000:
+                case 0b_0000_0000_0110_0000:
+                    OperationService.NOP(); //no operation 
+                    break;
+                case short n when (n >= 0b_0000_0001_0000_0000 && n <= 0b_0000_0001_0111_1111):
+                    OperationService.CLRW(); //clear w
+                    break;
+                default:
+                    AnalyzeNibble3();
+                    break;
+            }
         }
-    }
 
-    private void AnalyzeBits11_12() //bit-oriented operations genauer analysieren
-    {
-        int bits11_12 = ((int)_command & 0b_0000_1100_0000_0000) >> 10;
-        int bits = ((int)_command & 0b_0000_0011_1000_0000) >> 7;
-        int file = (int)_command & 0b_0000_0000_0111_1111;
-        if (file == 0x02) //wenn PCL beschrieben wird
-        {
-            _memory.RAM.PCL_was_Manipulated = true;
-        }
-        switch (bits11_12)
-        {
-            case 0:
-                OperationService.BCF(file, bits);
-                break;
-            case 1:
-                OperationService.BSF(file, bits);
-                break;
-            case 2:
-                OperationService.BTFSC(file, bits);
-                break;
-            case 3:
-                OperationService.BTFSS(file, bits);
-                break;
-            default:
-                break;
 
+        private void AnalyzeNibble3()
+        {
+            int nibble3 = (int)_command & 0b_0011_0000_0000_0000; //bitoperation nur auf int ausführbar
+            switch (nibble3)
+            {
+                case 0b_0010_0000_0000_0000:
+                    int bit12 = (int)_command & 0b_0000_1000_0000_0000;
+                    int address = (int)_command & 0b_0000_0111_1111_1111;
+                    if (bit12 == 0b_0000_1000_0000_0000)
+                    {
+                        OperationService.GOTO(address);
+                    }
+                    else
+                    {
+                        OperationService.CALL(address);
+                    }
+                    break;
+                case 0b_0001_0000_0000_0000: //bit oriented operations
+                    AnalyzeBits11_12();
+                    break;
+                case 0b_0011_0000_0000_0000: //literal operations
+                    AnalyzeNibble2Literal();
+                    break;
+                case 0b_0000_0000_0000_0000: //byte oriented operations
+                    AnalyzeNibble2Byte();
+                    break;
+                default:
+                    break;
+            }
         }
-    }
+
+        private void AnalyzeBits11_12() //bit-oriented operations genauer analysieren
+        {
+            int bits11_12 = ((int)_command & 0b_0000_1100_0000_0000) >> 10;
+            int bits = ((int)_command & 0b_0000_0011_1000_0000) >> 7;
+            int file = (int)_command & 0b_0000_0000_0111_1111;
+            if (file == 0x02) //wenn PCL beschrieben wird
+            {
+                _memory.RAM.PCL_was_Manipulated = true;
+            }
+            switch (bits11_12)
+            {
+                case 0:
+                    OperationService.BCF(file, bits);
+                    break;
+                case 1:
+                    OperationService.BSF(file, bits);
+                    break;
+                case 2:
+                    OperationService.BTFSC(file, bits);
+                    break;
+                case 3:
+                    OperationService.BTFSS(file, bits);
+                    break;
+                default:
+                    break;
+
+            }
+        }
     
-    private void AnalyzeNibble2Literal() 
-    {
-
+        private void AnalyzeNibble2Literal() 
+        {
             int nibble2 = (int)_command & 0b_0000_1111_0000_0000;
             int literal = (int)_command & 0b_0000_0000_1111_1111;
             switch (nibble2)
@@ -171,8 +174,7 @@ namespace Application.Services
             }
         }
 
-    private void AnalyzeNibble2Byte() 
-
+        private void AnalyzeNibble2Byte()
         {
             int nibble2 = (int)_command & 0b_0000_1111_0000_0000;
             int file = (int)_command & 0b_0000_0000_0111_1111;

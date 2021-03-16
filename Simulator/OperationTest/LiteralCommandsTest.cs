@@ -2,6 +2,7 @@
 using Application.Services;
 using System;
 using System.Threading.Tasks;
+using Moq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace OperationTest
@@ -17,9 +18,15 @@ namespace OperationTest
         [TestInitialize]
         public void Setup()
         {
-            mem = new Memory();
-            src = new SourceFileModel();
-            src.SourceFile = "";
+            //we have to mock the Observable
+
+            //the memory object is so basic that there is simply no point of mocking it, since it is much harder
+            //to mock it than using the actual thing. That is, because you would have to set e.g. the PCStack
+            //Property to return an object of type ObservableStack, which is just a stack, and this
+            //is not possible since it is no non-overridable property/member.
+            mem = new Memory(){ PCStack = new ObservableStack<short>()};
+            //mock stack
+            src = new SourceFileModel {SourceFile = ""};
             fil = new FileService();
             fil.CreateFileList(src);
             com = new ApplicationService(mem, src);
@@ -28,41 +35,44 @@ namespace OperationTest
         [TestMethod]
         public void ADDLW()
         {
+            //arrange
             int literal = 10;
-            mem.W_Reg = 6;
+            mem.WReg = 6;
 
+            //act
             com.OperationService.ADDLW(literal);
 
-            Assert.AreEqual(16, mem.W_Reg);
+            //assert
+            Assert.AreEqual(16, mem.WReg);
         }
 
         [TestMethod]
         public void ADDLW_Overflow()
         {
             int literal = 250;
-            mem.W_Reg = 10;
+            mem.WReg = 10;
 
             com.OperationService.ADDLW(literal);
 
-            Assert.AreEqual(4, mem.W_Reg);
+            Assert.AreEqual(4, mem.WReg);
         }
 
         [TestMethod]
-        public void AndLW()
+        public void ANDLW()
         {
             int literal = 10;
-            mem.W_Reg = 6;
+            mem.WReg = 6;
 
             com.OperationService.ANDLW(literal);
 
-            Assert.AreEqual(2, mem.W_Reg);
+            Assert.AreEqual(2, mem.WReg);
         }
 
         [TestMethod]
         public void Call_Adress()
         {
             int address = 0x_0f;
- 
+
             com.OperationService.CALL(address);
 
             Assert.AreEqual(0x_0f, mem.RAM[Constants.PCL_B1]);
@@ -72,8 +82,8 @@ namespace OperationTest
         public void Call_Stack()
         {
             int address = 0x_0f;
-            int return_address = mem.RAM[Constants.PCL_B1] +1;
-       
+            int return_address = mem.RAM[Constants.PCL_B1] + 1;
+
             com.OperationService.CALL(address);
 
             Assert.AreEqual(return_address, mem.PCStack.Pop());
@@ -93,22 +103,22 @@ namespace OperationTest
         public void IORLW()
         {
             int literal = 10;
-            mem.W_Reg = 6;
+            mem.WReg = 6;
 
             com.OperationService.IORLW(literal);
 
-            Assert.AreEqual(14, mem.W_Reg);
+            Assert.AreEqual(14, mem.WReg);
         }
 
         [TestMethod]
         public void MovLW()
         {
             int literal = 10;
-            mem.W_Reg = 6;
+            mem.WReg = 6;
 
             com.OperationService.MOVLW(literal);
 
-            Assert.AreEqual(10, mem.W_Reg);
+            Assert.AreEqual(10, mem.WReg);
         }
 
         [TestMethod]
@@ -140,7 +150,7 @@ namespace OperationTest
 
             com.OperationService.RETLW(literal);
 
-            Assert.AreEqual(10, mem.W_Reg);
+            Assert.AreEqual(10, mem.WReg);
         }
 
         [TestMethod]
@@ -186,33 +196,33 @@ namespace OperationTest
         public void SUBLW()
         {
             int literal = 10;
-            mem.W_Reg = 6;
+            mem.WReg = 6;
 
             com.OperationService.SUBLW(literal);
 
-            Assert.AreEqual(4, mem.W_Reg);
+            Assert.AreEqual(4, mem.WReg);
         }
 
         [TestMethod]
         public void SUBLW_Overflow()
         {
             int literal = 10;
-            mem.W_Reg = 20;
+            mem.WReg = 20;
 
             com.OperationService.SUBLW(literal);
 
-            Assert.AreEqual(246, mem.W_Reg);
+            Assert.AreEqual(246, mem.WReg);
         }
 
         [TestMethod]
         public void XORLW()
         {
             int literal = 10;
-            mem.W_Reg = 6;
+            mem.WReg = 6;
 
             com.OperationService.XORLW(literal);
 
-            Assert.AreEqual(12, mem.W_Reg);
+            Assert.AreEqual(12, mem.WReg);
         }
     }
 }

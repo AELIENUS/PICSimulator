@@ -13,31 +13,20 @@ namespace Application.Model
     {
         #region properties
 
-        private bool _IsISR = false;
-
+        private bool _isIsr = false;
         public bool IsISR
         {
-            get
-            {
-                return _IsISR;
-            }
-            set
-            {
-                _IsISR = value;
-            }
+            get => _isIsr;
+            set => _isIsr = value;
         }
 
-        private double _CycleCounter;
-
+        private double _cycleCounter;
         public double CycleCounter
         {
-            get
-            {
-                return _CycleCounter;
-            }
+            get => _cycleCounter;
             set
             {
-                _CycleCounter++;
+                _cycleCounter++;
                 // Timer0 hochzählen, wenn Pin 4 von Port A nicht als ClockSource ausgewählt wurde
                 // wenn T0CS gesetzt ist, dann dann wird PIN4 von Port A als ClockSource genommen.
                 //ist T0CS = 0?
@@ -45,93 +34,72 @@ namespace Application.Model
                 {
                     RAM.IncTimer0();
                 }
-                //Laufzeit neu berechnen
-                Laufzeit ++;
+                //Runtime neu berechnen
+                Runtime ++;
                 RaisePropertyChanged();
             }
         }
 
-        private double _Laufzeit;
-        public double Laufzeit //in µs
+        private double _runtime;
+        public double Runtime //in µs
         {
             get
             {
-                _Laufzeit = (CycleCounter*4) / (Quartzfrequenz/1000000) ; //ein Cycle besteht aus 4 Quarztakten
-                return _Laufzeit;
+                _runtime = (CycleCounter*4) / (Quartz/1000000) ; //ein Cycle besteht aus 4 Quarztakten
+                return _runtime;
             }
             set
             {
-                _Laufzeit = (CycleCounter*4) / (Quartzfrequenz/1000000) ;
+                _runtime = (CycleCounter*4) / (Quartz/1000000) ;
                 RaisePropertyChanged();
             }
         }
 
-        private double _Quartzfrequenz = 16000000;
-        public double Quartzfrequenz 
+        private double _quartz = 16000000;
+        public double Quartz 
         { 
-            get
-            {
-                return _Quartzfrequenz;
-            }
+            get => _quartz;
             set
             {
-                _Quartzfrequenz = value;
+                _quartz = value;
                 RaisePropertyChanged();
             }
         }
 
-       
-
-
-        private ObservableStack<short> _PCStack;
-
+        private ObservableStack<short> _pcStack;
         public ObservableStack<short> PCStack 
         { 
             get
             {
-                if(_PCStack == null)
-                {
-                    _PCStack = new ObservableStack<short>(new Stack<short>(Constants.PC_STACK_CAPACITY));
-                }
-                return _PCStack;
+                return _pcStack ??
+                       (_pcStack = new ObservableStack<short>(new Stack<short>(Constants.PC_STACK_CAPACITY)));
             }
             set
             {
-                _PCStack = value;
+                _pcStack = value;
                 RaisePropertyChanged();
             }
         }
 
-        private short _W_Reg;
-
-        public short W_Reg
+        private short _wReg;
+        public short WReg
         {
-            get
-            {
-                return _W_Reg;
-            }
+            get => _wReg;
             set
             {
-                if (value == _W_Reg)
+                if (value == _wReg)
                 {
                     return;
                 }
-                _W_Reg = value;
+                _wReg = value;
                 RaisePropertyChanged();
             }
         }
 
-        
-
-
         private RAMModel _ram;
-        
         public RAMModel RAM
         {
-            get
-            {
-                return _ram;
-            }
+            get => _ram;
             set
             {
                 _ram = value;
@@ -140,7 +108,6 @@ namespace Application.Model
         }
 
         private byte[] _dataEEPROM;
-
         public byte[] DataEEPROM
         {
             get
@@ -157,7 +124,6 @@ namespace Application.Model
                 RaisePropertyChanged();
             }
         }
-
         #endregion
 
         public Memory()
@@ -193,7 +159,7 @@ namespace Application.Model
             RAM[Constants.EECON2] = 0x00;
             RAM[Constants.PCLATH_B2] = 0x00;
             RAM[Constants.INTCON_B2] = 0x00;
-            W_Reg = 0x0000;
+            WReg = 0x0000;
 
             PCStack = new ObservableStack<short>(new Stack<short>(Constants.PC_STACK_CAPACITY));
 
@@ -208,8 +174,8 @@ namespace Application.Model
 
             Reset_GPR();
             RAM.PrescaleCounter = 1;
-            _CycleCounter = 0;
-            _IsISR = false;
+            _cycleCounter = 0;
+            _isIsr = false;
         }
 
        public void OtherReset()
@@ -218,7 +184,6 @@ namespace Application.Model
             RAM[Constants.INDF_B1] = 0x00;
             //TMR0 unchanged
             RAM[Constants.PCL_B1] = 0x00;
-            //hier gibt es konditionale bits mal noch tiefer nachschauen wie das wann gemacht wird
             RAM[Constants.STATUS_B1] &= 0b0001_1111;
             //FSR unchanged
             //PORTA unchanged
@@ -240,7 +205,7 @@ namespace Application.Model
             RAM[Constants.EECON2]= 0x00;
             RAM[Constants.PCLATH_B2] = 0x00;
             RAM[Constants.INTCON_B2] &= 0x001;
-            W_Reg = 0x0000;
+            WReg = 0x0000;
 
             PCStack = new ObservableStack<short>(new Stack<short>(Constants.PC_STACK_CAPACITY));
 
@@ -255,8 +220,8 @@ namespace Application.Model
 
             Reset_GPR();
             RAM.PrescaleCounter = 1;
-            _CycleCounter = 0;
-            _IsISR = false;
+            _cycleCounter = 0;
+            _isIsr = false;
         }
 
         private void Reset_GPR()

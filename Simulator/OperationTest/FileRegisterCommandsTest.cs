@@ -34,11 +34,11 @@ namespace OperationTest
         public void ADDWF_d0()
         {
             mem.RAM[file] = 10;
-            mem.W_Reg = 6;
+            mem.WReg = 6;
 
             com.OperationService.ADDWF(file, d0);
 
-            Assert.AreEqual(16, mem.W_Reg);
+            Assert.AreEqual(16, mem.WReg);
         }
 
 
@@ -46,7 +46,7 @@ namespace OperationTest
         public void ADDWF_d1_Overflow()
         {
             mem.RAM[file] = 10;
-            mem.W_Reg = 250;
+            mem.WReg = 250;
 
             com.OperationService.ADDWF(file, d1);
 
@@ -57,11 +57,11 @@ namespace OperationTest
         public void ANDWF_d0()
         {
             mem.RAM[file] = 10;
-            mem.W_Reg = 6;
+            mem.WReg = 6;
 
             com.OperationService.ANDWF(file, d0);
 
-            Assert.AreEqual(2, mem.W_Reg);
+            Assert.AreEqual(2, mem.WReg);
         }
 
 
@@ -69,7 +69,7 @@ namespace OperationTest
         public void ANDWF_d1()
         {
             mem.RAM[file] = 10;
-            mem.W_Reg = 6;
+            mem.WReg = 6;
 
             com.OperationService.ANDWF(file, d1);
 
@@ -89,11 +89,11 @@ namespace OperationTest
         [TestMethod]
         public void CLRW()
         {
-            mem.W_Reg = 17;
+            mem.WReg = 17;
 
             com.OperationService.CLRW();
 
-            Assert.AreEqual(0, mem.W_Reg);
+            Assert.AreEqual(0, mem.WReg);
         }
 
         [TestMethod]
@@ -194,7 +194,7 @@ namespace OperationTest
         public void IORWF()
         {
             mem.RAM[file] = 10;
-            mem.W_Reg = 6;
+            mem.WReg = 6;
 
             com.OperationService.IORWF(file, d1);
 
@@ -208,7 +208,7 @@ namespace OperationTest
 
             com.OperationService.MOVF(file, d0);
 
-            Assert.AreEqual(10, mem.W_Reg);
+            Assert.AreEqual(10, mem.WReg);
         }
 
 
@@ -216,7 +216,7 @@ namespace OperationTest
         public void MOVWF()
         {
             mem.RAM[file] = 6;
-            mem.W_Reg = 10;
+            mem.WReg = 10;
 
             com.OperationService.MOVWF(file);
 
@@ -328,7 +328,7 @@ namespace OperationTest
         public void SUBWF()
         {
             mem.RAM[file] = 3;
-            mem.W_Reg = 2;
+            mem.WReg = 2;
 
             com.OperationService.SUBWF(file, d1);
 
@@ -339,7 +339,7 @@ namespace OperationTest
         public void SUBWF_Overflow()
         {
             mem.RAM[file] = 10;
-            mem.W_Reg = 20;
+            mem.WReg = 20;
 
             com.OperationService.SUBWF(file, d1);
 
@@ -360,7 +360,7 @@ namespace OperationTest
         public void XORWF()
         {
             mem.RAM[file] = 0x_AF;
-            mem.W_Reg = 0x_b5;
+            mem.WReg = 0x_b5;
 
             com.OperationService.XORWF(file, d1);
 

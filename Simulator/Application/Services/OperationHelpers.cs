@@ -107,7 +107,7 @@ public class OperationHelpers
         if (d == 0)
         {
             //result stored in w
-            _memory.W_Reg = Convert.ToByte(result);
+            _memory.WReg = Convert.ToByte(result);
         }
         else
         {

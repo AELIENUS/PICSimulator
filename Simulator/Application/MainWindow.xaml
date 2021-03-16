@@ -57,9 +57,9 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Quartzfrequency (Hz):" Grid.Row="0" Grid.Column="0"/>
-                    <ComboBox ItemsSource="{Binding Source={x:Static Services:Constants.QuartzFrequencyList}}" Grid.Column="1" SelectedItem="{Binding Path=Memory.Quartzfrequenz}">
+                    <ComboBox ItemsSource="{Binding Source={x:Static Services:Constants.QuartzFrequencyList}}" Grid.Column="1" SelectedItem="{Binding Path=Memory.Quartz}">
                     </ComboBox>
-                    <TextBlock Text="{Binding Path=Memory.Laufzeit, StringFormat='Running time: {0:F2}µs'}" Grid.Row="1" Grid.Column="0"/>
+                    <TextBlock Text="{Binding Path=Memory.Runtime, StringFormat='Running time: {0:F2}µs'}" Grid.Row="1" Grid.Column="0"/>
                     
                 </Grid>
 
@@ -179,7 +179,7 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Label Content="W_Reg" Grid.Row="0" Grid.Column="0"></Label>
-                    <Label Grid.Row="1" Grid.Column="0" Content="{Binding Memory.W_Reg, Converter={StaticResource shortConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
+                    <Label Grid.Row="1" Grid.Column="0" Content="{Binding Memory.WReg, Converter={StaticResource shortConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
                     <Label Content="Z-Flag" Grid.Row="0" Grid.Column="1"/>
                     <Label Grid.Row="1" Grid.Column="1" Content="{Binding Memory.RAM.Z_Flag}"/>
                     <Label Content="DC-Flag" Grid.Row="0" Grid.Column="2"/>

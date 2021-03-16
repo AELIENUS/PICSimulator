@@ -9,16 +9,7 @@ using System;
 namespace Application.ViewModel
 {
     /// <summary>
-    /// This class contains properties that the main View can data bind to.
-    /// <para>
-    /// Use the <strong>mvvminpc</strong> snippet to add bindable properties to this ViewModel.
-    /// </para>
-    /// <para>
-    /// You can also use Blend to data bind with the tool's support.
-    /// </para>
-    /// <para>
-    /// See http://www.galasoft.ch/mvvm
-    /// </para>
+    /// MainViewModel Class that contains commands and properties for the MainViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
@@ -193,34 +184,20 @@ namespace Application.ViewModel
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public MainViewModel(
-            SourceFileModel sourceFileModel,
-            Memory memory,
-            IFileService fileService,
-            IDialogService dialogService,
-            ApplicationService applicationService
-            )
+        public MainViewModel()
         {
-            _memory = memory;
-            _srcFileModel = sourceFileModel;
-            _fileService = fileService;
-            _dialogService = dialogService;
-            _applicationService = applicationService;
-            _applicationService.Memory = memory;
-            _applicationService.SrcModel = sourceFileModel;
+            _memory = new Memory();
+            _srcFileModel = new SourceFileModel();
+            _fileService = new FileService();
+            _dialogService = new DialogService();
+            _applicationService = new ApplicationService(_memory, _srcFileModel);
 
             DebugCodes.Pause = false;
             DebugCodes.Reset = false;
 
-            ThreadStart Start = new ThreadStart(_applicationService.Run);
-            _threadRun = new Thread(Start);
+            ThreadStart start = new ThreadStart(_applicationService.Run);
+            _threadRun = new Thread(start);
            
-        }
-
-        public MainViewModel() : 
-            this(new SourceFileModel(), new Memory(), new FileService(), new DialogService(), new ApplicationService())
-        {
-
         }
     }
 }

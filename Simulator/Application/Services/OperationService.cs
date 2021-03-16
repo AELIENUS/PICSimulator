@@ -5,14 +5,14 @@ using Application.Model;
 
 public class OperationService
 {
-    private ApplicationService _commandService;
+    private ApplicationService _applicationService;
     private readonly OperationHelpers _operationHelpers;
     private Memory _memory;
     private SourceFileModel _srcModel;
 
     public OperationService(ApplicationService applicationService, Memory memory, SourceFileModel srcModel)
     {
-        _commandService = applicationService;
+        _applicationService = applicationService;
         _memory = memory;
         _srcModel = srcModel;
         _operationHelpers = new OperationHelpers(_memory, _srcModel);
@@ -25,21 +25,21 @@ public class OperationService
 
     public ApplicationService ApplicationService
     {
-        set { _commandService = value; }
-        get { return _commandService; }
+        set { _applicationService = value; }
+        get { return _applicationService; }
     }
 
     #region byte-oriented file register operations
     public void ADDWF(int file, int d) //add w and f 
     {
-        int result = _memory.RAM[file] + _memory.W_Reg;
+        int result = _memory.RAM[file] + _memory.WReg;
 
         if (result > 255)
         {
             result = result - 256;
         }
 
-        OperationHelpers.Check_DC_C(_memory.RAM[file], _memory.W_Reg, "+");
+        OperationHelpers.Check_DC_C(_memory.RAM[file], _memory.WReg, "+");
         OperationHelpers.CheckZ(result);
 
         OperationHelpers.StoreSwitchedOnD(file, result, d);
@@ -53,7 +53,7 @@ public class OperationService
 
     public void ANDWF (int file, int d) //and w and f
     {
-        int result = _memory.W_Reg & _memory.RAM[file];
+        int result = _memory.WReg & _memory.RAM[file];
 
         OperationHelpers.CheckZ(result);
         OperationHelpers.StoreSwitchedOnD(file, result, d);
@@ -81,7 +81,7 @@ public class OperationService
 
     public void CLRW() // clear w
     {
-        _memory.W_Reg = 0;
+        _memory.WReg = 0;
         // z flag setzen
         OperationHelpers.CheckZ(0);
 
@@ -142,7 +142,7 @@ public class OperationService
 
         if (result == 0) //bei überspringen ein nop ausführen (damit breakpunkte etc funktionieren, muss der erste teil der Run-while schleife ausgeführt werden
         {
-            _commandService.BeginLoop();
+            _applicationService.BeginLoop();
             NOP();
         }
     }
@@ -183,14 +183,14 @@ public class OperationService
 
         if (result == 0) //bei überspringen ein nop ausführen (damit breakpunkte etc funktionieren, muss der erste teil der Run-while schleife ausgeführt werden
         {
-            _commandService.BeginLoop();
+            _applicationService.BeginLoop();
             NOP();
         }
     }
 
     public void IORWF (int file, int d) // inclusive OR w with f
     {
-        int result = (int) _memory.W_Reg | (int) _memory.RAM[file];
+        int result = (int) _memory.WReg | (int) _memory.RAM[file];
 
         OperationHelpers.CheckZ(result);
 
@@ -220,7 +220,7 @@ public class OperationService
 
     public void MOVWF (int file) // move w to f
     {
-        _memory.RAM[file] = Convert.ToByte(_memory.W_Reg);
+        _memory.RAM[file] = Convert.ToByte(_memory.WReg);
 
         //PC hochzählen
         OperationHelpers.ChangePC_Fetch(1);
@@ -298,14 +298,14 @@ public class OperationService
 
     public void SUBWF (int file, int d) // substract w from f
     {
-        int result = _memory.RAM[file] - _memory.W_Reg; // literal in f ändern, auf d prüfen
+        int result = _memory.RAM[file] - _memory.WReg; // literal in f ändern, auf d prüfen
 
         if (result < 0)
         {
             result = result + 256;
         }
 
-        OperationHelpers.Check_DC_C(_memory.RAM[file], _memory.W_Reg, "-");
+        OperationHelpers.Check_DC_C(_memory.RAM[file], _memory.WReg, "-");
         OperationHelpers.CheckZ(result);
 
         OperationHelpers.StoreSwitchedOnD(file, result, d);
@@ -336,7 +336,7 @@ public class OperationService
     public void XORWF (int file, int d) //exclusive OR w with f
     {
 
-        int result = _memory.W_Reg ^ _memory.RAM[file];
+        int result = _memory.WReg ^ _memory.RAM[file];
 
         OperationHelpers.CheckZ(result);
 
@@ -463,7 +463,7 @@ public class OperationService
 
         if (summand == 2) //bei überspringen ein nop ausführen (damit breakpunkte etc funktionieren, muss der erste teil der Run-while schleife ausgeführt werden
         {
-            _commandService.BeginLoop();
+            _applicationService.BeginLoop();
             //weiterer cycle (theoretisch im nop)
             _memory.CycleCounter++;
         }
@@ -507,7 +507,7 @@ public class OperationService
 
         if (summand == 2) //bei überspringen ein nop ausführen (damit breakpunkte etc funktionieren, muss der erste teil der Run-while schleife ausgeführt werden
         {
-            _commandService.BeginLoop();
+            _applicationService.BeginLoop();
             //weiterer cycle (theoretisch im nop)
             _memory.CycleCounter++;
         }
@@ -518,7 +518,7 @@ public class OperationService
     #region literal and control operations
     public void ADDLW (int literal) //add literal and w -> fertig
     {
-        int result = literal + _memory.W_Reg;
+        int result = literal + _memory.WReg;
 
         if (result > 255)
         {
@@ -526,10 +526,10 @@ public class OperationService
         }
 
 
-        OperationHelpers.Check_DC_C(literal, _memory.W_Reg, "+");
+        OperationHelpers.Check_DC_C(literal, _memory.WReg, "+");
         OperationHelpers.CheckZ(result);
 
-        _memory.W_Reg = (short)result;
+        _memory.WReg = (short)result;
 
         //PC hochzählen
         OperationHelpers.ChangePC_Fetch(1);
@@ -543,10 +543,10 @@ public class OperationService
     
         int result;
 
-        result = _memory.W_Reg & literal;
+        result = _memory.WReg & literal;
 
         OperationHelpers.CheckZ(result);
-        _memory.W_Reg = (short)result;
+        _memory.WReg = (short)result;
 
 
         //PC hochzählen
@@ -599,10 +599,10 @@ public class OperationService
     {
         int result;
 
-        result = (int) _memory.W_Reg | literal;
+        result = (int) _memory.WReg | literal;
 
         OperationHelpers.CheckZ (result);
-        _memory.W_Reg = (short)result;
+        _memory.WReg = (short)result;
 
         //PC hochzählen
         OperationHelpers.ChangePC_Fetch(1);
@@ -613,7 +613,7 @@ public class OperationService
 
     public void MOVLW (int literal) //move literal to w -> fertig
     {
-        _memory.W_Reg = Convert.ToByte(literal);
+        _memory.WReg = Convert.ToByte(literal);
         ///PC hochzählen
         OperationHelpers.ChangePC_Fetch(1);
 
@@ -642,7 +642,7 @@ public class OperationService
 
     public void RETLW (int literal) //return with literal in w -> fertig
     {
-        _memory.W_Reg = Convert.ToByte(literal);
+        _memory.WReg = Convert.ToByte(literal);
 
         _srcModel[_memory.RAM.PC_Without_Clear].IsExecuted = false;
 
@@ -696,8 +696,8 @@ public class OperationService
 
     public void SUBLW(int literal) // subtract w from literal -> fertig
     {
-        int result = literal - _memory.W_Reg;
-        OperationHelpers.Check_DC_C(literal, _memory.W_Reg, "-");
+        int result = literal - _memory.WReg;
+        OperationHelpers.Check_DC_C(literal, _memory.WReg, "-");
         OperationHelpers.CheckZ(result);
 
         if (result < 0)
@@ -705,7 +705,7 @@ public class OperationService
             result = result + 256;
         }
 
-        _memory.W_Reg = (short)result;
+        _memory.WReg = (short)result;
 
         //PC hochzählen
         OperationHelpers.ChangePC_Fetch(1);
@@ -718,10 +718,10 @@ public class OperationService
     {
         int result;
 
-        result = _memory.W_Reg ^ literal;
+        result = _memory.WReg ^ literal;
 
         OperationHelpers.CheckZ(result);
-        _memory.W_Reg = (short)result;
+        _memory.WReg = (short)result;
         
         //PC hochzählen
         OperationHelpers.ChangePC_Fetch(1);

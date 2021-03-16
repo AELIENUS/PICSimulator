@@ -29,58 +29,38 @@ namespace Application.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
+        #region fields
         private IDialogService _dialogService;
         private CommandService _commandService;
         private IFileService _fileService;
         private Thread _threadRun;
+        #endregion
+
         #region Properties
-
-        private static CancellationTokenSource tokenSource = new CancellationTokenSource();
-        private CancellationToken cancellationToken = tokenSource.Token;
-
         private Memory _memory;
-
-        public Memory Memory 
+        public Memory Memory
         {
-            get
-            {
-                return _memory;
-            }
+            get => _memory;
             set
             {
-                if (_memory.Equals(value))
-                {
-                    return;
-                }
                 _memory = value;
                 RaisePropertyChanged();
             }
         }
 
         private SourceFileModel _srcFileModel;
-
         public SourceFileModel SrcFileModel
         {
-            get 
-            { 
-                return _srcFileModel; 
-            }
+            get => _srcFileModel;
             set 
             {
-                if (_srcFileModel.Equals(value))
-                {
-                    return;
-                }
                 _srcFileModel = value;
                 RaisePropertyChanged();
             }
         }
-
         #endregion
 
         #region Commands
-
-        //jetzt werden Commands vorbereitet
         private RelayCommand _openCommand;
 
         public RelayCommand OpenCommand
@@ -123,14 +103,14 @@ namespace Application.ViewModel
             }
         }
 
-        private RelayCommand _PauseCommand;
+        private RelayCommand _pauseCommand;
 
         public RelayCommand PauseCommand
         {
             get
             {
-                return _PauseCommand
-                    ?? (_PauseCommand = new RelayCommand(
+                return _pauseCommand
+                    ?? (_pauseCommand = new RelayCommand(
                         () =>
                         {
                             DebugCodes.Pause = true;
@@ -139,14 +119,14 @@ namespace Application.ViewModel
             }
         }
 
-        private RelayCommand _SingleStepCommand;
+        private RelayCommand _singleStepCommand;
 
         public RelayCommand SingleStepCommand
         {
             get
             {
-                return _SingleStepCommand
-                    ?? (_SingleStepCommand = new RelayCommand(
+                return _singleStepCommand
+                    ?? (_singleStepCommand = new RelayCommand(
                         () =>
                         {
                             if (SrcFileModel.ListOfCode != null)
@@ -190,18 +170,18 @@ namespace Application.ViewModel
                                 _runCommand.Execute(null);
                             }
                            
-                         }));
+                        }));
             }
         }
 
-        private RelayCommand _ResetCommand;
+        private RelayCommand _resetCommand;
 
         public RelayCommand ResetCommand
         {
             get
             {
-                return _ResetCommand
-                    ?? (_ResetCommand = new RelayCommand(
+                return _resetCommand
+                    ?? (_resetCommand = new RelayCommand(
                         () =>
                         {
                             if(SrcFileModel.ListOfCode!=null)
@@ -226,7 +206,7 @@ namespace Application.ViewModel
             IFileService fileService,
             IDialogService dialogService,
             CommandService commandService
-            /* hier werden services injected-> Service ist Interface im Helpers ordner*/)
+            )
         {
             _memory = memory;
             _srcFileModel = sourceFileModel;
@@ -235,8 +215,6 @@ namespace Application.ViewModel
             _commandService = commandService;
             _commandService.Memory = memory;
             _commandService.SrcModel = sourceFileModel;
-            //_PortA = new PortA(memory);
-            //_PortB = new PortB(memory);
 
             DebugCodes.Pause = false;
             DebugCodes.Reset = false;

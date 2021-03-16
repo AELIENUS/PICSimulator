@@ -4,7 +4,7 @@ using Applicator.Model;
 
 namespace Application.Services
 {
-    public class CommandService
+    public class ApplicationService
     {
         private Memory _memory;
         private SourceFileModel _srcModel;
@@ -68,67 +68,71 @@ namespace Application.Services
             }
         }
 
-        public void AnalyzeNibble3()
-        {
-            int nibble3 = (int)_command & 0b_0011_0000_0000_0000; //bitoperation nur auf int ausführbar
-            switch (nibble3)
-            {
-                case 0b_0010_0000_0000_0000:
-                    int bit12 = (int)_command & 0b_0000_1000_0000_0000;
-                    int address = (int)_command & 0b_0000_0111_1111_1111;
-                    if (bit12 == 0b_0000_1000_0000_0000)
-                    {
-                        OperationService.GOTO(address);
-                    }
-                    else
-                    {
-                        OperationService.CALL(address);
-                    }
-                    break;
-                case 0b_0001_0000_0000_0000: //bit oriented operations
-                    AnalyzeBits11_12();
-                    break;
-                case 0b_0011_0000_0000_0000: //literal operations
-                    AnalyzeNibble2Literal();
-                    break;
-                case 0b_0000_0000_0000_0000: //byte oriented operations
-                    AnalyzeNibble2Byte();
-                    break;
-                default:
-                    break;
-            }
-        }
 
-        public void AnalyzeBits11_12() //bit-oriented operations genauer analysieren
+
+    private void AnalyzeNibble3()
+    {
+        int nibble3 = (int)_command & 0b_0011_0000_0000_0000; //bitoperation nur auf int ausführbar
+        switch (nibble3)
         {
-            int bits11_12 = ((int)_command & 0b_0000_1100_0000_0000) >> 10;
-            int bits = ((int)_command & 0b_0000_0011_1000_0000) >> 7;
-            int file = (int)_command & 0b_0000_0000_0111_1111;
-            if (file == 0x02) //wenn PCL beschrieben wird
-            {
-                _memory.RAM.PCL_was_Manipulated = true;
-            }
-            switch (bits11_12)
-            {
-                case 0:
-                    OperationService.BCF(file, bits);
-                    break;
-                case 1:
-                    OperationService.BSF(file, bits);
-                    break;
-                case 2:
-                    OperationService.BTFSC(file, bits);
-                    break;
-                case 3:
-                    OperationService.BTFSS(file, bits);
-                    break;
-                default:
-                    break;
-            }
+            case 0b_0010_0000_0000_0000:
+                int bit12 = (int)_command & 0b_0000_1000_0000_0000;
+                int address = (int)_command & 0b_0000_0111_1111_1111;
+                if (bit12 == 0b_0000_1000_0000_0000)
+                {
+                    OperationService.GOTO(address);
+                }
+                else
+                {
+                    OperationService.CALL(address);
+                }
+                break;
+            case 0b_0001_0000_0000_0000: //bit oriented operations
+                AnalyzeBits11_12();
+                break;
+            case 0b_0011_0000_0000_0000: //literal operations
+                AnalyzeNibble2Literal();
+                break;
+            case 0b_0000_0000_0000_0000: //byte oriented operations
+                AnalyzeNibble2Byte();
+                break;
+            default:
+                break;
         }
-    
-        public void AnalyzeNibble2Literal() 
+    }
+
+    private void AnalyzeBits11_12() //bit-oriented operations genauer analysieren
+    {
+        int bits11_12 = ((int)_command & 0b_0000_1100_0000_0000) >> 10;
+        int bits = ((int)_command & 0b_0000_0011_1000_0000) >> 7;
+        int file = (int)_command & 0b_0000_0000_0111_1111;
+        if (file == 0x02) //wenn PCL beschrieben wird
         {
+            _memory.RAM.PCL_was_Manipulated = true;
+        }
+        switch (bits11_12)
+        {
+            case 0:
+                OperationService.BCF(file, bits);
+                break;
+            case 1:
+                OperationService.BSF(file, bits);
+                break;
+            case 2:
+                OperationService.BTFSC(file, bits);
+                break;
+            case 3:
+                OperationService.BTFSS(file, bits);
+                break;
+            default:
+                break;
+
+        }
+    }
+    
+    private void AnalyzeNibble2Literal() 
+    {
+
             int nibble2 = (int)_command & 0b_0000_1111_0000_0000;
             int literal = (int)_command & 0b_0000_0000_1111_1111;
             switch (nibble2)
@@ -167,7 +171,8 @@ namespace Application.Services
             }
         }
 
-        public void AnalyzeNibble2Byte() 
+    private void AnalyzeNibble2Byte() 
+
         {
             int nibble2 = (int)_command & 0b_0000_1111_0000_0000;
             int file = (int)_command & 0b_0000_0000_0111_1111;
@@ -330,17 +335,17 @@ namespace Application.Services
         }
     
 
-        public CommandService(Memory memory, SourceFileModel srcModel)
+        public ApplicationService(Memory memory, SourceFileModel srcModel)
         {
             this._memory = memory;
             this._srcModel = srcModel;
             /// diese sehr schlecht, da das Objekt selbst übergeben wird
-            _operationService = new OperationService(this);
+            _operationService = new OperationService(this, _memory, _srcModel);
         }
 
-        public CommandService()
+        public ApplicationService()
         {
-            _operationService = new OperationService(this);
+            _operationService = new OperationService(this, _memory, _srcModel);
         }
 
     }

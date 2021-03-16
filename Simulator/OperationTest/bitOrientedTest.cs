@@ -1,30 +1,31 @@
 ﻿using Application.Model;
 using Application.Services;
-using NUnit.Framework;
-using System;
-using System.IO;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CommandTest
+namespace OperationTest
 {
-    class bitOrientedTest
+    [TestClass]
+    public class BitOrientedTest
     {
         Memory mem;
         ApplicationService com;
         SourceFileModel src;
         FileService fil;
 
-        [SetUp]
+        [TestInitialize]
         public void Setup()
         {
             mem = new Memory();
-            src = new SourceFileModel();
-            src.SourceFile = "";
+            src = new SourceFileModel
+            {
+                SourceFile = ""
+            };
             fil = new FileService();
             fil.CreateFileList(src);
             com = new ApplicationService(mem, src);
         }
 
-        [Test]
+        [TestMethod]
         public void BCF()
         {
             int file = 0x_0f;
@@ -36,7 +37,7 @@ namespace CommandTest
             Assert.AreEqual(2, mem.RAM[file]);
         }
 
-        [Test]
+        [TestMethod]
         public void BSF()
         {
             int file = 0x_0f;
@@ -48,7 +49,7 @@ namespace CommandTest
             Assert.AreEqual(3, mem.RAM[file]);
         }
 
-        [Test]
+        [TestMethod]
         public void BTFSC_NoSkip()
         {
             mem.RAM[Constants.PCL_B1] = 1;
@@ -61,7 +62,7 @@ namespace CommandTest
             Assert.AreEqual(2, mem.RAM[Constants.PCL_B1]);
         }
 
-        [Test]
+        [TestMethod]
         public void BTFSC_Skip()
         {
             mem.RAM[Constants.PCL_B1] = 1;
@@ -74,7 +75,7 @@ namespace CommandTest
             Assert.AreEqual(3, mem.RAM[Constants.PCL_B1]);
         }
 
-        [Test]
+        [TestMethod]
         public void BTFSS_NoSkip()
         {
             mem.RAM[Constants.PCL_B1] = 1;
@@ -87,7 +88,7 @@ namespace CommandTest
             Assert.AreEqual(3, mem.RAM[Constants.PCL_B1]);
         }
 
-        [Test]
+        [TestMethod]
         public void BTFSS_Skip()
         {
             mem.RAM[Constants.PCL_B1] = 1;

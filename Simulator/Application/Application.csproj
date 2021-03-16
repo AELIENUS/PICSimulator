@@ -83,7 +83,7 @@
     <Compile Include="Model\SourceFileModel.cs" />
     <Compile Include="Services\ByteBitToBoolConverter.cs" />
     <Compile Include="Services\ByteConverter.cs" />
-    <Compile Include="Services\CommandService.cs" />
+    <Compile Include="Services\ApplicationService.cs" />
     <Compile Include="Services\Constants.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\FileService.cs" />

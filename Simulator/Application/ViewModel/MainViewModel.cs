@@ -1,4 +1,4 @@
-using GalaSoft.MvvmLight;
+ï»¿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.ComponentModel;
 using Application.Model;
@@ -31,7 +31,7 @@ namespace Application.ViewModel
     {
         #region fields
         private IDialogService _dialogService;
-        private CommandService _commandService;
+        private ApplicationService _applicationService;
         private IFileService _fileService;
         private Thread _threadRun;
         #endregion
@@ -74,7 +74,7 @@ namespace Application.ViewModel
                             DebugCodes.Pause = true;
                             Memory.PowerReset();
                             SrcFileModel.SourceFile = _dialogService.Open();
-                            //TODO: was passiert wenn ein SrcFileModel überschrieben wird?
+                            //TODO: was passiert wenn ein SrcFileModel ï¿½berschrieben wird?
                             _fileService.CreateFileList(SrcFileModel);
                         }));
             }
@@ -131,8 +131,8 @@ namespace Application.ViewModel
                         {
                             if (SrcFileModel.ListOfCode != null)
                             {
-                                // hier wird PC_without_Clear genommen, der die gestetzten Flags nicht löscht 
-                                if ((SrcFileModel[Memory.RAM.PC_Without_Clear].ProgramCode & 0b_0011_0000_0000_0000) == 8192) //auf call & goto prüfen
+                                // hier wird PC_without_Clear genommen, der die gestetzten Flags nicht lï¿½scht 
+                                if ((SrcFileModel[Memory.RAM.PC_Without_Clear].ProgramCode & 0b_0011_0000_0000_0000) == 8192) //auf call & goto prï¿½fen
                                 {
                                     //sprungadresse debug = true
                                     int adress = SrcFileModel[Memory.RAM.PC_Without_Clear].ProgramCode & 0b0000_0111_1111_1111;
@@ -144,18 +144,18 @@ namespace Application.ViewModel
                                 {
                                     SrcFileModel[Memory.PCStack.Peek()].IsDebug = true;
                                 }
-                                //skip-befehle prüfen
+                                //skip-befehle prï¿½fen
                                 else if ((SrcFileModel[Memory.RAM.PC_Without_Clear].ProgramCode & 0b_0011_1111_0000_0000) == 0b_0000_1011_0000_0000 //decfsz
                                     || (SrcFileModel[Memory.RAM.PC_Without_Clear].ProgramCode & 0b_0011_1111_0000_0000) == 0b_0000_1111_0000_0000 //incfsz
                                     || (SrcFileModel[Memory.RAM.PC_Without_Clear].ProgramCode & 0b_0011_1100_0000_0000) == 0b_0001_1000_0000_0000 //btfsc
                                     || (SrcFileModel[Memory.RAM.PC_Without_Clear].ProgramCode & 0b_0011_1100_0000_0000) == 0b_0001_1000_0000_0000 //btfss
                                     ) 
                                 {
-                                    //nicht ganz korrekt, aber der einfachheit halber nächste und übernächste adresse debuggen
+                                    //nicht ganz korrekt, aber der einfachheit halber nï¿½chste und ï¿½bernï¿½chste adresse debuggen
                                     SrcFileModel[Memory.RAM.PC_Without_Clear + 1].IsDebug = true;
                                     SrcFileModel[Memory.RAM.PC_Without_Clear + 2].IsDebug = true;
                                 }
-                                //auf manipulation des PCL prüfen (Ziel-File-Adresse der Operation == PCL && d-bit == 1)
+                                //auf manipulation des PCL prï¿½fen (Ziel-File-Adresse der Operation == PCL && d-bit == 1)
                                 else if ((SrcFileModel[Memory.RAM.PC_Without_Clear].ProgramCode & 0b0000_0000_1000_0000) > 0
                                     && ( ((SrcFileModel[Memory.RAM.PC_Without_Clear].ProgramCode & 0b0000_0000_0111_1111) == 0x_02) 
                                         || ((SrcFileModel[Memory.RAM.PC_Without_Clear].ProgramCode & 0b0000_0000_0111_1111) == 0x_82))) //wenn die Ziel-File-Adresse der Operation der PCL ist
@@ -205,27 +205,27 @@ namespace Application.ViewModel
             Memory memory,
             IFileService fileService,
             IDialogService dialogService,
-            CommandService commandService
+            ApplicationService applicationService
             )
         {
             _memory = memory;
             _srcFileModel = sourceFileModel;
             _fileService = fileService;
             _dialogService = dialogService;
-            _commandService = commandService;
-            _commandService.Memory = memory;
-            _commandService.SrcModel = sourceFileModel;
+            _applicationService = applicationService;
+            _applicationService.Memory = memory;
+            _applicationService.SrcModel = sourceFileModel;
 
             DebugCodes.Pause = false;
             DebugCodes.Reset = false;
 
-            ThreadStart Start = new ThreadStart(_commandService.Run);
+            ThreadStart Start = new ThreadStart(_applicationService.Run);
             _threadRun = new Thread(Start);
            
         }
 
         public MainViewModel() : 
-            this(new SourceFileModel(), new Memory(), new FileService(), new DialogService(), new CommandService())
+            this(new SourceFileModel(), new Memory(), new FileService(), new DialogService(), new ApplicationService())
         {
 
         }

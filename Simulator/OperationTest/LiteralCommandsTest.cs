@@ -1,19 +1,20 @@
 ﻿using Application.Model;
 using Application.Services;
-using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CommandTest
+namespace OperationTest
 {
-    class LiteralCommandsTest
+    [TestClass]
+    public class LiteralCommandsTest
     {
         Memory mem;
         ApplicationService com;
         SourceFileModel src;
         FileService fil;
 
-        [SetUp]
+        [TestInitialize]
         public void Setup()
         {
             mem = new Memory();
@@ -24,7 +25,7 @@ namespace CommandTest
             com = new ApplicationService(mem, src);
         }
 
-        [Test]
+        [TestMethod]
         public void ADDLW()
         {
             int literal = 10;
@@ -35,7 +36,7 @@ namespace CommandTest
             Assert.AreEqual(16, mem.W_Reg);
         }
 
-        [Test]
+        [TestMethod]
         public void ADDLW_Overflow()
         {
             int literal = 250;
@@ -46,7 +47,7 @@ namespace CommandTest
             Assert.AreEqual(4, mem.W_Reg);
         }
 
-        [Test]
+        [TestMethod]
         public void AndLW()
         {
             int literal = 10;
@@ -57,7 +58,7 @@ namespace CommandTest
             Assert.AreEqual(2, mem.W_Reg);
         }
 
-        [Test]
+        [TestMethod]
         public void Call_Adress()
         {
             int address = 0x_0f;
@@ -67,7 +68,7 @@ namespace CommandTest
             Assert.AreEqual(0x_0f, mem.RAM[Constants.PCL_B1]);
         }
 
-        [Test]
+        [TestMethod]
         public void Call_Stack()
         {
             int address = 0x_0f;
@@ -78,7 +79,7 @@ namespace CommandTest
             Assert.AreEqual(return_address, mem.PCStack.Pop());
         }
 
-        [Test]
+        [TestMethod]
         public void Goto()
         {
             int address = 0x_0f;
@@ -88,7 +89,7 @@ namespace CommandTest
             Assert.AreEqual(0x_0f, mem.RAM[Constants.PCL_B1]);
         }
 
-        [Test]
+        [TestMethod]
         public void IORLW()
         {
             int literal = 10;
@@ -99,7 +100,7 @@ namespace CommandTest
             Assert.AreEqual(14, mem.W_Reg);
         }
 
-        [Test]
+        [TestMethod]
         public void MovLW()
         {
             int literal = 10;
@@ -110,7 +111,7 @@ namespace CommandTest
             Assert.AreEqual(10, mem.W_Reg);
         }
 
-        [Test]
+        [TestMethod]
         public void RETFIE_Address()
         {
             mem.PCStack.Push(0x_0f);
@@ -120,7 +121,7 @@ namespace CommandTest
             Assert.AreEqual(0x_0f, mem.RAM[Constants.PCL_B1]);
         }
 
-        [Test]
+        [TestMethod]
         public void RETFIE_GIE()
         {
             mem.PCStack.Push(0x_0f);
@@ -131,7 +132,7 @@ namespace CommandTest
             Assert.AreEqual(128, GIE);
         }
 
-        [Test]
+        [TestMethod]
         public void RETLW_Wreg()
         {
             mem.PCStack.Push(0x_0f);
@@ -142,7 +143,7 @@ namespace CommandTest
             Assert.AreEqual(10, mem.W_Reg);
         }
 
-        [Test]
+        [TestMethod]
         public void RETLW_Address()
         {
             mem.PCStack.Push(0x_0f);
@@ -153,7 +154,7 @@ namespace CommandTest
             Assert.AreEqual(0x_0f, mem.RAM[Constants.PCL_B1]);
         }
 
-        [Test]
+        [TestMethod]
         public void RETURN()
         {
             mem.PCStack.Push(0x_0f);
@@ -163,7 +164,7 @@ namespace CommandTest
             Assert.AreEqual(0x_0f, mem.RAM[Constants.PCL_B1]);
         }
 
-        [Test]
+        [TestMethod]
         public void Sleep_PD()
         {
             com.OperationService.SLEEP();
@@ -172,7 +173,7 @@ namespace CommandTest
             Assert.AreEqual(0, pd);
         }
 
-        [Test]
+        [TestMethod]
         public void Sleep_TO()
         {
             com.OperationService.SLEEP();
@@ -181,7 +182,7 @@ namespace CommandTest
             Assert.AreEqual(16, to);
         }
 
-        [Test]
+        [TestMethod]
         public void SUBLW()
         {
             int literal = 10;
@@ -192,7 +193,7 @@ namespace CommandTest
             Assert.AreEqual(4, mem.W_Reg);
         }
 
-        [Test]
+        [TestMethod]
         public void SUBLW_Overflow()
         {
             int literal = 10;
@@ -203,7 +204,7 @@ namespace CommandTest
             Assert.AreEqual(246, mem.W_Reg);
         }
 
-        [Test]
+        [TestMethod]
         public void XORLW()
         {
             int literal = 10;

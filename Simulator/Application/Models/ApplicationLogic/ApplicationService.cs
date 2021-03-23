@@ -1,9 +1,10 @@
-﻿using System.Threading;
+﻿using System.Net.Mail;
+using System.Threading;
 using System.Windows.Interactivity;
 using Application.Model;
-using Applicator.Model;
+using Application.Constants;
 
-namespace Application.Services
+namespace Application.Models.ApplicationLogic
 {
     public class ApplicationService
     {
@@ -11,23 +12,7 @@ namespace Application.Services
         private SourceFileModel _srcModel;
         private short _command;
         private readonly OperationService _operationService;
-
-        public OperationService OperationService
-        {
-            get { return _operationService; }
-        }
-
-        public Memory Memory
-        {
-            set { _memory = value; }
-            get { return _memory; }
-        }
-
-        public SourceFileModel SrcModel
-        {
-            set { _srcModel = value; }
-            get { return _srcModel; }
-        }
+        private OperationHelpers _operationHelpers;
 
         #region run
         public void Run ()
@@ -36,45 +21,64 @@ namespace Application.Services
             {
                 BeginLoop();
                 _command = _srcModel[_memory.RAM.PC_With_Clear].ProgramCode;
-                Thread.Sleep(200);
-                InvokeCommand(_command);
-
+                Thread.Sleep(400);
+                ResultInfo result = InvokeCommand(_command);
+                //set current LoC to not executed
+                _srcModel[_memory.RAM.PC_Without_Clear].IsExecuted = false;
+                WriteToMemory(result);
             }
         }
 
-        private void InvokeCommand(short command)
+        private void WriteToMemory(ResultInfo result)
+        {
+            if (result.JumpAddress != null)
+                _operationHelpers.SetJumpAddress((int)result.JumpAddress);
+            if (result.ClearISR)
+                _memory.IsISR = false;
+            if (result.OverflowInfo!=null && result.OperationResults.Count == 1)
+                result.OperationResults[0].Value = _operationHelpers.Check_DC_C(result.OverflowInfo, result.OperationResults[0].Value);
+            if (result.CheckZ && result.OperationResults.Count == 1)
+                //Result is never null in this case
+                _operationHelpers.CheckZ((int)result.OperationResults[0].Value);
+            if (result.Cycles!=null)
+                _operationHelpers.UpdateCycles((int)result.Cycles);
+            if (result.OperationResults!=null)
+                _operationHelpers.WriteOperationResults(result.OperationResults);
+            if (result.PCIncrement != null)
+                _operationHelpers.ChangePC_Fetch((int)result.PCIncrement);
+            if (result.BeginLoop)
+            {
+                BeginLoop();
+                WriteToMemory(_operationService.NOP());
+            }
+        }
+
+        private ResultInfo InvokeCommand(short command)
         {
             switch (_command)
             {
                 case 0b_0000_0000_0000_1000:
-                    OperationService.RETURN(); //Return from Subroutine
-                    break;
+                    return _operationService.RETURN(); //Return from Subroutine
                 case 0b_0000_0000_0000_1001:
-                    OperationService.RETFIE(); //return from interrupt
-                    break;
+                    return _operationService.RETFIE(); //return from interrupt
                 case 0b_0000_0000_0110_0011:
-                    OperationService.SLEEP(); //Go to standby mode
-                    break;
+                    return _operationService.SLEEP(); //Go to standby mode
                 case 0b_0000_0000_0110_0100:
-                    OperationService.CLRWDT(); //clear watchdog timer
-                    break;
+                    return _operationService.CLRWDT(); //clear watchdog timer
                 case 0b_0000_0000_0000_0000: // ab hier nop
                 case 0b_0000_0000_0010_0000:
                 case 0b_0000_0000_0100_0000:
                 case 0b_0000_0000_0110_0000:
-                    OperationService.NOP(); //no operation 
-                    break;
+                    return _operationService.NOP(); //no operation 
                 case short n when (n >= 0b_0000_0001_0000_0000 && n <= 0b_0000_0001_0111_1111):
-                    OperationService.CLRW(); //clear w
-                    break;
+                    return _operationService.CLRW(); //clear w
                 default:
-                    AnalyzeNibble3();
-                    break;
+                    return AnalyzeNibble3();
             }
         }
 
 
-        private void AnalyzeNibble3()
+        private ResultInfo AnalyzeNibble3()
         {
             int nibble3 = (int)_command & 0b_0011_0000_0000_0000; //bitoperation nur auf int ausführbar
             switch (nibble3)
@@ -84,28 +88,24 @@ namespace Application.Services
                     int address = (int)_command & 0b_0000_0111_1111_1111;
                     if (bit12 == 0b_0000_1000_0000_0000)
                     {
-                        OperationService.GOTO(address);
+                        return _operationService.GOTO(address);
                     }
                     else
                     {
-                        OperationService.CALL(address);
+                        return _operationService.CALL(address);
                     }
-                    break;
                 case 0b_0001_0000_0000_0000: //bit oriented operations
-                    AnalyzeBits11_12();
-                    break;
+                    return AnalyzeBits11_12();
                 case 0b_0011_0000_0000_0000: //literal operations
-                    AnalyzeNibble2Literal();
-                    break;
+                    return AnalyzeNibble2Literal();
                 case 0b_0000_0000_0000_0000: //byte oriented operations
-                    AnalyzeNibble2Byte();
-                    break;
+                    return AnalyzeNibble2Byte();
                 default:
-                    break;
+                    return null;
             }
         }
 
-        private void AnalyzeBits11_12() //bit-oriented operations genauer analysieren
+        private ResultInfo AnalyzeBits11_12() //bit-oriented operations genauer analysieren
         {
             int bits11_12 = ((int)_command & 0b_0000_1100_0000_0000) >> 10;
             int bits = ((int)_command & 0b_0000_0011_1000_0000) >> 7;
@@ -117,64 +117,52 @@ namespace Application.Services
             switch (bits11_12)
             {
                 case 0:
-                    OperationService.BCF(file, bits);
-                    break;
+                    return _operationService.BCF(file, bits);
                 case 1:
-                    OperationService.BSF(file, bits);
-                    break;
+                    return _operationService.BSF(file, bits);
                 case 2:
-                    OperationService.BTFSC(file, bits);
-                    break;
+                    return _operationService.BTFSC(file, bits);
                 case 3:
-                    OperationService.BTFSS(file, bits);
-                    break;
+                    return _operationService.BTFSS(file, bits);
                 default:
-                    break;
-
+                    return null;
             }
         }
     
-        private void AnalyzeNibble2Literal() 
+        private ResultInfo AnalyzeNibble2Literal() 
         {
             int nibble2 = (int)_command & 0b_0000_1111_0000_0000;
             int literal = (int)_command & 0b_0000_0000_1111_1111;
             switch (nibble2)
             {
                 case 0b_1001_0000_0000:
-                    OperationService.ANDLW(literal);
-                    break;
+                    return _operationService.ANDLW(literal);
                 case 0b_1000_0000_0000:
-                    OperationService.IORLW(literal);
-                    break;
+                    return _operationService.IORLW(literal);
                 case 0b_1010_0000_0000:
-                    OperationService.XORLW(literal);
-                    break;
+                    return _operationService.XORLW(literal);
                 case 0b_1110_0000_0000: //ab hier addlw
                 case 0b_1111_0000_0000:
-                    OperationService.ADDLW(literal); 
-                    break;
+                    return _operationService.ADDLW(literal);
                 case 0b_1100_0000_0000: //ab hier sublw
                 case 0b_1101_0000_0000:
-                    OperationService.SUBLW(literal);
-                    break;
+                    return _operationService.SUBLW(literal);
                 case 0b_0000_0000_0000: //ab hier movlw
                 case 0b_0001_0000_0000:
                 case 0b_0010_0000_0000:
                 case 0b_0011_0000_0000:
-                    OperationService.MOVLW(literal);
-                    break;
+                    return _operationService.MOVLW(literal);
                 case 0b_0100_0000_0000: //ab hier retlw
                 case 0b_0101_0000_0000:
                 case 0b_0110_0000_0000:
                 case 0b_0111_0000_0000:
-                    OperationService.RETLW(literal);
-                    break;
+                    return _operationService.RETLW(literal);
                 default:
-                    break;
+                    return null;
             }
         }
 
-        private void AnalyzeNibble2Byte()
+        private ResultInfo AnalyzeNibble2Byte()
         {
             int nibble2 = (int)_command & 0b_0000_1111_0000_0000;
             int file = (int)_command & 0b_0000_0000_0111_1111;
@@ -182,55 +170,39 @@ namespace Application.Services
             switch (nibble2)
             {
                 case 0b_0000_0000_0000_0000:
-                    OperationService.MOVWF(file);
-                    break;
+                    return _operationService.MOVWF(file);
                 case 0b_0000_0001_0000_0000:
-                    OperationService.CLRF(file); 
-                    break;
+                    return _operationService.CLRF(file);
                 case 0b_0000_0010_0000_0000:
-                    OperationService.SUBWF(file, d);
-                    break;
+                    return _operationService.SUBWF(file, d);
                 case 0b_0000_0011_0000_0000:
-                    OperationService.DECF(file, d);
-                    break;
+                    return _operationService.DECF(file, d);
                 case 0b_0000_0100_0000_0000:
-                    OperationService.IORWF(file, d);
-                    break;
+                    return _operationService.IORWF(file, d);
                 case 0b_0000_0101_0000_0000:
-                    OperationService.ANDWF(file, d);
-                    break;
+                    return _operationService.ANDWF(file, d);
                 case 0b_0000_0110_0000_0000:
-                    OperationService.XORWF(file, d);
-                    break;
+                    return _operationService.XORWF(file, d);
                 case 0b_0000_0111_0000_0000:
-                    OperationService.ADDWF(file, d);
-                    break;
+                    return _operationService.ADDWF(file, d);
                 case 0b_0000_1000_0000_0000:
-                    OperationService.MOVF(file, d);
-                    break;
+                    return _operationService.MOVF(file, d);
                 case 0b_0000_1001_0000_0000:
-                    OperationService.COMF(file, d);
-                    break;
+                    return _operationService.COMF(file, d);
                 case 0b_0000_1010_0000_0000:
-                    OperationService.INCF(file, d);
-                    break;
+                    return _operationService.INCF(file, d);
                 case 0b_0000_1011_0000_0000:
-                    OperationService.DECFSZ(file, d);
-                    break;
+                    return _operationService.DECFSZ(file, d);
                 case 0b_0000_1100_0000_0000:
-                    OperationService.RRF(file, d);
-                    break;
+                    return _operationService.RRF(file, d);
                 case 0b_0000_1101_0000_0000:
-                    OperationService.RLF(file, d);
-                    break;
+                    return _operationService.RLF(file, d);
                 case 0b_0000_1110_0000_0000:
-                    OperationService.SWAPF(file, d);
-                    break;
+                    return _operationService.SWAPF(file, d);
                 case 0b_0000_1111_0000_0000:
-                    OperationService.INCFSZ(file, d);
-                    break;
+                    return _operationService.INCFSZ(file, d);
                 default:
-                    break;
+                    return null;
             }
         }
         #endregion
@@ -342,12 +314,8 @@ namespace Application.Services
             this._memory = memory;
             this._srcModel = srcModel;
             /// diese sehr schlecht, da das Objekt selbst übergeben wird
-            _operationService = new OperationService(this, _memory, _srcModel);
-        }
-
-        public ApplicationService()
-        {
-            _operationService = new OperationService(this, _memory, _srcModel);
+            _operationService = new OperationService(_memory, _srcModel);
+            _operationHelpers = new OperationHelpers(_memory, _srcModel);
         }
 
     }

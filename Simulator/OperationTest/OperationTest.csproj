@@ -82,6 +82,7 @@
     <Compile Include="FileRegisterCommandsTest.cs" />
     <Compile Include="LiteralCommandsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResultInfoTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

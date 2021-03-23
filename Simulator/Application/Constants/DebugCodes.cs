@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Applicator.Model
+namespace Application.Constants
 {
     public static class DebugCodes
     {

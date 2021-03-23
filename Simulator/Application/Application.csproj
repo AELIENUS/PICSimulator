@@ -70,30 +70,33 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\AbstractByte.cs" />
-    <Compile Include="Model\DebugCodes.cs" />
-    <Compile Include="Model\LineOfCode.cs" />
-    <Compile Include="Model\ItemNotifyByte.cs" />
-    <Compile Include="Model\Memory.cs" />
-    <Compile Include="Model\PortADummy.cs" />
-    <Compile Include="Model\PortBDummy.cs" />
-    <Compile Include="Services\ObservableStack.cs" />
-    <Compile Include="Model\RAMModel.cs" />
-    <Compile Include="Model\RAMPortion.cs" />
-    <Compile Include="Model\SourceFileModel.cs" />
-    <Compile Include="Services\ByteBitToBoolConverter.cs" />
-    <Compile Include="Services\ByteConverter.cs" />
-    <Compile Include="Services\ApplicationService.cs" />
-    <Compile Include="Services\Constants.cs" />
-    <Compile Include="Services\DialogService.cs" />
-    <Compile Include="Services\FileService.cs" />
-    <Compile Include="Services\IDialogService.cs" />
-    <Compile Include="Services\IFileService.cs" />
-    <Compile Include="Services\OperationHelpers.cs" />
-    <Compile Include="Services\OperationService.cs" />
-    <Compile Include="Services\PortA.cs" />
-    <Compile Include="Services\PortB.cs" />
-    <Compile Include="Services\ShortToBinary.cs" />
+    <Compile Include="Models\CustomDatastructures\AbstractByte.cs" />
+    <Compile Include="Constants\DebugCodes.cs" />
+    <Compile Include="Models\CodeLogic\LineOfCode.cs" />
+    <Compile Include="Models\CustomDatastructures\ItemNotifyByte.cs" />
+    <Compile Include="Models\Memory\Memory.cs" />
+    <Compile Include="Models\Memory\PortADummy.cs" />
+    <Compile Include="Models\Memory\PortBDummy.cs" />
+    <Compile Include="Models\CustomDatastructures\ObservableStack.cs" />
+    <Compile Include="Models\Memory\RAMModel.cs" />
+    <Compile Include="Models\Memory\RAMPortion.cs" />
+    <Compile Include="Models\CodeLogic\SourceFileModel.cs" />
+    <Compile Include="Models\Converters\ByteBitToBoolConverter.cs" />
+    <Compile Include="Models\Converters\ByteConverter.cs" />
+    <Compile Include="Models\ApplicationLogic\ApplicationService.cs" />
+    <Compile Include="Constants\Constants.cs" />
+    <Compile Include="Models\ViewLogic\DialogService.cs" />
+    <Compile Include="Models\CodeLogic\FileService.cs" />
+    <Compile Include="Models\ViewLogic\IDialogService.cs" />
+    <Compile Include="Models\CodeLogic\IFileService.cs" />
+    <Compile Include="Models\OperationLogic\OperationHelpers.cs" />
+    <Compile Include="Models\OperationLogic\OperationResult.cs" />
+    <Compile Include="Models\OperationLogic\OperationService.cs" />
+    <Compile Include="Models\OperationLogic\OverflowInfo.cs" />
+    <Compile Include="Models\Memory\PortA.cs" />
+    <Compile Include="Models\Memory\PortB.cs" />
+    <Compile Include="Models\OperationLogic\ResultInfo.cs" />
+    <Compile Include="Models\Converters\ShortToBinary.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="MainWindow.xaml">
@@ -136,8 +139,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Services\Description.txt" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

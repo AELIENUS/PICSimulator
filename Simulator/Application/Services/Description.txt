@@ -1,3 +1,0 @@
-﻿In diesen Ordner gehören Services
-Zum einen die Schnittstelle die den Service angibt und zum anderen die Implementierung des Services. 
-Das ist extrem vorteilhaft für das Unit Testing

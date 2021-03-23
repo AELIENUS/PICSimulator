@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Services
+namespace Application.Constants
 {
     public static class Constants
     {
@@ -101,8 +101,11 @@ namespace Application.Services
         public static readonly short INTF = 0x01;
         public static readonly short RBIF = 0x00;
         #endregion
-        #region Quarzfrequenzen
+        #region frequencies
         public static readonly ObservableCollection<double> QuartzFrequencyList = new ObservableCollection<double> { 2000000, 4000000, 8000000, 16000000 };
+        #endregion
+        #region miscellanious
+        public static readonly int WRegPlaceholder = -1;
         #endregion
     }
 }

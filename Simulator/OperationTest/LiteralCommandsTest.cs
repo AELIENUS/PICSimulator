@@ -2,6 +2,8 @@
 using Application.Services;
 using System;
 using System.Threading.Tasks;
+using Application.Models.ApplicationLogic;
+using Application.Models.CustomDatastructures;
 using Moq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Documents;
 
-namespace Application.Services
+namespace Application.Models.OperationLogic
 {
     public class ResultInfo
     {

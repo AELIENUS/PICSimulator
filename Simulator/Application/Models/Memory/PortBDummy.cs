@@ -1,11 +1,6 @@
-﻿using Application.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Application.Models.CustomDatastructures;
 
-namespace Application.Model
+namespace Application.Models.Memory
 {
     public class PortBDummy : AbstractByte
     {

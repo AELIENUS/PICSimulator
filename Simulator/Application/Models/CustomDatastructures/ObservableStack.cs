@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
+using Application.Constants;
 
-namespace Application.Services
+namespace Application.Models.CustomDatastructures
 {
     /// <summary>
     /// To update the ObservableCollection nested in this class and the controls, we need to get access to the thread that handles
@@ -72,7 +73,7 @@ namespace Application.Services
         public void Push(T item)
         {
             System.Windows.Application a = System.Windows.Application.Current;
-            if (Collection.Count>= Constants.PC_STACK_CAPACITY)
+            if (Collection.Count>= MemoryConstants.PC_STACK_CAPACITY)
             {
                 a.Dispatcher.Invoke(
                     DispatcherPriority.Background, new Action(() =>

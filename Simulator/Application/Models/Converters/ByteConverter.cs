@@ -1,15 +1,8 @@
-﻿using Applicator.Model;
-using Microsoft.SqlServer.Server;
-using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
+﻿using System;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace Application.Services
+namespace Application.Models.Converters
 {
     class ByteConverter : IValueConverter
     {

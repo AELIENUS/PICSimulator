@@ -1,147 +1,149 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Windows.Documents;
-using Application.Model;
-using Application.Services;
+using Application.Constants;
+using Application.Models.CodeLogic;
+using Application.Models.Memory;
 
-public class OperationHelpers
+namespace Application.Models.OperationLogic
 {
-    private Memory _memory;
-    private SourceFileModel _srcModel;
-
-    public OperationHelpers(Memory memory, SourceFileModel srcModel)
+    public class OperationHelpers
     {
-        _memory = memory;
-        _srcModel = srcModel;
-    }
+        private MemoryService _memory;
+        private SourceFileModel _srcModel;
 
-    public void CheckZ(int result)
-    {
-        byte wert;
-        if (result == 0)
+        public OperationHelpers(MemoryService memory, SourceFileModel srcModel)
         {
-            wert = Convert.ToByte(_memory.RAM[Constants.STATUS_B1] | 0b_0000_0100);
-        }
-        else
-        {
-            wert = Convert.ToByte(_memory.RAM[Constants.STATUS_B1] & 0b_1111_1011);
+            _memory = memory;
+            _srcModel = srcModel;
         }
 
-        _memory.RAM[Constants.STATUS_B1] = wert;
-    }
-
-    public int Check_DC_C(OverflowInfo parameters, int operationResult)
-    {
-        int literal1Low = parameters.Operand1 & 0b_0000_1111;
-        int literal2Low = parameters.Operand2 & 0b_0000_1111;
-        byte value;
-        int modifiedResult = operationResult;
-        if (parameters.Operator == "+")
+        public void CheckZ(int result)
         {
-            if ((literal1Low + literal2Low) > 15) //DigitCarry prüfen
+            byte wert;
+            if (result == 0)
             {
-                value = Convert.ToByte(_memory.RAM[Constants.STATUS_B1] | 0b_0000_0010);
+                wert = Convert.ToByte(_memory.RAM[MemoryConstants.STATUS_B1] | 0b_0000_0100);
             }
             else
             {
-                value = Convert.ToByte(_memory.RAM[Constants.STATUS_B1] & 0b_1111_1101);
+                wert = Convert.ToByte(_memory.RAM[MemoryConstants.STATUS_B1] & 0b_1111_1011);
             }
 
-            _memory.RAM[Constants.STATUS_B1] = value;
+            _memory.RAM[MemoryConstants.STATUS_B1] = wert;
+        }
 
-            if ((parameters.Operand1 + parameters.Operand2) > 255) // Carry prüfen
+        public int Check_DC_C(OverflowInfo parameters, int operationResult)
+        {
+            int literal1Low = parameters.Operand1 & 0b_0000_1111;
+            int literal2Low = parameters.Operand2 & 0b_0000_1111;
+            byte value;
+            int modifiedResult = operationResult;
+            if (parameters.Operator == "+")
             {
-                value = Convert.ToByte(_memory.RAM[Constants.STATUS_B1] | 0b_0000_0001);
-                modifiedResult =  operationResult - 256;
+                if ((literal1Low + literal2Low) > 15) //DigitCarry prüfen
+                {
+                    value = Convert.ToByte(_memory.RAM[MemoryConstants.STATUS_B1] | 0b_0000_0010);
+                }
+                else
+                {
+                    value = Convert.ToByte(_memory.RAM[MemoryConstants.STATUS_B1] & 0b_1111_1101);
+                }
+
+                _memory.RAM[MemoryConstants.STATUS_B1] = value;
+
+                if ((parameters.Operand1 + parameters.Operand2) > 255) // Carry prüfen
+                {
+                    value = Convert.ToByte(_memory.RAM[MemoryConstants.STATUS_B1] | 0b_0000_0001);
+                    modifiedResult = operationResult - 256;
+                }
+                else
+                {
+                    value = Convert.ToByte(_memory.RAM[MemoryConstants.STATUS_B1] & 0b_1111_1110);
+                }
+            }
+
+            else //op = "-"
+            {
+                //hier hat der pic umgekehrte Logik, da die Entwickler ein invertieren vergessen haben (siehe Themenblatt)
+                if ((literal1Low - literal2Low) < 0) // DigitCarry prüfen
+                {
+                    value = Convert.ToByte(_memory.RAM[MemoryConstants.STATUS_B1] & 0b_1111_1101);
+                }
+                else
+                {
+                    value = Convert.ToByte(_memory.RAM[MemoryConstants.STATUS_B1] | 0b_0000_0010);
+                }
+
+                _memory.RAM[MemoryConstants.STATUS_B1] = value;
+
+                if ((parameters.Operand1 - parameters.Operand2) < 0) //Carry prüfen
+                {
+                    value = Convert.ToByte(_memory.RAM[MemoryConstants.STATUS_B1] & 0b_1111_1110);
+                    modifiedResult = operationResult + 256;
+                }
+                else
+                {
+                    value = Convert.ToByte(_memory.RAM[MemoryConstants.STATUS_B1] | 0b_0000_0001);
+                }
+            }
+            _memory.RAM[MemoryConstants.STATUS_B1] = value;
+            return modifiedResult;
+        }
+
+        public void StoreSwitchedOnD(int file, int result, int d)
+        {
+            if (d == 0)
+            {
+                //operationResult stored in w
+                _memory.WReg = Convert.ToByte(result);
             }
             else
             {
-                value = Convert.ToByte(_memory.RAM[Constants.STATUS_B1] & 0b_1111_1110);
+                if (file == 0x02)
+                {
+                    _srcModel.ListOfCode[_memory.RAM.PC_Without_Clear].IsExecuted = false;
+                    _memory.RAM.PCL_was_Manipulated = true;
+                }
+                //operationResult stored in f
+                _memory.RAM[file] = Convert.ToByte(result);
             }
         }
 
-        else //op = "-"
+        public void ChangePC_Fetch(int value)
         {
-            //hier hat der pic umgekehrte Logik, da die Entwickler ein invertieren vergessen haben (siehe Themenblatt)
-            if ((literal1Low - literal2Low) < 0) // DigitCarry prüfen
+            _srcModel[_memory.RAM.PC_Without_Clear].IsExecuted = false;
+            if (_memory.RAM[MemoryConstants.PCL_B1] == 0b_1111_1111)
             {
-                value = Convert.ToByte(_memory.RAM[Constants.STATUS_B1] & 0b_1111_1101);
+                _memory.RAM[MemoryConstants.PCL_B1] = (byte)(0 + value);
+                //PCLATH erhöhen
+                _memory.RAM[MemoryConstants.PCLATH_B1] += 1;
             }
             else
             {
-                value = Convert.ToByte(_memory.RAM[Constants.STATUS_B1] | 0b_0000_0010);
+                _memory.RAM[MemoryConstants.PCL_B1] += (byte)value;
             }
+        }
 
-            _memory.RAM[Constants.STATUS_B1] = value;
+        public void UpdateCycles(int cyclesToAdd)
+        {
+            _memory.CycleCounter += cyclesToAdd;
+        }
 
-            if ((parameters.Operand1 - parameters.Operand2) < 0) //Carry prüfen
+        public void WriteOperationResults(List<OperationResult> operationResults)
+        {
+            foreach (var operationResult in operationResults)
             {
-                value = Convert.ToByte(_memory.RAM[Constants.STATUS_B1] & 0b_1111_1110);
-                modifiedResult = operationResult + 256;
-            }
-            else
-            {
-                value = Convert.ToByte(_memory.RAM[Constants.STATUS_B1] | 0b_0000_0001);
+                if (operationResult.Address == MemoryConstants.WRegPlaceholder)
+                    _memory.WReg = (short)operationResult.Value;
+                else
+                    _memory.RAM[operationResult.Address] = (byte)operationResult.Value;
             }
         }
-        _memory.RAM[Constants.STATUS_B1] = value;
-        return modifiedResult;
-    }
 
-    public void StoreSwitchedOnD(int file, int result, int d)
-    {
-        if (d == 0)
+        public void SetJumpAddress(int jumpAddress)
         {
-            //operationResult stored in w
-            _memory.WReg = Convert.ToByte(result);
+            _memory.RAM.PC_was_Jump = true;
+            _memory.RAM.PC_JumpAdress = jumpAddress;
         }
-        else
-        {
-            if (file == 0x02)
-            {
-                _srcModel.ListOfCode[_memory.RAM.PC_Without_Clear].IsExecuted = false;
-                _memory.RAM.PCL_was_Manipulated = true;
-            }
-            //operationResult stored in f
-            _memory.RAM[file] = Convert.ToByte(result);
-        }
-    }
-
-    public void ChangePC_Fetch (int value)
-    {
-        _srcModel[_memory.RAM.PC_Without_Clear].IsExecuted = false;
-        if (_memory.RAM[Constants.PCL_B1] == 0b_1111_1111)
-        {
-            _memory.RAM[Constants.PCL_B1] = (byte)(0 + value);
-            //PCLATH erhöhen
-            _memory.RAM[Constants.PCLATH_B1] += 1;
-        }
-        else
-        {
-            _memory.RAM[Constants.PCL_B1] += (byte)value;
-        }
-    }
-
-    public void UpdateCycles(int cyclesToAdd)
-    {
-        _memory.CycleCounter += cyclesToAdd;
-    }
-
-    public void WriteOperationResults(List<OperationResult> operationResults)
-    {
-        foreach (var operationResult in operationResults)
-        {
-            if (operationResult.Address == Constants.WRegPlaceholder)
-                _memory.WReg = (short)operationResult.Value;
-            else
-                _memory.RAM[operationResult.Address] = (byte)operationResult.Value;
-        }
-    }
-
-    public void SetJumpAddress(int jumpAddress)
-    {
-        _memory.RAM.PC_was_Jump = true;
-        _memory.RAM.PC_JumpAdress = jumpAddress;
     }
 }

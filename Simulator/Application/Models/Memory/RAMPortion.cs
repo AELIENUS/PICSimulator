@@ -1,12 +1,7 @@
-﻿using Applicator.Model;
+﻿using Application.Models.CustomDatastructures;
 using GalaSoft.MvvmLight;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Application.Model
+namespace Application.Models.Memory
 {
     public  class RAMPortion : ObservableObject
     {
@@ -140,22 +135,22 @@ namespace Application.Model
 
 		public RAMPortion()
 		{
-			Byte0 = new ItemNotifyByte();
-			Byte1 = new ItemNotifyByte();
-			Byte2 = new ItemNotifyByte();
-			Byte3 = new ItemNotifyByte();
-			Byte4 = new ItemNotifyByte();
-			Byte5 = new ItemNotifyByte();
-			Byte6 = new ItemNotifyByte();
-			Byte7 = new ItemNotifyByte();
-			Byte8 = new ItemNotifyByte();
-			Byte9 = new ItemNotifyByte();
-			Byte10 = new ItemNotifyByte();
-			Byte11 = new ItemNotifyByte();
-			Byte12 = new ItemNotifyByte();
-			Byte13 = new ItemNotifyByte();
-			Byte14 = new ItemNotifyByte();
-			Byte15 = new ItemNotifyByte();
+			Byte0 = new ObservableByte();
+			Byte1 = new ObservableByte();
+			Byte2 = new ObservableByte();
+			Byte3 = new ObservableByte();
+			Byte4 = new ObservableByte();
+			Byte5 = new ObservableByte();
+			Byte6 = new ObservableByte();
+			Byte7 = new ObservableByte();
+			Byte8 = new ObservableByte();
+			Byte9 = new ObservableByte();
+			Byte10 = new ObservableByte();
+			Byte11 = new ObservableByte();
+			Byte12 = new ObservableByte();
+			Byte13 = new ObservableByte();
+			Byte14 = new ObservableByte();
+			Byte15 = new ObservableByte();
 
 		}
 

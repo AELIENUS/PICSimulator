@@ -1,10 +1,11 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using Application.Model;
-using Application.Services;
 using System.Threading;
-using Applicator.Model;
-using System;
+using Application.Constants;
+using Application.Models.ApplicationLogic;
+using Application.Models.CodeLogic;
+using Application.Models.Memory;
+using Application.Models.ViewLogic;
 
 namespace Application.ViewModel
 {
@@ -21,8 +22,8 @@ namespace Application.ViewModel
         #endregion
 
         #region Properties
-        private Memory _memory;
-        public Memory Memory
+        private MemoryService _memory;
+        public MemoryService Memory
         {
             get => _memory;
             set
@@ -145,7 +146,7 @@ namespace Application.ViewModel
                                         || ((SrcFileModel[Memory.RAM.PC_Without_Clear].ProgramCode & 0b0000_0000_0111_1111) == 0x_82))) //wenn die Ziel-File-Adresse der Operation der PCL ist
                                 {
                                     //dann muss PC = PCLATH + PCL (nach operation) benutzt werden
-                                    SrcFileModel[Memory.RAM[Constants.PCL_B1] + Memory.RAM[Constants.PCLATH_B1]].IsDebug = true; //PCL vor operation wird genommen -> falsch
+                                    SrcFileModel[Memory.RAM[MemoryConstants.PCL_B1] + Memory.RAM[MemoryConstants.PCLATH_B1]].IsDebug = true; //PCL vor operation wird genommen -> falsch
                                 }
                                 else
                                 {
@@ -186,7 +187,7 @@ namespace Application.ViewModel
         /// </summary>
         public MainViewModel()
         {
-            _memory = new Memory();
+            _memory = new MemoryService();
             _srcFileModel = new SourceFileModel();
             _fileService = new FileService();
             _dialogService = new DialogService();

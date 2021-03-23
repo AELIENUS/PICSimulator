@@ -1,14 +1,16 @@
 ﻿using System.Net.Mail;
 using System.Threading;
 using System.Windows.Interactivity;
-using Application.Model;
 using Application.Constants;
+using Application.Models.CodeLogic;
+using Application.Models.Memory;
+using Application.Models.OperationLogic;
 
 namespace Application.Models.ApplicationLogic
 {
     public class ApplicationService
     {
-        private Memory _memory;
+        private MemoryService _memory;
         private SourceFileModel _srcModel;
         private short _command;
         private readonly OperationService _operationService;
@@ -212,29 +214,29 @@ namespace Application.Models.ApplicationLogic
         private void CheckForInterrupts() //INTCON DA MAIN MAN
         {
             //GIE gesetzt?
-            if((_memory.RAM[Constants.INTCON_B1] & 0b1000_0000)>0)
+            if((_memory.RAM[MemoryConstants.INTCON_B1] & 0b1000_0000)>0)
             {
                 //GIE gesetzt
                 //T0IE gesetzt?
-                if ((_memory.RAM[Constants.INTCON_B1] & 0b0010_0000) > 0)
+                if ((_memory.RAM[MemoryConstants.INTCON_B1] & 0b0010_0000) > 0)
                 {
                     //T0IE gesetzt
                     CheckForTimer0Interrupt();
                 }
                 //EEIE gesetzt?
-                if ((_memory.RAM[Constants.INTCON_B1] & 0b0100_0000) > 0)
+                if ((_memory.RAM[MemoryConstants.INTCON_B1] & 0b0100_0000) > 0)
                 {
                     //EEIE gesetzt
                     CheckForEEPROMWrittenInterrupt();
                 }
                 //INTE gesetzt?
-                if ((_memory.RAM[Constants.INTCON_B1] & 0b0001_0000) > 0)
+                if ((_memory.RAM[MemoryConstants.INTCON_B1] & 0b0001_0000) > 0)
                 {
                     //INTE gesetzt
                     CheckForRB0Interrupt();
                 }
                 //RBIE gesetzt
-                if ((_memory.RAM[Constants.INTCON_B1] & 0b0000_1000) > 0)
+                if ((_memory.RAM[MemoryConstants.INTCON_B1] & 0b0000_1000) > 0)
                 {
                     //RBIE gesetzt
                     CheckForPortBInterrupt();
@@ -245,7 +247,7 @@ namespace Application.Models.ApplicationLogic
         private void CheckForTimer0Interrupt()
         {
             //T0IF gesetzt
-            if((_memory.RAM[Constants.INTCON_B1] & 0b0000_0100) > 0)
+            if((_memory.RAM[MemoryConstants.INTCON_B1] & 0b0000_0100) > 0)
             {
                 Interrupt();
             }
@@ -259,7 +261,7 @@ namespace Application.Models.ApplicationLogic
         private void CheckForRB0Interrupt()
         {
             //INTF Interrupt Flag gesetzt?
-            if((_memory.RAM[Constants.INTCON_B1] & 0b0000_0010) >0)
+            if((_memory.RAM[MemoryConstants.INTCON_B1] & 0b0000_0010) >0)
             {
                 Interrupt();
             }
@@ -267,7 +269,7 @@ namespace Application.Models.ApplicationLogic
 
         private void CheckForPortBInterrupt()
         {
-            if ((_memory.RAM[Constants.INTCON_B1] & 0b0000_0001) > 0)
+            if ((_memory.RAM[MemoryConstants.INTCON_B1] & 0b0000_0001) > 0)
             {
                 Interrupt();
             }
@@ -278,7 +280,7 @@ namespace Application.Models.ApplicationLogic
             //Push PC to Stack
             _memory.PCStack.Push((short)_memory.RAM.PC_Without_Clear);
             //Set PC to Interrupt Vector
-            _memory.RAM[Constants.PCL_B1] = (byte)Constants.PERIPHERAL_INTERRUPT_VECTOR_ADDRESS;
+            _memory.RAM[MemoryConstants.PCL_B1] = (byte)MemoryConstants.PERIPHERAL_INTERRUPT_VECTOR_ADDRESS;
             _memory.IsISR = true;
         }
         #endregion
@@ -291,8 +293,8 @@ namespace Application.Models.ApplicationLogic
             }
             if (_memory.RAM.PC_Without_Clear == 0x7ff)
             {
-                _memory.RAM[Constants.PCL_B1] = 0;
-                _memory.RAM[Constants.PCLATH_B1] = 0;
+                _memory.RAM[MemoryConstants.PCL_B1] = 0;
+                _memory.RAM[MemoryConstants.PCLATH_B1] = 0;
             }
             _srcModel[_memory.RAM.PC_Without_Clear].IsExecuted = true;
             while (true)
@@ -309,7 +311,7 @@ namespace Application.Models.ApplicationLogic
         }
     
 
-        public ApplicationService(Memory memory, SourceFileModel srcModel)
+        public ApplicationService(MemoryService memory, SourceFileModel srcModel)
         {
             this._memory = memory;
             this._srcModel = srcModel;

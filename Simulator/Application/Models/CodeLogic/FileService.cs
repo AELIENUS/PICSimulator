@@ -1,12 +1,9 @@
-﻿using Application.Model;
-using Applicator.Model;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Application.Services
+namespace Application.Models.CodeLogic
 {
     public class FileService : IFileService
     {

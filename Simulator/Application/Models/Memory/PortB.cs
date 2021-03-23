@@ -1,15 +1,6 @@
-﻿using Application.Model;
-using Applicator.Model;
-using GalaSoft.MvvmLight;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GalaSoft.MvvmLight;
 
-namespace Application.Services
+namespace Application.Models.Memory
 {
     public class PortB : ObservableObject
     {

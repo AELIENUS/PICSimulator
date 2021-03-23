@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Application"
-        xmlns:Model="clr-namespace:Application.Model" x:Class="Application.MainWindow"
-        xmlns:Services="clr-namespace:Application.Services"
+        xmlns:constants="clr-namespace:Application.Constants"
+        x:Class="Application.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="1500"
         >
@@ -57,7 +57,7 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Quartzfrequency (Hz):" Grid.Row="0" Grid.Column="0"/>
-                    <ComboBox ItemsSource="{Binding Source={x:Static Services:Constants.QuartzFrequencyList}}" Grid.Column="1" SelectedItem="{Binding Path=Memory.Quartz}">
+                    <ComboBox ItemsSource="{Binding Source={x:Static constants:MemoryConstants.QuartzFrequencyList}}" Grid.Column="1" SelectedItem="{Binding Path=Memory.Quartz}">
                     </ComboBox>
                     <TextBlock Text="{Binding Path=Memory.Runtime, StringFormat='Running time: {0:F2}µs'}" Grid.Row="1" Grid.Column="0"/>
                     
@@ -105,9 +105,9 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Port A" Grid.Row="0" Grid.ColumnSpan="4" VerticalContentAlignment="Bottom"/>
-                    <Label Grid.Row="1" Grid.ColumnSpan="4" Content="{Binding Memory.RAM.PortA.Value, Converter={StaticResource elementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Grid.Row="1" Grid.ColumnSpan="4" Content="{Binding Memory.RAM.PortA.Value, Converter={StaticResource ElementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Label Content="Tris A" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="4" VerticalContentAlignment="Bottom"/>
-                    <Label Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="4" Content="{Binding Memory.RAM.RAMList[8].Byte5.Value, Converter={StaticResource elementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="4" Content="{Binding Memory.RAM.RAMList[8].Byte5.Value, Converter={StaticResource ElementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding Memory.RAM.PortA.Pin7}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Content="Bit7" VerticalAlignment="Center"></Label>
                     <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding Memory.RAM.PortA.Pin6}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -144,9 +144,9 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Port B" Grid.Row="0" Grid.ColumnSpan="8" VerticalContentAlignment="Bottom"/>
-                    <Label Grid.Row="1" Grid.ColumnSpan="8" Content="{Binding Memory.RAM.PortB.Value, Converter={StaticResource elementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Grid.Row="1" Grid.ColumnSpan="8" Content="{Binding Memory.RAM.PortB.Value, Converter={StaticResource ElementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Label Content="Tris B" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="4" VerticalContentAlignment="Bottom"/>
-                    <Label Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="4" Content="{Binding Memory.RAM.RAMList[8].Byte6.Value, Converter={StaticResource elementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="4" Content="{Binding Memory.RAM.RAMList[8].Byte6.Value, Converter={StaticResource ElementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Content="Bit7" VerticalAlignment="Center"></Label>
                     <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding Memory.RAM.PortB.Pin7}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <Label Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Content="Bit6" VerticalAlignment="Center"></Label>
@@ -179,7 +179,7 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Label Content="W_Reg" Grid.Row="0" Grid.Column="0"></Label>
-                    <Label Grid.Row="1" Grid.Column="0" Content="{Binding Memory.WReg, Converter={StaticResource shortConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
+                    <Label Grid.Row="1" Grid.Column="0" Content="{Binding Memory.WReg, Converter={StaticResource ShortConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
                     <Label Content="Z-Flag" Grid.Row="0" Grid.Column="1"/>
                     <Label Grid.Row="1" Grid.Column="1" Content="{Binding Memory.RAM.Z_Flag}"/>
                     <Label Content="DC-Flag" Grid.Row="0" Grid.Column="2"/>

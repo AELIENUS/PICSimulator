@@ -1,14 +1,8 @@
-﻿using Applicator.Model;
-using GalaSoft.MvvmLight;
-using System;
+﻿using GalaSoft.MvvmLight;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
-using System.Linq;
-using System.Collections.Generic;
 
-namespace Application.Model
+namespace Application.Models.CodeLogic
 {
     public class SourceFileModel: ObservableObject
     {

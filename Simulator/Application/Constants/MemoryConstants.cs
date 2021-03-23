@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.Constants
 {
-    public static class Constants
+    public static class MemoryConstants
     {
         #region program memory
         public static readonly short PROGRAM_MEMORY_SIZE = 1024;

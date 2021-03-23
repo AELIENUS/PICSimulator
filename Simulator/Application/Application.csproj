@@ -73,8 +73,8 @@
     <Compile Include="Models\CustomDatastructures\AbstractByte.cs" />
     <Compile Include="Constants\DebugCodes.cs" />
     <Compile Include="Models\CodeLogic\LineOfCode.cs" />
-    <Compile Include="Models\CustomDatastructures\ItemNotifyByte.cs" />
-    <Compile Include="Models\Memory\Memory.cs" />
+    <Compile Include="Models\CustomDatastructures\ObservableByte.cs" />
+    <Compile Include="Models\Memory\MemoryService.cs" />
     <Compile Include="Models\Memory\PortADummy.cs" />
     <Compile Include="Models\Memory\PortBDummy.cs" />
     <Compile Include="Models\CustomDatastructures\ObservableStack.cs" />
@@ -84,7 +84,7 @@
     <Compile Include="Models\Converters\ByteBitToBoolConverter.cs" />
     <Compile Include="Models\Converters\ByteConverter.cs" />
     <Compile Include="Models\ApplicationLogic\ApplicationService.cs" />
-    <Compile Include="Constants\Constants.cs" />
+    <Compile Include="Constants\MemoryConstants.cs" />
     <Compile Include="Models\ViewLogic\DialogService.cs" />
     <Compile Include="Models\CodeLogic\FileService.cs" />
     <Compile Include="Models\ViewLogic\IDialogService.cs" />

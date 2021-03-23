@@ -1,15 +1,11 @@
-﻿using Application.Services;
-using GalaSoft.MvvmLight;
-using System;
+﻿using GalaSoft.MvvmLight;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Threading;
+using Application.Constants;
+using Application.Models.CustomDatastructures;
 
-namespace Application.Model
+namespace Application.Models.Memory
 {
-    public class Memory : ObservableObject
+    public class MemoryService : ObservableObject
     {
         #region properties
 
@@ -72,7 +68,7 @@ namespace Application.Model
             get
             {
                 return _pcStack ??
-                       (_pcStack = new ObservableStack<short>(new Stack<short>(Constants.PC_STACK_CAPACITY)));
+                       (_pcStack = new ObservableStack<short>(new Stack<short>(MemoryConstants.PC_STACK_CAPACITY)));
             }
             set
             {
@@ -126,7 +122,7 @@ namespace Application.Model
         }
         #endregion
 
-        public Memory()
+        public MemoryService()
         {
             RAM = new RAMModel();
             PowerReset();
@@ -136,32 +132,32 @@ namespace Application.Model
         {
             //Initialzustand von RAM wiederherstellen
             //Bank 1
-            RAM[Constants.INDF_B1] = 0x00;
-            RAM[Constants.TMR0] = 0x00;
-            RAM[Constants.PCL_B1] = 0x00;
-            RAM[Constants.STATUS_B1] = 0b0001_1000;
-            RAM[Constants.FSR_B1] = 0x00;
-            RAM[Constants.PORTA] = 0x00;
-            RAM[Constants.PORTB] = 0x00;
-            RAM[Constants.EEDATA] = 0x00;
-            RAM[Constants.EEADR] = 0x00;
-            RAM[Constants.PCLATH_B1] = 0x00;
-            RAM[Constants.INTCON_B1] = 0x00;
+            RAM[MemoryConstants.INDF_B1] = 0x00;
+            RAM[MemoryConstants.TMR0] = 0x00;
+            RAM[MemoryConstants.PCL_B1] = 0x00;
+            RAM[MemoryConstants.STATUS_B1] = 0b0001_1000;
+            RAM[MemoryConstants.FSR_B1] = 0x00;
+            RAM[MemoryConstants.PORTA] = 0x00;
+            RAM[MemoryConstants.PORTB] = 0x00;
+            RAM[MemoryConstants.EEDATA] = 0x00;
+            RAM[MemoryConstants.EEADR] = 0x00;
+            RAM[MemoryConstants.PCLATH_B1] = 0x00;
+            RAM[MemoryConstants.INTCON_B1] = 0x00;
             //Bank2
-            RAM[Constants.INDF_B2] = 0x00;
-            RAM[Constants.OPTION_REG] = 0xFF;
-            RAM[Constants.PCL_B2] = 0x00;
-            RAM[Constants.STATUS_B2] = 0b0001_1000;
-            RAM[Constants.FSR_B2] = 0x00;
-            RAM[Constants.TRISA] = 0xFF;
-            RAM[Constants.TRISB] = 0xFF;
-            RAM[Constants.EECON1] = 0x00;
-            RAM[Constants.EECON2] = 0x00;
-            RAM[Constants.PCLATH_B2] = 0x00;
-            RAM[Constants.INTCON_B2] = 0x00;
+            RAM[MemoryConstants.INDF_B2] = 0x00;
+            RAM[MemoryConstants.OPTION_REG] = 0xFF;
+            RAM[MemoryConstants.PCL_B2] = 0x00;
+            RAM[MemoryConstants.STATUS_B2] = 0b0001_1000;
+            RAM[MemoryConstants.FSR_B2] = 0x00;
+            RAM[MemoryConstants.TRISA] = 0xFF;
+            RAM[MemoryConstants.TRISB] = 0xFF;
+            RAM[MemoryConstants.EECON1] = 0x00;
+            RAM[MemoryConstants.EECON2] = 0x00;
+            RAM[MemoryConstants.PCLATH_B2] = 0x00;
+            RAM[MemoryConstants.INTCON_B2] = 0x00;
             WReg = 0x0000;
 
-            PCStack = new ObservableStack<short>(new Stack<short>(Constants.PC_STACK_CAPACITY));
+            PCStack = new ObservableStack<short>(new Stack<short>(MemoryConstants.PC_STACK_CAPACITY));
 
             RAM.PortA.Value = 0;
             RAM.PortB.Value = 0;
@@ -181,33 +177,33 @@ namespace Application.Model
        public void OtherReset()
         {
             //Bank 1
-            RAM[Constants.INDF_B1] = 0x00;
+            RAM[MemoryConstants.INDF_B1] = 0x00;
             //TMR0 unchanged
-            RAM[Constants.PCL_B1] = 0x00;
-            RAM[Constants.STATUS_B1] &= 0b0001_1111;
+            RAM[MemoryConstants.PCL_B1] = 0x00;
+            RAM[MemoryConstants.STATUS_B1] &= 0b0001_1111;
             //FSR unchanged
             //PORTA unchanged
             //PORTB unchanged
             //EEDATA unchanged
             //EEADR unchanged
-            RAM[Constants.PCLATH_B1] = 0x00;
-            RAM[Constants.INTCON_B1] &= 0x01;
+            RAM[MemoryConstants.PCLATH_B1] = 0x00;
+            RAM[MemoryConstants.INTCON_B1] &= 0x01;
             //Bank2
-            RAM[Constants.INDF_B2] = 0x00;
-            RAM[Constants.OPTION_REG] = 0xFF;
-            RAM[Constants.PCL_B2] = 0x00;
-            RAM[Constants.STATUS_B2] &= 0b0001_1111;
+            RAM[MemoryConstants.INDF_B2] = 0x00;
+            RAM[MemoryConstants.OPTION_REG] = 0xFF;
+            RAM[MemoryConstants.PCL_B2] = 0x00;
+            RAM[MemoryConstants.STATUS_B2] &= 0b0001_1111;
             //FSR unchanged
-            RAM[Constants.TRISA] = 0xFF;
-            RAM[Constants.TRISB] = 0xFF;
+            RAM[MemoryConstants.TRISA] = 0xFF;
+            RAM[MemoryConstants.TRISB] = 0xFF;
             //Bit 4 konditional
-            RAM[Constants.EECON1] = 0x00;
-            RAM[Constants.EECON2]= 0x00;
-            RAM[Constants.PCLATH_B2] = 0x00;
-            RAM[Constants.INTCON_B2] &= 0x001;
+            RAM[MemoryConstants.EECON1] = 0x00;
+            RAM[MemoryConstants.EECON2]= 0x00;
+            RAM[MemoryConstants.PCLATH_B2] = 0x00;
+            RAM[MemoryConstants.INTCON_B2] &= 0x001;
             WReg = 0x0000;
 
-            PCStack = new ObservableStack<short>(new Stack<short>(Constants.PC_STACK_CAPACITY));
+            PCStack = new ObservableStack<short>(new Stack<short>(MemoryConstants.PC_STACK_CAPACITY));
 
             RAM.PortA.Value = 0;
             RAM.PortB.Value = 0;
@@ -227,13 +223,13 @@ namespace Application.Model
         private void Reset_GPR()
         {
             //GPR 1 zurücksetzen
-            for (int i = Constants.GPR_START_B1; i <= Constants.GPR_END_B1; i++)
+            for (int i = MemoryConstants.GPR_START_B1; i <= MemoryConstants.GPR_END_B1; i++)
             {
                 RAM[i] = 0x00;
             }
 
             //GPR 2 zurücksetzen
-            for (int i = Constants.GPR_START_B2; i <= Constants.GPR_END_B2; i++)
+            for (int i = MemoryConstants.GPR_START_B2; i <= MemoryConstants.GPR_END_B2; i++)
             {
                 RAM[i] = 0x00;
             }

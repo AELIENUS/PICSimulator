@@ -1,16 +1,8 @@
-﻿using Application.Model;
-using GalaSoft.MvvmLight;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GalaSoft.MvvmLight;
 
-namespace Applicator.Model
+namespace Application.Models.CustomDatastructures
 {
-    public class ItemNotifyByte: AbstractByte
+    public class ObservableByte : AbstractByte
     {
         private byte _value;
 
@@ -27,11 +19,11 @@ namespace Applicator.Model
                     return;
                 }
                 _value = value;
-                RaisePropertyChanged("Value");
+                RaisePropertyChanged();
             }
         }
 
-        public ItemNotifyByte()
+        public ObservableByte()
         {
             Value = 0;
         }

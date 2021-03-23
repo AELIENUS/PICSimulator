@@ -1,9 +1,9 @@
-﻿using Application.Services;
+﻿
 using GalaSoft.MvvmLight;
 using System;
 using System.Collections.ObjectModel;
 
-namespace Application.Model
+namespace Application.Models.Memory
 {
     public class RAMModel : ObservableObject
     {
@@ -23,7 +23,6 @@ namespace Application.Model
         }
 
         private PortA _PortA;
-
         public PortA PortA
         {
             get

@@ -266,7 +266,7 @@ namespace Application.Models.OperationLogic
             }
             return new ResultInfo()
             {
-                OverflowInfo = new OverflowInfo() { Operand1 = result, Operand2 = Convert.ToBoolean(newCarry) ? 256 : 0, Operator = "+" },
+                OverflowInfo = new OverflowInfo() { Operand1 = operationResult, Operand2 = Convert.ToBoolean(newCarry) ? 256 : 0, Operator = "+" },
                 PCIncrement = 1,
                 Cycles = 1,
                 OperationResults = new List<OperationResult>()

@@ -51,6 +51,7 @@ namespace Application.Models.ApplicationLogic
             if (result.BeginLoop)
             {
                 BeginLoop();
+                _srcModel[_memory.RAM.PC_Without_Clear].IsExecuted = false;
                 WriteToMemory(_operationService.NOP());
             }
         }

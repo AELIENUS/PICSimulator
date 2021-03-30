@@ -1,8 +1,7 @@
-﻿using Application.Model;
-using Application.Services;
-
-using System;
-using System.Threading.Tasks;
+﻿using Application.Constants;
+using Application.Models.CodeLogic;
+using Application.Models.Memory;
+using Application.Models.OperationLogic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace OperationTest
@@ -14,20 +13,20 @@ namespace OperationTest
         int d0 = 0;
         int d1 = 1;
 
-        Memory mem;
-        ApplicationService com;
+        MemoryService mem;
+        OperationService opService;
         SourceFileModel src;
         FileService fil;
 
         [TestInitialize]
         public void Setup()
         {
-            mem = new Memory();
+            mem = new MemoryService();
             src = new SourceFileModel();
             src.SourceFile = "";
             fil = new FileService();
             fil.CreateFileList(src);
-            com = new ApplicationService(mem, src);
+            opService = new OperationService(mem, src);
         }
 
         [TestMethod]
@@ -36,9 +35,16 @@ namespace OperationTest
             mem.RAM[file] = 10;
             mem.WReg = 6;
 
-            com.OperationService.ADDWF(file, d0);
+            ResultInfo op_result = opService.ADDWF(file, d0);
 
-            Assert.AreEqual(16, mem.WReg);
+            Assert.AreEqual(10, op_result.OverflowInfo.Operand1);
+            Assert.AreEqual(6, op_result.OverflowInfo.Operand2);
+            Assert.AreEqual("+", op_result.OverflowInfo.Operator);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.IsTrue(op_result.CheckZ);
+            Assert.AreEqual(16, op_result.OperationResults[0].Value);
+            Assert.AreEqual(MemoryConstants.WRegPlaceholder, op_result.OperationResults[0].Address);
         }
 
 
@@ -48,9 +54,16 @@ namespace OperationTest
             mem.RAM[file] = 10;
             mem.WReg = 250;
 
-            com.OperationService.ADDWF(file, d1);
+            ResultInfo op_result = opService.ADDWF(file, d1);
 
-            Assert.AreEqual(4, mem.RAM[file]);
+            Assert.AreEqual(10, op_result.OverflowInfo.Operand1);
+            Assert.AreEqual(250, op_result.OverflowInfo.Operand2);
+            Assert.AreEqual("+", op_result.OverflowInfo.Operator);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.IsTrue(op_result.CheckZ);
+            Assert.AreEqual(260, op_result.OperationResults[0].Value);
+            Assert.AreEqual(file, op_result.OperationResults[0].Address);
         }
 
         [TestMethod]
@@ -59,9 +72,13 @@ namespace OperationTest
             mem.RAM[file] = 10;
             mem.WReg = 6;
 
-            com.OperationService.ANDWF(file, d0);
+            ResultInfo op_result = opService.ANDWF(file, d0);
 
-            Assert.AreEqual(2, mem.WReg);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.IsTrue(op_result.CheckZ);
+            Assert.AreEqual(2, op_result.OperationResults[0].Value);
+            Assert.AreEqual(MemoryConstants.WRegPlaceholder, op_result.OperationResults[0].Address);
         }
 
 
@@ -71,9 +88,13 @@ namespace OperationTest
             mem.RAM[file] = 10;
             mem.WReg = 6;
 
-            com.OperationService.ANDWF(file, d1);
+            ResultInfo op_result = opService.ANDWF(file, d1);
 
-            Assert.AreEqual(2, mem.RAM[file]);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.IsTrue(op_result.CheckZ);
+            Assert.AreEqual(2, op_result.OperationResults[0].Value);
+            Assert.AreEqual(file, op_result.OperationResults[0].Address);
         }
 
         [TestMethod]
@@ -81,9 +102,13 @@ namespace OperationTest
         {
             mem.RAM[file] = 10;
 
-            com.OperationService.CLRF(file);
+            ResultInfo op_result = opService.CLRF(file);
 
-            Assert.AreEqual(0, mem.RAM[file]);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.IsTrue(op_result.CheckZ);
+            Assert.AreEqual(0, op_result.OperationResults[0].Value);
+            Assert.AreEqual(file, op_result.OperationResults[0].Address);
         }
 
         [TestMethod]
@@ -91,9 +116,13 @@ namespace OperationTest
         {
             mem.WReg = 17;
 
-            com.OperationService.CLRW();
+            ResultInfo op_result = opService.CLRW();
 
-            Assert.AreEqual(0, mem.WReg);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.IsTrue(op_result.CheckZ);
+            Assert.AreEqual(0, op_result.OperationResults[0].Value);
+            Assert.AreEqual(MemoryConstants.WRegPlaceholder, op_result.OperationResults[0].Address);
         }
 
         [TestMethod]
@@ -101,9 +130,13 @@ namespace OperationTest
         {
             mem.RAM[file] = 0x_13;
 
-            com.OperationService.COMF(file, d1);
+            ResultInfo op_result = opService.COMF(file, d1);
 
-            Assert.AreEqual(0x_EC, mem.RAM[file]);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.IsTrue(op_result.CheckZ);
+            Assert.AreEqual(0x_EC, op_result.OperationResults[0].Value);
+            Assert.AreEqual(file, op_result.OperationResults[0].Address);
         }
 
         [TestMethod]
@@ -111,9 +144,13 @@ namespace OperationTest
         {
             mem.RAM[file] = 13;
 
-            com.OperationService.DECF(file, d1);
+            ResultInfo op_result = opService.DECF(file, d1);
 
-            Assert.AreEqual(12, mem.RAM[file]);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.IsTrue(op_result.CheckZ);
+            Assert.AreEqual(12, op_result.OperationResults[0].Value);
+            Assert.AreEqual(file, op_result.OperationResults[0].Address);
         }
 
         [TestMethod]
@@ -121,31 +158,29 @@ namespace OperationTest
         {
             mem.RAM[file] = 13;
 
-            com.OperationService.DECFSZ(file, d1);
+            ResultInfo op_result = opService.DECFSZ(file, d1);
 
-            Assert.AreEqual(12, mem.RAM[file]);
-        }
-
-        [TestMethod]
-        public void DECFSZ_noSkip()
-        {
-            mem.RAM[file] = 13;
-            mem.RAM[Constants.PCL_B1] = 7;
-
-            com.OperationService.DECFSZ(file, d1);
-
-            Assert.AreEqual(8, mem.RAM[Constants.PCL_B1]);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.IsTrue(op_result.CheckZ);
+            Assert.AreEqual(12, op_result.OperationResults[0].Value);
+            Assert.AreEqual(file, op_result.OperationResults[0].Address);
+            Assert.IsFalse(op_result.BeginLoop);
         }
 
         [TestMethod]
         public void DECFSZ_Skip()
         {
             mem.RAM[file] = 1;
-            mem.RAM[Constants.PCL_B1] = 7;
 
-            com.OperationService.DECFSZ(file, d1);
+            ResultInfo op_result = opService.DECFSZ(file, d1);
 
-            Assert.AreEqual(9, mem.RAM[Constants.PCL_B1]);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.IsTrue(op_result.CheckZ);
+            Assert.AreEqual(0, op_result.OperationResults[0].Value);
+            Assert.AreEqual(file, op_result.OperationResults[0].Address);
+            Assert.IsTrue(op_result.BeginLoop);
         }
 
         [TestMethod]
@@ -153,41 +188,41 @@ namespace OperationTest
         {
             mem.RAM[file] = 13;
 
-            com.OperationService.INCF(file, d1);
+            ResultInfo op_result = opService.INCF(file, d1);
 
-            Assert.AreEqual(14, mem.RAM[file]);
-        }
-
-        [TestMethod]
-        public void INCFSZ_wert()
-        {
-            mem.RAM[file] = 13;
-
-            com.OperationService.INCFSZ(file, d1);
-
-            Assert.AreEqual(14, mem.RAM[file]);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.IsTrue(op_result.CheckZ);
+            Assert.AreEqual(14, op_result.OperationResults[0].Value);
+            Assert.AreEqual(file, op_result.OperationResults[0].Address);
         }
 
         [TestMethod]
         public void INCFSZ_noSkip()
         {
             mem.RAM[file] = 13;
-            mem.RAM[Constants.PCL_B1] = 7;
 
-            com.OperationService.INCFSZ(file, d1);
+            ResultInfo op_result = opService.INCFSZ(file, d1);
 
-            Assert.AreEqual(8, mem.RAM[Constants.PCL_B1]);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.AreEqual(14, op_result.OperationResults[0].Value);
+            Assert.AreEqual(file, op_result.OperationResults[0].Address);
+            Assert.IsFalse(op_result.BeginLoop);
         }
 
         [TestMethod]
         public void INCFSZ_Skip()
         {
             mem.RAM[file] = 255;
-            mem.RAM[Constants.PCL_B1] = 7;
 
-            com.OperationService.INCFSZ(file, d1);
+            ResultInfo op_result = opService.INCFSZ(file, d1);
 
-            Assert.AreEqual(9, mem.RAM[Constants.PCL_B1]);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.AreEqual(0, op_result.OperationResults[0].Value);
+            Assert.AreEqual(file, op_result.OperationResults[0].Address);
+            Assert.IsTrue(op_result.BeginLoop);
         }
 
         [TestMethod]
@@ -196,9 +231,13 @@ namespace OperationTest
             mem.RAM[file] = 10;
             mem.WReg = 6;
 
-            com.OperationService.IORWF(file, d1);
+            ResultInfo op_result = opService.IORWF(file, d1);
 
-            Assert.AreEqual(14, mem.RAM[file]);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.IsTrue(op_result.CheckZ);
+            Assert.AreEqual(14, op_result.OperationResults[0].Value);
+            Assert.AreEqual(file, op_result.OperationResults[0].Address);
         }
 
         [TestMethod]
@@ -206,9 +245,13 @@ namespace OperationTest
         {
             mem.RAM[file] = 10;
 
-            com.OperationService.MOVF(file, d0);
+            ResultInfo op_result = opService.MOVF(file, d0);
 
-            Assert.AreEqual(10, mem.WReg);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.IsTrue(op_result.CheckZ);
+            Assert.AreEqual(10, op_result.OperationResults[0].Value);
+            Assert.AreEqual(MemoryConstants.WRegPlaceholder, op_result.OperationResults[0].Address);
         }
 
 
@@ -218,110 +261,124 @@ namespace OperationTest
             mem.RAM[file] = 6;
             mem.WReg = 10;
 
-            com.OperationService.MOVWF(file);
+            ResultInfo op_result = opService.MOVWF(file);
 
-            Assert.AreEqual(10, mem.RAM[file]);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.AreEqual(10, op_result.OperationResults[0].Value);
+            Assert.AreEqual(file, op_result.OperationResults[0].Address);
         }
 
 
         [TestMethod]
         public void NOP()
         {
-            mem.RAM[Constants.PCL_B1] = 10;
+            ResultInfo op_result = opService.NOP();
 
-            com.OperationService.NOP();
-
-            Assert.AreEqual(11, mem.RAM[Constants.PCL_B1]);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
         }
 
         [TestMethod]
         public void RLF_carry1()
         {
             mem.RAM[file] = 10;
-            mem.RAM[Constants.STATUS_B1] = 1;
+            mem.RAM[MemoryConstants.STATUS_B1] = 1;
 
-            com.OperationService.RLF(file, d1);
+            ResultInfo op_result = opService.RLF(file, d1);
 
-            Assert.AreEqual(21, mem.RAM[file]);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.AreEqual(21 ,op_result.OverflowInfo.Operand1);
+            Assert.AreEqual(0, op_result.OverflowInfo.Operand2);
+            Assert.AreEqual("+", op_result.OverflowInfo.Operator);
+            Assert.AreEqual(21, op_result.OperationResults[0].Value);
+            Assert.AreEqual(file, op_result.OperationResults[0].Address);
         }
 
         [TestMethod]
         public void RLF_carry0()
         {
             mem.RAM[file] = 10;
-            mem.RAM[Constants.STATUS_B1] = 0;
+            mem.RAM[MemoryConstants.STATUS_B1] = 0;
 
-            com.OperationService.RLF(file, d1);
+            ResultInfo op_result = opService.RLF(file, d1);
 
-            Assert.AreEqual(20, mem.RAM[file]);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.AreEqual(20, op_result.OverflowInfo.Operand1);
+            Assert.AreEqual(0, op_result.OverflowInfo.Operand2);
+            Assert.AreEqual("+", op_result.OverflowInfo.Operator);
+            Assert.AreEqual(20, op_result.OperationResults[0].Value);
+            Assert.AreEqual(file, op_result.OperationResults[0].Address);
         }
 
         [TestMethod]
-        public void RLF_Overflow_Wert()
+        public void RLF_Overflow()
         {
             mem.RAM[file] = 138;
-            mem.RAM[Constants.STATUS_B1] = 0;
+            mem.RAM[MemoryConstants.STATUS_B1] = 0;
 
-            com.OperationService.RLF(file, d1);
+            ResultInfo op_result = opService.RLF(file, d1);
 
-            Assert.AreEqual(20, mem.RAM[file]);
-        }
-
-
-        [TestMethod]
-        public void RLF_Overflow_Carry()
-        {
-            mem.RAM[file] = 138;
-            mem.RAM[Constants.STATUS_B1] = 0;
-
-            com.OperationService.RLF(file, d1);
-
-            Assert.AreEqual(1, mem.RAM[Constants.STATUS_B1]);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.AreEqual(276, op_result.OverflowInfo.Operand1);
+            Assert.AreEqual(0, op_result.OverflowInfo.Operand2);
+            Assert.AreEqual("+", op_result.OverflowInfo.Operator);
+            Assert.AreEqual(276, op_result.OperationResults[0].Value);
+            Assert.AreEqual(file, op_result.OperationResults[0].Address);
         }
 
         [TestMethod]
         public void RRF_carry1()
         {
             mem.RAM[file] = 10;
-            mem.RAM[Constants.STATUS_B1] = 1;
+            mem.RAM[MemoryConstants.STATUS_B1] = 1;
 
-            com.OperationService.RRF(file, d1);
+            ResultInfo op_result = opService.RRF(file, d1);
 
-            Assert.AreEqual(133, mem.RAM[file]);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.AreEqual(133, op_result.OverflowInfo.Operand1);
+            Assert.AreEqual(0, op_result.OverflowInfo.Operand2);
+            Assert.AreEqual("+", op_result.OverflowInfo.Operator);
+            Assert.AreEqual(133, op_result.OperationResults[0].Value);
+            Assert.AreEqual(file, op_result.OperationResults[0].Address);
         }
 
         [TestMethod]
         public void RRF_carry0()
         {
             mem.RAM[file] = 10;
-            mem.RAM[Constants.STATUS_B1] = 0;
+            mem.RAM[MemoryConstants.STATUS_B1] = 0;
 
-            com.OperationService.RRF(file, d1);
+            ResultInfo op_result = opService.RRF(file, d1);
 
-            Assert.AreEqual(5, mem.RAM[file]);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.AreEqual(5, op_result.OverflowInfo.Operand1);
+            Assert.AreEqual(0, op_result.OverflowInfo.Operand2);
+            Assert.AreEqual("+", op_result.OverflowInfo.Operator);
+            Assert.AreEqual(5, op_result.OperationResults[0].Value);
+            Assert.AreEqual(file, op_result.OperationResults[0].Address);
         }
 
         [TestMethod]
-        public void RRF_Overflow_Wert()
+        public void RRF_Overflow()
         {
             mem.RAM[file] = 11;
-            mem.RAM[Constants.STATUS_B1] = 0;
+            mem.RAM[MemoryConstants.STATUS_B1] = 0;
 
-            com.OperationService.RRF(file, d1);
+            ResultInfo op_result = opService.RRF(file, d1);
 
-            Assert.AreEqual(5, mem.RAM[file]);
-        }
-
-
-        [TestMethod]
-        public void RRF_Overflow_Carry()
-        {
-            mem.RAM[file] = 11;
-            mem.RAM[Constants.STATUS_B1] = 0;
-
-            com.OperationService.RRF(file, d1);
-
-            Assert.AreEqual(1, mem.RAM[Constants.STATUS_B1]);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.AreEqual(5, op_result.OverflowInfo.Operand1);
+            Assert.AreEqual(256, op_result.OverflowInfo.Operand2);
+            Assert.AreEqual("+", op_result.OverflowInfo.Operator);
+            Assert.AreEqual(5, op_result.OperationResults[0].Value);
+            Assert.AreEqual(file, op_result.OperationResults[0].Address);
         }
 
         [TestMethod]
@@ -330,9 +387,16 @@ namespace OperationTest
             mem.RAM[file] = 3;
             mem.WReg = 2;
 
-            com.OperationService.SUBWF(file, d1);
+            ResultInfo op_result = opService.SUBWF(file, d1);
 
-            Assert.AreEqual(1, mem.RAM[file]);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.IsTrue(op_result.CheckZ);
+            Assert.AreEqual(3, op_result.OverflowInfo.Operand1);
+            Assert.AreEqual(2, op_result.OverflowInfo.Operand2);
+            Assert.AreEqual("-", op_result.OverflowInfo.Operator);
+            Assert.AreEqual(1, op_result.OperationResults[0].Value);
+            Assert.AreEqual(file, op_result.OperationResults[0].Address);
         }
 
         [TestMethod]
@@ -341,9 +405,16 @@ namespace OperationTest
             mem.RAM[file] = 10;
             mem.WReg = 20;
 
-            com.OperationService.SUBWF(file, d1);
+            ResultInfo op_result = opService.SUBWF(file, d1);
 
-            Assert.AreEqual(246, mem.RAM[file]);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.IsTrue(op_result.CheckZ);
+            Assert.AreEqual(10, op_result.OverflowInfo.Operand1);
+            Assert.AreEqual(20, op_result.OverflowInfo.Operand2);
+            Assert.AreEqual("-", op_result.OverflowInfo.Operator);
+            Assert.AreEqual(-10, op_result.OperationResults[0].Value);
+            Assert.AreEqual(file, op_result.OperationResults[0].Address);
         }
 
         [TestMethod]
@@ -351,9 +422,12 @@ namespace OperationTest
         {
             mem.RAM[file] = 0x_A5;
 
-            com.OperationService.SWAPF(file, d1);
+            ResultInfo op_result = opService.SWAPF(file, d1);
 
-            Assert.AreEqual(0x_5A, mem.RAM[file]);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.AreEqual(0x_5A, op_result.OperationResults[0].Value);
+            Assert.AreEqual(file, op_result.OperationResults[0].Address);
         }
 
         [TestMethod]
@@ -362,9 +436,13 @@ namespace OperationTest
             mem.RAM[file] = 0x_AF;
             mem.WReg = 0x_b5;
 
-            com.OperationService.XORWF(file, d1);
+            ResultInfo op_result = opService.XORWF(file, d1);
 
-            Assert.AreEqual(0x_1A, mem.RAM[file]);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.IsTrue(op_result.CheckZ);
+            Assert.AreEqual(0x_1A, op_result.OperationResults[0].Value);
+            Assert.AreEqual(file, op_result.OperationResults[0].Address);
         }
     }
 }

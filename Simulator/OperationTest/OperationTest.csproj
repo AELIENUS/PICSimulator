@@ -81,7 +81,6 @@
     <Compile Include="OperationHelpersTests.cs" />
     <Compile Include="FileRegisterCommandsTest.cs" />
     <Compile Include="LiteralCommandsTest.cs" />
-    <Compile Include="OtherTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultInfoTests.cs" />
   </ItemGroup>

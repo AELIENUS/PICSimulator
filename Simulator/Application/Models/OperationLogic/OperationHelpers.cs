@@ -92,7 +92,6 @@ namespace Application.Models.OperationLogic
 
         public void ChangePC_Fetch(int value)
         {
-            _srcModel[_memory.RAM.PC_Without_Clear].IsExecuted = false;
             if (_memory.RAM[MemoryConstants.PCL_B1] == 0b_1111_1111)
             {
                 _memory.RAM[MemoryConstants.PCL_B1] = (byte)(0 + value);
@@ -107,7 +106,13 @@ namespace Application.Models.OperationLogic
 
         public void UpdateCycles(int cyclesToAdd)
         {
-            _memory.CycleCounter += cyclesToAdd;
+            while (cyclesToAdd > 0)
+            {
+                //CycleCounter is incremented by 1 every time, the setter is called
+                _memory.CycleCounter += 1;
+                cyclesToAdd -= 1;
+            }
+            
         }
 
         public void WriteOperationResults(List<OperationResult> operationResults)

@@ -78,12 +78,11 @@ namespace OperationTest
         {
             int lit1 = 136;
             OverflowInfo overflowInfo = new OverflowInfo() { Operand1 = lit1, Operand2 = lit1, Operator = "+" };
-            opHelpers.Check_DC_C(overflowInfo, lit1 + lit1);
+            int result = opHelpers.Check_DC_C(overflowInfo, lit1 + lit1);
 
             int dc = mem.RAM[MemoryConstants.STATUS_B1] & 0b_0000_0010;
 
             Assert.AreEqual(2, dc);
-
         }
 
         [TestMethod]
@@ -91,11 +90,12 @@ namespace OperationTest
         {
             int lit1 = 136;
             OverflowInfo overflowInfo = new OverflowInfo() { Operand1 = lit1, Operand2 = lit1, Operator = "+" };
-            opHelpers.Check_DC_C(overflowInfo, lit1 + lit1);
+            int result = opHelpers.Check_DC_C(overflowInfo, lit1 + lit1);
 
             int c = mem.RAM[MemoryConstants.STATUS_B1] & 0b_0000_0001;
 
             Assert.AreEqual(1, c);
+            Assert.AreEqual(16, result);
         }
 
         #endregion
@@ -214,11 +214,23 @@ namespace OperationTest
         [TestMethod]
         public void updateCycles()
         {
-            mem.CycleCounter = 4;
+            //CycleCounter is incremented by 1 every time, the setter is called
+            //mem.CycleCounter starts at 0
 
             opHelpers.UpdateCycles(1);
 
-            Assert.AreEqual(5, mem.CycleCounter);
+            Assert.AreEqual(1, mem.CycleCounter);
+        }
+
+        [TestMethod]
+        public void updateCycles_2()
+        {
+            //CycleCounter is incremented by 1 every time, the setter is called
+            //mem.CycleCounter starts at 0
+
+            opHelpers.UpdateCycles(2);
+
+            Assert.AreEqual(2, mem.CycleCounter);
         }
 
         [TestMethod]

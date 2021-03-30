@@ -1,5 +1,8 @@
-﻿using Application.Model;
-using Application.Services;
+﻿using System.Collections.Generic;
+using Application.Constants;
+using Application.Models.CodeLogic;
+using Application.Models.Memory;
+using Application.Models.OperationLogic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace OperationTest
@@ -7,22 +10,22 @@ namespace OperationTest
     [TestClass]
     public class BitOrientedTest
     {
-        Memory mem;
-        ApplicationService com;
+        MemoryService mem;
+        OperationService opService;
         SourceFileModel src;
         FileService fil;
 
         [TestInitialize]
         public void Setup()
         {
-            mem = new Memory();
+            mem = new MemoryService();
             src = new SourceFileModel
             {
                 SourceFile = ""
             };
             fil = new FileService();
             fil.CreateFileList(src);
-            com = new ApplicationService(mem, src);
+            opService = new OperationService(mem, src);
         }
 
         [TestMethod]
@@ -32,9 +35,12 @@ namespace OperationTest
             int bit = 0;
             mem.RAM[file] = 3;
 
-            com.OperationService.BCF(file, bit);
+            ResultInfo op_resultInfo = opService.BCF(file, bit);
 
-            Assert.AreEqual(2, mem.RAM[file]);
+            Assert.AreEqual(1, op_resultInfo.PCIncrement);
+            Assert.AreEqual(1, op_resultInfo.Cycles);
+            Assert.AreEqual(file, op_resultInfo.OperationResults[0].Address);
+            Assert.AreEqual(2, op_resultInfo.OperationResults[0].Value);
         }
 
         [TestMethod]
@@ -44,61 +50,68 @@ namespace OperationTest
             int bit = 0;
             mem.RAM[file] = 2;
 
-            com.OperationService.BSF(file, bit);
+            ResultInfo op_result = opService.BSF(file, bit);
 
-            Assert.AreEqual(3, mem.RAM[file]);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(file, op_result.OperationResults[0].Address);
+            Assert.AreEqual(3, op_result.OperationResults[0].Value);
         }
 
         [TestMethod]
         public void BTFSC_NoSkip()
         {
-            mem.RAM[Constants.PCL_B1] = 1;
             int file = 0x_0f;
             int bit = 0;
             mem.RAM[file] = 3;
 
-            com.OperationService.BTFSC(file, bit);
+            ResultInfo op_result =  opService.BTFSC(file, bit);
 
-            Assert.AreEqual(2, mem.RAM[Constants.PCL_B1]);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.IsFalse(op_result.BeginLoop);
         }
 
         [TestMethod]
         public void BTFSC_Skip()
         {
-            mem.RAM[Constants.PCL_B1] = 1;
             int file = 0x_0f;
             int bit = 0;
             mem.RAM[file] = 2;
 
-            com.OperationService.BTFSC(file, bit);
+            ResultInfo op_result = opService.BTFSC(file, bit);
 
-            Assert.AreEqual(3, mem.RAM[Constants.PCL_B1]);
-        }
-
-        [TestMethod]
-        public void BTFSS_NoSkip()
-        {
-            mem.RAM[Constants.PCL_B1] = 1;
-            int file = 0x_0f;
-            int bit = 0;
-            mem.RAM[file] = 3;
-
-            com.OperationService.BTFSS(file, bit);
-
-            Assert.AreEqual(3, mem.RAM[Constants.PCL_B1]);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.IsTrue(op_result.BeginLoop);
         }
 
         [TestMethod]
         public void BTFSS_Skip()
         {
-            mem.RAM[Constants.PCL_B1] = 1;
+            int file = 0x_0f;
+            int bit = 0;
+            mem.RAM[file] = 3;
+
+            ResultInfo op_result = opService.BTFSS(file, bit);
+
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.IsTrue(op_result.BeginLoop);
+        }
+
+        [TestMethod]
+        public void BTFSS_NoSkip()
+        {
             int file = 0x_0f;
             int bit = 0;
             mem.RAM[file] = 2;
 
-            com.OperationService.BTFSS(file, bit);
+            ResultInfo op_result = opService.BTFSS(file, bit);
 
-            Assert.AreEqual(2, mem.RAM[Constants.PCL_B1]);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.IsFalse(op_result.BeginLoop);
         }
     }
 }

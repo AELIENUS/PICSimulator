@@ -90,25 +90,6 @@ namespace Application.Models.OperationLogic
             return modifiedResult;
         }
 
-        public void StoreSwitchedOnD(int file, int result, int d)
-        {
-            if (d == 0)
-            {
-                //operationResult stored in w
-                _memory.WReg = Convert.ToByte(result);
-            }
-            else
-            {
-                if (file == 0x02)
-                {
-                    _srcModel.ListOfCode[_memory.RAM.PC_Without_Clear].IsExecuted = false;
-                    _memory.RAM.PCL_was_Manipulated = true;
-                }
-                //operationResult stored in f
-                _memory.RAM[file] = Convert.ToByte(result);
-            }
-        }
-
         public void ChangePC_Fetch(int value)
         {
             _srcModel[_memory.RAM.PC_Without_Clear].IsExecuted = false;

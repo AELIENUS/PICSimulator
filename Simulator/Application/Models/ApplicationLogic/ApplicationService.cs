@@ -312,13 +312,12 @@ namespace Application.Models.ApplicationLogic
         }
     
 
-        public ApplicationService(MemoryService memory, SourceFileModel srcModel)
+        public ApplicationService(MemoryService memory, SourceFileModel srcModel, OperationHelpers operationHelpers, OperationService operationService)
         {
             this._memory = memory;
             this._srcModel = srcModel;
-            /// diese sehr schlecht, da das Objekt selbst übergeben wird
-            _operationService = new OperationService(_memory, _srcModel);
-            _operationHelpers = new OperationHelpers(_memory, _srcModel);
+            _operationService = operationService;
+            _operationHelpers = operationHelpers;
         }
 
     }

@@ -2,7 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Threading;
+using Application.Annotations;
 using Application.Constants;
 
 namespace Application.Models.CustomDatastructures
@@ -13,10 +16,11 @@ namespace Application.Models.CustomDatastructures
     /// accessing the threads dispatcher.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ObservableStack<T> : ObservableObject
+    public class ObservableStack<T> : Stack<T>, INotifyPropertyChanged
     {
         #region fields 
         private ObservableCollection<T> _collection = new ObservableCollection<T>();
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<T> Collection
         {
@@ -51,12 +55,12 @@ namespace Application.Models.CustomDatastructures
             }
         }
 
-        public void Clear()
+        public new void Clear()
         {
             this.Collection = new ObservableCollection<T>();
         }
 
-        public T Pop()
+        public new T Pop()
         {
             //Item holen
             var item = Collection[Collection.Count-1];
@@ -70,7 +74,7 @@ namespace Application.Models.CustomDatastructures
             return item;
         }
 
-        public void Push(T item)
+        public new void Push(T item)
         {
             System.Windows.Application a = System.Windows.Application.Current;
             if (Collection.Count>= MemoryConstants.PC_STACK_CAPACITY)
@@ -88,10 +92,17 @@ namespace Application.Models.CustomDatastructures
                 }));
         }
 
-        public T Peek()
+        public new T Peek()
         {
             var item = Collection[Collection.Count-1];
             return item;
+        }
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            propertyChanged?.Invoke((object)this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

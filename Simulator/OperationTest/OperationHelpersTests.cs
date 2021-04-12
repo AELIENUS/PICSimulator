@@ -18,7 +18,7 @@ namespace OperationTest
         [TestInitialize]
         public void Setup()
         {
-            mem = new MemoryService();
+            mem = new MemoryService(new RAMModel(), new Stack<short>(MemoryConstants.PC_STACK_CAPACITY));
             src = new SourceFileModel();
             opHelpers = new OperationHelpers(mem, src);
         }

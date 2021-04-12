@@ -1,4 +1,5 @@
-﻿using Application.Constants;
+﻿using System.Collections.Generic;
+using Application.Constants;
 using Application.Models.CodeLogic;
 using Application.Models.CustomDatastructures;
 using Application.Models.Memory;
@@ -25,7 +26,7 @@ namespace OperationTest
             //to mock it than using the actual thing.That is, because you would have to set e.g.the PCStack
             //Property to return an object of type ObservableStack, which is just a stack, and this
             //is not possible since it is no non - overridable property / member.
-            mem = new MemoryService() { PCStack = new ObservableStack<short>() };
+            mem = new MemoryService(new RAMModel(), new Stack<short>(MemoryConstants.PC_STACK_CAPACITY));
             
             src = new SourceFileModel { SourceFile = "" };
             fil = new FileService();

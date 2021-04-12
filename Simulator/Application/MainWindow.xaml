@@ -105,7 +105,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Port A" Grid.Row="0" Grid.ColumnSpan="4" VerticalContentAlignment="Bottom"/>
-                    <Label Grid.Row="1" Grid.ColumnSpan="4" Content="{Binding Memory.RAM.PortA.Value, Converter={StaticResource ElementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Grid.Row="1" Grid.ColumnSpan="4" Content="{Binding Memory.RAM.PortA.PortValue.Value, Converter={StaticResource ElementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Label Content="Tris A" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="4" VerticalContentAlignment="Bottom"/>
                     <Label Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="4" Content="{Binding Memory.RAM.RAMList[8].Byte5.Value, Converter={StaticResource ElementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding Memory.RAM.PortA.Pin7}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -144,7 +144,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Port B" Grid.Row="0" Grid.ColumnSpan="8" VerticalContentAlignment="Bottom"/>
-                    <Label Grid.Row="1" Grid.ColumnSpan="8" Content="{Binding Memory.RAM.PortB.Value, Converter={StaticResource ElementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Grid.Row="1" Grid.ColumnSpan="8" Content="{Binding Memory.RAM.PortB.PortValue.Value, Converter={StaticResource ElementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Label Content="Tris B" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="4" VerticalContentAlignment="Bottom"/>
                     <Label Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="4" Content="{Binding Memory.RAM.RAMList[8].Byte6.Value, Converter={StaticResource ElementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Content="Bit7" VerticalAlignment="Center"></Label>

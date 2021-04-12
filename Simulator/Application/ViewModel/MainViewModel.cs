@@ -5,6 +5,7 @@ using Application.Constants;
 using Application.Models.ApplicationLogic;
 using Application.Models.CodeLogic;
 using Application.Models.Memory;
+using Application.Models.Utility;
 using Application.Models.ViewLogic;
 
 namespace Application.ViewModel
@@ -187,11 +188,14 @@ namespace Application.ViewModel
         /// </summary>
         public MainViewModel()
         {
-            _memory = new MemoryService();
-            _srcFileModel = new SourceFileModel();
-            _fileService = new FileService();
-            _dialogService = new DialogService();
-            _applicationService = new ApplicationService(_memory, _srcFileModel);
+            // make dependency bag singleton
+            DependencyBag bag = new DependencyBag();
+            bag.Create();
+            _memory = bag.Memory;
+            _srcFileModel = bag.SourceFile;
+            _fileService = bag.FileService;
+            _dialogService = bag.DialogService;
+            _applicationService = bag.ApplicationService;
 
             DebugCodes.Pause = false;
             DebugCodes.Reset = false;

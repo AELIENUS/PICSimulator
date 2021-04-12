@@ -491,7 +491,7 @@ namespace Application.Models.Memory
         }
         #endregion
 
-        public RAMModel()
+        public RAMModel(Port portA, Port portB)
         {
             _RAMList = new ObservableCollection<RAMPortion>(new RAMPortion[16]);
             for (int i = 0; i < 16; i++)

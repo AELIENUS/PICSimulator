@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Application.App" Collapsed="true">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application.MainWindow" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Application.Constants.DebugCodes" Collapsed="true">
+    <Position X="10" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constants\DebugCodes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application.Constants.MemoryConstants" Collapsed="true">
+    <Position X="10" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>bAgiIAMAAigcPBSAAkABAAAAFAgjCgBAEgIQxkMQIAE=</HashCode>
+      <FileName>Constants\MemoryConstants.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application.Models.ApplicationLogic.ApplicationService" Collapsed="true">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACQAABAAgAQAAgAQAAEAAgAAAAAAAAAACAgEFCCIQI=</HashCode>
+      <FileName>Models\ApplicationLogic\ApplicationService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application.Models.CodeLogic.FileService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAEAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Models\CodeLogic\FileService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Application.Models.CodeLogic.LineOfCode" Collapsed="true">
+    <Position X="4.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBAEBAAAAAQAAAAAAAAAAABEAAAAAAAAEAAACBAAA=</HashCode>
+      <FileName>Models\CodeLogic\LineOfCode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application.Models.CodeLogic.SourceFileModel" Collapsed="true">
+    <Position X="3" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAgAAAAIAACAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\CodeLogic\SourceFileModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application.Models.Converters.ByteBitToBoolConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAgAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Converters\ByteBitToBoolConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Application.Models.Converters.ByteConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Converters\ByteConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Application.Models.Converters.ShortToBinary" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Converters\ShortToBinary.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Application.Models.CustomDatastructures.AbstractByte" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Models\CustomDatastructures\AbstractByte.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application.Models.CustomDatastructures.ObservableByte" Collapsed="true">
+    <Position X="0.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Models\CustomDatastructures\ObservableByte.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application.Models.CustomDatastructures.ObservableStack&lt;T&gt;" Collapsed="true">
+    <Position X="3" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEQEAAAAAAAAAAAACAAAAAAAAAAABACAA=</HashCode>
+      <FileName>Models\CustomDatastructures\ObservableStack.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application.Models.Memory.MemoryService" Collapsed="true">
+    <Position X="11.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgCAAMBAFAAAAACCEAAQAAAAAAAgTAAACAEBAgAAA=</HashCode>
+      <FileName>Models\Memory\MemoryService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application.Models.Memory.Port" Collapsed="true">
+    <Position X="11.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgA8A8AAAAAQAAAACAAIAAgBAAABAAAAAAAIEIAAAA=</HashCode>
+      <FileName>Models\Memory\Port.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application.Models.Memory.RAMModel" Collapsed="true">
+    <Position X="3" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AGAAAAAAAAACCgEgCAACYQCgQAQgAAZgAAAAAAIECAA=</HashCode>
+      <FileName>Models\Memory\RAMModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application.Models.Memory.RAMPortion" Collapsed="true">
+    <Position X="4.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAPADAAAAAAAAACAQCAAAAAAIBAAABAEAAAAAAgE=</HashCode>
+      <FileName>Models\Memory\RAMPortion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application.Models.OperationLogic.OperationHelpers" Collapsed="true">
+    <Position X="4.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAgAAAAAQCAAACAAAAgAAAAIAACAAAAAAAAA=</HashCode>
+      <FileName>Models\OperationLogic\OperationHelpers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application.Models.OperationLogic.OperationResult" Collapsed="true">
+    <Position X="6.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAgAAAAAAA=</HashCode>
+      <FileName>Models\OperationLogic\OperationResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application.Models.OperationLogic.OperationService" Collapsed="true">
+    <Position X="8.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQhAFAQCHmAAEEZIBAAAAACAQASgEACQAGQAYAJAIQA=</HashCode>
+      <FileName>Models\OperationLogic\OperationService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application.Models.OperationLogic.OverflowInfo" Collapsed="true">
+    <Position X="10" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAACAAAAAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Models\OperationLogic\OverflowInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application.Models.OperationLogic.ResultInfo" Collapsed="true">
+    <Position X="8.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAggAICAAACAQAAAEAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Models\OperationLogic\ResultInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application.Models.ViewLogic.DialogService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ViewLogic\DialogService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Application.Properties.Resources" Collapsed="true">
+    <Position X="6.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application.Properties.Settings" Collapsed="true">
+    <Position X="10" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application.ViewModel.MainViewModel" Collapsed="true">
+    <Position X="6.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAoAAMAAAAIAAAAAAAkMBAAQAAqgAAABACAA=</HashCode>
+      <FileName>ViewModel\MainViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application.ViewModel.ViewModelLocator" Collapsed="true">
+    <Position X="4.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEAAAAA=</HashCode>
+      <FileName>ViewModel\ViewModelLocator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Application.Models.CodeLogic.IFileService" Collapsed="true">
+    <Position X="4.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\CodeLogic\IFileService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Application.Models.ViewLogic.IDialogService" Collapsed="true">
+    <Position X="3" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ViewLogic\IDialogService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -99,6 +99,7 @@
     <Compile Include="Models\Converters\ByteConverter.cs" />
     <Compile Include="Models\ApplicationLogic\ApplicationService.cs" />
     <Compile Include="Constants\MemoryConstants.cs" />
+    <Compile Include="Models\Utility\DependencyBag.cs" />
     <Compile Include="Models\ViewLogic\DialogService.cs" />
     <Compile Include="Models\CodeLogic\FileService.cs" />
     <Compile Include="Models\ViewLogic\IDialogService.cs" />
@@ -108,9 +109,9 @@
     <Compile Include="Models\OperationLogic\OperationService.cs" />
     <Compile Include="Models\OperationLogic\OverflowInfo.cs" />
     <Compile Include="Models\Memory\Port.cs" />
-    <Compile Include="Models\Memory\PortB.cs" />
     <Compile Include="Models\OperationLogic\ResultInfo.cs" />
     <Compile Include="Models\Converters\ShortToBinary.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="MainWindow.xaml">
@@ -144,6 +145,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -165,5 +167,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

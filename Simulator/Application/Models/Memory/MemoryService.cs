@@ -62,13 +62,12 @@ namespace Application.Models.Memory
             }
         }
 
-        private ObservableStack<short> _pcStack;
-        public ObservableStack<short> PCStack 
+        private Stack<short> _pcStack;
+        public Stack<short> PCStack 
         { 
             get
             {
-                return _pcStack ??
-                       (_pcStack = new ObservableStack<short>(new Stack<short>(MemoryConstants.PC_STACK_CAPACITY)));
+                return _pcStack;
             }
             set
             {
@@ -122,9 +121,10 @@ namespace Application.Models.Memory
         }
         #endregion
 
-        public MemoryService()
+        public MemoryService(RAMModel ram, Stack<short> pcStack)
         {
-            RAM = new RAMModel();
+            RAM = ram;
+            _pcStack = pcStack;
             PowerReset();
         }
 
@@ -157,7 +157,7 @@ namespace Application.Models.Memory
             RAM[MemoryConstants.INTCON_B2] = 0x00;
             WReg = 0x0000;
 
-            PCStack = new ObservableStack<short>(new Stack<short>(MemoryConstants.PC_STACK_CAPACITY));
+            PCStack.Clear();
 
             RAM.PortA.PortValue.Value = 0;
             RAM.PortB.PortValue.Value = 0;
@@ -203,7 +203,7 @@ namespace Application.Models.Memory
             RAM[MemoryConstants.INTCON_B2] &= 0x001;
             WReg = 0x0000;
 
-            PCStack = new ObservableStack<short>(new Stack<short>(MemoryConstants.PC_STACK_CAPACITY));
+            PCStack.Clear();
 
             RAM.PortA.PortValue.Value = 0;
             RAM.PortB.PortValue.Value = 0;

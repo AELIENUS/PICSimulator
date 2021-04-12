@@ -23,8 +23,8 @@ namespace Application.Models.Memory
             }
         }
 
-        private PortA _PortA;
-        public PortA PortA
+        private Port _PortA;
+        public Port PortA
         {
             get
             {
@@ -41,9 +41,9 @@ namespace Application.Models.Memory
             }
         }
 
-        private PortB _PortB;
+        private Port _PortB;
 
-        public PortB PortB
+        public Port PortB
         {
             get
             {
@@ -310,7 +310,8 @@ namespace Application.Models.Memory
                 switch (position)
                 {
                     case 0:
-                        if(portionIndex == 0)
+                        //byte 0 portion 0 and 8 is available in both banks
+                        if (portionIndex == 0)
                         {
                             RAMList[8].Byte0.Value = value;
                         }
@@ -363,6 +364,7 @@ namespace Application.Models.Memory
                         RAMList[portionIndex].Byte3.Value = value;
                         break;
                     case 4:
+                        //byte 4 portion 0 and 8 is the same in both banks
                         if (portionIndex == 0)
                         {
                             RAMList[8].Byte4.Value = value;
@@ -374,32 +376,10 @@ namespace Application.Models.Memory
                         RAMList[portionIndex].Byte4.Value = value;
                         break;
                     case 5:
-                        if (portionIndex == 0)
-                        {
-                            SetPortA(value);
-                        }
-                        else if (portionIndex == 8)
-                        {
-                            SetTRISA(value);
-                        }
-                        else
-                        {
-                            RAMList[portionIndex].Byte5.Value = value;
-                        }
+                        RAMList[portionIndex].Byte5.Value = value;
                         break;
                     case 6:
-                        if(portionIndex == 0)
-                        {
-                            SetPortB(value);
-                        }
-                        else if(portionIndex == 8)
-                        {
-                            SetTrisB(value);
-                        }
-                        else
-                        {
-                            RAMList[portionIndex].Byte6.Value = value;
-                        }
+                        RAMList[portionIndex].Byte6.Value = value;
                         break;
                     case 7:
                         RAMList[portionIndex].Byte7.Value = value;
@@ -510,39 +490,6 @@ namespace Application.Models.Memory
             RAMList[8].Byte11.Value |= 0b0000_0100;
         }
         #endregion
-        #region SetPort
-        private void SetPortA(byte valueToSet)
-        {
-           SetPort(valueToSet, RAMList[0].Byte5.Value, PortA.PORTA_Latch);
-           //RaisePropertyChanged
-           PortA.RaisePropertyChanged("Value");
-           for (int i = 0; i < 8; i++)
-           {
-               PortA.RaisePropertyChanged("Pin"+i.ToString());
-           }
-        }
-
-        private void SetPortB(byte valueToSet)
-        {
-            SetPort(valueToSet, RAMList[0].Byte6.Value, PortB.PORTB_Latch);
-            PortB.RaisePropertyChanged("Value");
-            for (int i = 0; i < 8; i++)
-            {
-                PortB.RaisePropertyChanged("Pin" + i.ToString());
-            }
-        }
-        #endregion
-        #region TRIS
-        private void SetTrisB(byte valueToSet)
-        {
-            SetTRIS(valueToSet, RAMList[8].Byte6.Value, PortB.PORTB_Latch);
-        }
-
-        private void SetTRISA(byte valueToSet)
-        {
-            SetTRIS(valueToSet, RAMList[8].Byte5.Value, PortA.PORTA_Latch);
-        }
-        #endregion
 
         public RAMModel()
         {
@@ -551,62 +498,12 @@ namespace Application.Models.Memory
             {
                 _RAMList[i] = new RAMPortion();
             }
-            _PortA = new PortA(this);
-            _PortB = new PortB(this);
-            _RAMList[0].Byte5 = new PortADummy(_PortA);
-            _RAMList[0].Byte6 = new PortBDummy(_PortB);
-        }
-
-        private void SetPort(byte value, byte destination, byte latch)
-        {
-            for(int i=0; i<8; i++)
-            {
-                byte mask = 0b0000_0001;
-                mask = (byte)(mask << i);
-                if((destination & mask) == 0)
-                {
-                    if((value & mask) == 0)
-                    {
-                        destination &= (byte)~mask;
-                    }
-                    else
-                    {
-                        destination |= mask;
-                    }
-                }
-                else
-                {
-                    if ((value & mask) == 0)
-                    {
-                        latch &= (byte) ~mask;
-                    }
-                    else
-                    {
-                        latch |= mask;
-                    }
-                }
-            }
-        }
-
-        private void SetTRIS(byte value, byte destination, byte latch)
-        {
-            for (int i = 0; i < 8; i++)
-            {
-                byte mask = 0b0000_0001;
-                mask = (byte)(mask << i);
-                if ((value & mask) == 0 && (destination & mask) > 0)
-                {
-                    if ((latch & mask) == 0)
-                    {
-                        destination &= (byte) ~mask;
-                    }
-                    else
-                    {
-                        destination |= mask;
-                    }
-                }
-                destination = value;
-            }
+            _PortA = new Port();
+            _PortB = new Port();
+            _RAMList[0].Byte5 = _PortA.PortValue;
+            _RAMList[8].Byte5 = _PortA.TRISValue; 
+            _RAMList[0].Byte6 = _PortB.PortValue;
+            _RAMList[8].Byte6 = _PortB.TRISValue;
         }
     }
 }

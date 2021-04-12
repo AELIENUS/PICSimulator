@@ -91,8 +91,6 @@
     <Compile Include="Models\CodeLogic\LineOfCode.cs" />
     <Compile Include="Models\CustomDatastructures\ObservableByte.cs" />
     <Compile Include="Models\Memory\MemoryService.cs" />
-    <Compile Include="Models\Memory\PortADummy.cs" />
-    <Compile Include="Models\Memory\PortBDummy.cs" />
     <Compile Include="Models\CustomDatastructures\ObservableStack.cs" />
     <Compile Include="Models\Memory\RAMModel.cs" />
     <Compile Include="Models\Memory\RAMPortion.cs" />
@@ -109,7 +107,7 @@
     <Compile Include="Models\OperationLogic\OperationResult.cs" />
     <Compile Include="Models\OperationLogic\OperationService.cs" />
     <Compile Include="Models\OperationLogic\OverflowInfo.cs" />
-    <Compile Include="Models\Memory\PortA.cs" />
+    <Compile Include="Models\Memory\Port.cs" />
     <Compile Include="Models\Memory\PortB.cs" />
     <Compile Include="Models\OperationLogic\ResultInfo.cs" />
     <Compile Include="Models\Converters\ShortToBinary.cs" />

@@ -159,11 +159,11 @@ namespace Application.Models.Memory
 
             PCStack = new ObservableStack<short>(new Stack<short>(MemoryConstants.PC_STACK_CAPACITY));
 
-            RAM.PortA.Value = 0;
-            RAM.PortB.Value = 0;
+            RAM.PortA.PortValue.Value = 0;
+            RAM.PortB.PortValue.Value = 0;
 
-            RAM.PortA.PORTA_Latch = 0;
-            RAM.PortB.PORTB_Latch = 0;
+            RAM.PortA.PortLatch = 0;
+            RAM.PortB.PortLatch = 0;
 
             RAM.PCL_was_Manipulated = false;
             RAM.PC_was_Jump = false;
@@ -205,11 +205,11 @@ namespace Application.Models.Memory
 
             PCStack = new ObservableStack<short>(new Stack<short>(MemoryConstants.PC_STACK_CAPACITY));
 
-            RAM.PortA.Value = 0;
-            RAM.PortB.Value = 0;
+            RAM.PortA.PortValue.Value = 0;
+            RAM.PortB.PortValue.Value = 0;
 
-            RAM.PortA.PORTA_Latch = 0;
-            RAM.PortB.PORTB_Latch = 0;
+            RAM.PortA.PortLatch = 0;
+            RAM.PortB.PortLatch = 0;
 
             RAM.PCL_was_Manipulated = false;
             RAM.PC_was_Jump = false;

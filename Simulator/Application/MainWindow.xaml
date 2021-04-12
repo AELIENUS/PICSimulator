@@ -64,7 +64,7 @@
                 </Grid>
 
             </GroupBox>
-            <GroupBox Grid.Row="1" Grid.Column="1" Header="Pogram Counter" Grid.RowSpan="2">
+            <GroupBox Grid.Row="1" Grid.Column="1" Header="Program Counter" Grid.RowSpan="2">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="130"/>

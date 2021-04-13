@@ -23,7 +23,7 @@ namespace OperationTest
             Assert.IsFalse(res.CheckZ);
             Assert.IsFalse(res.BeginLoop);
             Assert.IsFalse(res.ClearISR);
-            Assert.IsNull(res.Cycles);
+            Assert.IsNull(res.Cycles);  
             Assert.IsNull(res.JumpAddress);
             Assert.IsNull(res.OperationResults);
             Assert.IsNull(res.PCIncrement);

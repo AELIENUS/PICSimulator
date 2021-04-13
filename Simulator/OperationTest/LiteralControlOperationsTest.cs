@@ -10,28 +10,24 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace OperationTest
 {
     [TestClass]
-    public class LiteralCommandsTest
+    public class LiteralControlOperationsTest
     {
         MemoryService mem;
-        OperationService opService;
+        LiteralControlOperations opService;
         SourceFileModel src;
         FileService fil;
 
         [TestInitialize]
         public void Setup()
         {
-            //we have to mock the Observable
-
-            //the memory object is so basic that there is simply no point of mocking it, since it is much harder
-            //to mock it than using the actual thing.That is, because you would have to set e.g.the PCStack
-            //Property to return an object of type ObservableStack, which is just a stack, and this
-            //is not possible since it is no non - overridable property / member.
-            mem = new MemoryService(new RAMModel(), new Stack<short>(MemoryConstants.PC_STACK_CAPACITY));
+            //mocking the ObservableStack would be more complicated than just using a normal stack
+            //the Ports of the memory are mocked, because they contain logic, that is not needed for the operations to work
+            mem = new MemoryService(new RAMModel(new Mock<Port>().Object, new Mock<Port>().Object), new Stack<short>(MemoryConstants.PC_STACK_CAPACITY));
             
             src = new SourceFileModel { SourceFile = "" };
             fil = new FileService();
             fil.CreateFileList(src);
-            opService = new OperationService(mem, src);
+            opService = new LiteralControlOperations(mem);
         }
 
         [TestMethod]

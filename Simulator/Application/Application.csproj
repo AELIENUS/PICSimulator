@@ -99,6 +99,9 @@
     <Compile Include="Models\Converters\ByteConverter.cs" />
     <Compile Include="Models\ApplicationLogic\ApplicationService.cs" />
     <Compile Include="Constants\MemoryConstants.cs" />
+    <Compile Include="Models\OperationLogic\BitOperations.cs" />
+    <Compile Include="Models\OperationLogic\ByteOperations.cs" />
+    <Compile Include="Models\OperationLogic\LiteralControlOperations.cs" />
     <Compile Include="Models\Utility\DependencyBag.cs" />
     <Compile Include="Models\ViewLogic\DialogService.cs" />
     <Compile Include="Models\CodeLogic\FileService.cs" />
@@ -106,7 +109,6 @@
     <Compile Include="Models\CodeLogic\IFileService.cs" />
     <Compile Include="Models\OperationLogic\OperationHelpers.cs" />
     <Compile Include="Models\OperationLogic\OperationResult.cs" />
-    <Compile Include="Models\OperationLogic\OperationService.cs" />
     <Compile Include="Models\OperationLogic\OverflowInfo.cs" />
     <Compile Include="Models\Memory\Port.cs" />
     <Compile Include="Models\OperationLogic\ResultInfo.cs" />

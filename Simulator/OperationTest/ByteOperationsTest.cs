@@ -4,30 +4,31 @@ using Application.Models.CodeLogic;
 using Application.Models.Memory;
 using Application.Models.OperationLogic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace OperationTest
 {
     [TestClass]
-    public class FileRegisterCommandsTest
+    public class ByteOperationsTest
     {
         int file = 0x_0f;
         int d0 = 0;
         int d1 = 1;
 
         MemoryService mem;
-        OperationService opService;
+        ByteOperations opService;
         SourceFileModel src;
         FileService fil;
 
         [TestInitialize]
         public void Setup()
         {
-            mem = new MemoryService(new RAMModel(), new Stack<short>(MemoryConstants.PC_STACK_CAPACITY));
+            mem = new MemoryService(new RAMModel(new Mock<Port>().Object, new Mock<Port>().Object), new Stack<short>(MemoryConstants.PC_STACK_CAPACITY));
             src = new SourceFileModel();
             src.SourceFile = "";
             fil = new FileService();
             fil.CreateFileList(src);
-            opService = new OperationService(mem, src);
+            opService = new ByteOperations(mem);
         }
 
         [TestMethod]

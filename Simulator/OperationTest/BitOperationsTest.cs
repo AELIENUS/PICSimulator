@@ -13,19 +13,11 @@ namespace OperationTest
     {
         MemoryService mem;
         BitOperations opService;
-        SourceFileModel src;
-        FileService fil;
 
         [TestInitialize]
         public void Setup()
         {
             mem = new MemoryService(new RAMModel(new Mock<Port>().Object, new Mock<Port>().Object), new Stack<short>(MemoryConstants.PC_STACK_CAPACITY));
-            src = new SourceFileModel
-            {
-                SourceFile = ""
-            };
-            fil = new FileService();
-            fil.CreateFileList(src);
             opService = new BitOperations(mem);
         }
 

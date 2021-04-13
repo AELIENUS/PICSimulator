@@ -14,7 +14,6 @@ namespace OperationTest
     {
         MemoryService mem;
         LiteralControlOperations opService;
-        SourceFileModel src;
         FileService fil;
 
         [TestInitialize]
@@ -24,9 +23,6 @@ namespace OperationTest
             //the Ports of the memory are mocked, because they contain logic, that is not needed for the operations to work
             mem = new MemoryService(new RAMModel(new Mock<Port>().Object, new Mock<Port>().Object), new Stack<short>(MemoryConstants.PC_STACK_CAPACITY));
             
-            src = new SourceFileModel { SourceFile = "" };
-            fil = new FileService();
-            fil.CreateFileList(src);
             opService = new LiteralControlOperations(mem);
         }
 

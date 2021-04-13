@@ -45,7 +45,7 @@ namespace Application.Models.Utility
             SourceFile = new SourceFileModel();
             FileService = new FileService();
             DialogService = new DialogService();
-            OperationHelpers = new OperationHelpers(Memory, SourceFile);
+            OperationHelpers = new OperationHelpers(Memory);
             BitOperations = new BitOperations(Memory);
             ByteOperations = new ByteOperations(Memory);
             LiteralControlOperations = new LiteralControlOperations(Memory);

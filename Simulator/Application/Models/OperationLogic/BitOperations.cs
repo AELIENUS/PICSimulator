@@ -5,17 +5,11 @@ namespace Application.Models.OperationLogic
 {
     public class BitOperations
     {
-        private MemoryService _memory;
+        private IMemoryService _memory;
 
-        public BitOperations(MemoryService memory)
+        public BitOperations(IMemoryService memory)
         {
             _memory = memory;
-        }
-
-        public MemoryService Memory
-        {
-            set { _memory = value; }
-            get { return _memory; }
         }
 
         public ResultInfo BCF(int file, int bit) //bit clear f

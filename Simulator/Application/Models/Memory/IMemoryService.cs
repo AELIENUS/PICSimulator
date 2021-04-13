@@ -16,9 +16,9 @@ namespace Application.Models.Memory
         double Quartz { get; set; }
         Stack<short> PCStack { get; set; }
         short WReg { get; set; }
-        RAMModel RAM { get; set; }
+        IRAMModel RAM { get; set; }
         void PowerReset();
         void OtherReset();
-        void Reset_GPR();
+        void ResetGPR();
     }
 }

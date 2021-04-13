@@ -11,14 +11,17 @@ namespace OperationTest
     [TestClass]
     public class BitOperationsTest
     {
-        MemoryService mem;
-        BitOperations opService;
+        private Mock<IMemoryService> _mem;
+        private Mock<IRAMModel> _ram;
+        private BitOperations _opService;
 
         [TestInitialize]
         public void Setup()
         {
-            mem = new MemoryService(new RAMModel(new Mock<Port>().Object, new Mock<Port>().Object), new Stack<short>(MemoryConstants.PC_STACK_CAPACITY));
-            opService = new BitOperations(mem);
+            _mem = new Mock<IMemoryService>().SetupAllProperties();
+            _ram = new Mock<IRAMModel>().SetupAllProperties();
+            _mem.Setup(m => m.RAM).Returns(_ram.Object);
+            _opService = new BitOperations(_mem.Object);
         }
 
         [TestMethod]
@@ -26,9 +29,9 @@ namespace OperationTest
         {
             int file = 0x_0f;
             int bit = 0;
-            mem.RAM[file] = 3;
+            _ram.SetupGet(p => p[file]).Returns(3);
 
-            ResultInfo op_resultInfo = opService.BCF(file, bit);
+            ResultInfo op_resultInfo = _opService.BCF(file, bit);
 
             Assert.AreEqual(1, op_resultInfo.PCIncrement);
             Assert.AreEqual(1, op_resultInfo.Cycles);
@@ -41,9 +44,9 @@ namespace OperationTest
         {
             int file = 0x_0f;
             int bit = 0;
-            mem.RAM[file] = 2;
+            _ram.SetupGet(p => p[file]).Returns(2);
 
-            ResultInfo op_result = opService.BSF(file, bit);
+            ResultInfo op_result = _opService.BSF(file, bit);
 
             Assert.AreEqual(1, op_result.PCIncrement);
             Assert.AreEqual(1, op_result.Cycles);
@@ -56,9 +59,9 @@ namespace OperationTest
         {
             int file = 0x_0f;
             int bit = 0;
-            mem.RAM[file] = 3;
+            _ram.SetupGet(p => p[file]).Returns(3);
 
-            ResultInfo op_result =  opService.BTFSC(file, bit);
+            ResultInfo op_result =  _opService.BTFSC(file, bit);
 
             Assert.AreEqual(1, op_result.PCIncrement);
             Assert.AreEqual(1, op_result.Cycles);
@@ -70,9 +73,9 @@ namespace OperationTest
         {
             int file = 0x_0f;
             int bit = 0;
-            mem.RAM[file] = 2;
+            _ram.SetupGet(p => p[file]).Returns(2);
 
-            ResultInfo op_result = opService.BTFSC(file, bit);
+            ResultInfo op_result = _opService.BTFSC(file, bit);
 
             Assert.AreEqual(1, op_result.PCIncrement);
             Assert.AreEqual(1, op_result.Cycles);
@@ -84,9 +87,9 @@ namespace OperationTest
         {
             int file = 0x_0f;
             int bit = 0;
-            mem.RAM[file] = 3;
+            _ram.SetupGet(p => p[file]).Returns(3);
 
-            ResultInfo op_result = opService.BTFSS(file, bit);
+            ResultInfo op_result = _opService.BTFSS(file, bit);
 
             Assert.AreEqual(1, op_result.PCIncrement);
             Assert.AreEqual(1, op_result.Cycles);
@@ -98,9 +101,9 @@ namespace OperationTest
         {
             int file = 0x_0f;
             int bit = 0;
-            mem.RAM[file] = 2;
+            _ram.SetupGet(p => p[file]).Returns(2);
 
-            ResultInfo op_result = opService.BTFSS(file, bit);
+            ResultInfo op_result = _opService.BTFSS(file, bit);
 
             Assert.AreEqual(1, op_result.PCIncrement);
             Assert.AreEqual(1, op_result.Cycles);

@@ -7,17 +7,11 @@ namespace Application.Models.OperationLogic
 {
     public class ByteOperations
     {
-        private MemoryService _memory;
+        private IMemoryService _memory;
 
-        public ByteOperations(MemoryService memory)
+        public ByteOperations(IMemoryService memory)
         {
             _memory = memory;
-        }
-
-        public MemoryService Memory
-        {
-            set { _memory = value; }
-            get { return _memory; }
         }
 
         public ResultInfo ADDWF(int file, int d) //add w and f 

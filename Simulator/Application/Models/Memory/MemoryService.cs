@@ -5,7 +5,7 @@ using Application.Models.CustomDatastructures;
 
 namespace Application.Models.Memory
 {
-    public class MemoryService : ObservableObject
+    public class MemoryService : ObservableObject, IMemoryService
     {
         #region properties
 
@@ -544,7 +544,7 @@ namespace Application.Models.Memory
             RAM.PCLWasManipulated = false;
             RAM.PCWasJump = false;
 
-            Reset_GPR();
+            ResetGPR();
             RAM.PrescaleCounter = 1;
             _cycleCounter = 0;
             _isIsr = false;
@@ -590,13 +590,13 @@ namespace Application.Models.Memory
             RAM.PCLWasManipulated = false;
             RAM.PCWasJump = false;
 
-            Reset_GPR();
+            ResetGPR();
             RAM.PrescaleCounter = 1;
             _cycleCounter = 0;
             _isIsr = false;
         }
 
-        private void Reset_GPR()
+        public void ResetGPR()
         {
             //GPR 1 zurücksetzen
             for (int i = MemoryConstants.GPR_START_B1; i <= MemoryConstants.GPR_END_B1; i++)

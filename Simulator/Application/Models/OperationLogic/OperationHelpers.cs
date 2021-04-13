@@ -8,9 +8,9 @@ namespace Application.Models.OperationLogic
 {
     public class OperationHelpers
     {
-        private MemoryService _memory;
+        private IMemoryService _memory;
 
-        public OperationHelpers(MemoryService memory)
+        public OperationHelpers(IMemoryService memory)
         {
             _memory = memory;
 

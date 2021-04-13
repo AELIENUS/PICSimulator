@@ -8,9 +8,9 @@ namespace Application.Models.OperationLogic
 {
     public class LiteralControlOperations
     {
-        private MemoryService _memory;
+        private IMemoryService _memory;
 
-        public LiteralControlOperations(MemoryService memory)
+        public LiteralControlOperations(IMemoryService memory)
         {
             _memory = memory;
         }

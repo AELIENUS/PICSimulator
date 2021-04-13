@@ -286,7 +286,7 @@ namespace Application.Models.Memory
                 // Timer0 hochzählen, wenn Pin 4 von Port A nicht als ClockSource ausgewählt wurde
                 // wenn T0CS gesetzt ist, dann dann wird PIN4 von Port A als ClockSource genommen.
                 //ist T0CS = 0?
-                if ((RAM.RAMList[8].Byte1.Value & 0b0010_0000) == 0)
+                if ((RAM[MemoryConstants.OPTION_REG] & 0b0010_0000) == 0)
                 {
                     RAM.IncTimer0();
                 }
@@ -375,8 +375,8 @@ namespace Application.Models.Memory
             }
         }
 
-        private RAMModel _ram;
-        public RAMModel RAM
+        private IRAMModel _ram;
+        public IRAMModel RAM
         {
             get => _ram;
             set
@@ -411,7 +411,7 @@ namespace Application.Models.Memory
         }
         #endregion
 
-        public MemoryService(RAMModel ram, Stack<short> pcStack)
+        public MemoryService(IRAMModel ram, Stack<short> pcStack)
         {
             _ram = ram;
             _pcStack = pcStack;

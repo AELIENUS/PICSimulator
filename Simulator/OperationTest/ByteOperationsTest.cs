@@ -17,7 +17,6 @@ namespace OperationTest
 
         MemoryService mem;
         ByteOperations opService;
-        FileService fil;
 
         [TestInitialize]
         public void Setup()

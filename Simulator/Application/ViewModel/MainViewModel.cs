@@ -63,7 +63,7 @@ namespace Application.ViewModel
         }
 
 
-        public RAMModel RAM
+        public IRAMModel RAM
         {
             get
             {

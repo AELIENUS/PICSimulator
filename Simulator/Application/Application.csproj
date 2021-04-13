@@ -90,6 +90,8 @@
     <Compile Include="Constants\DebugCodes.cs" />
     <Compile Include="Models\CodeLogic\LineOfCode.cs" />
     <Compile Include="Models\CustomDatastructures\ObservableByte.cs" />
+    <Compile Include="Models\Memory\IMemoryService.cs" />
+    <Compile Include="Models\Memory\IRAMModel.cs" />
     <Compile Include="Models\Memory\MemoryService.cs" />
     <Compile Include="Models\CustomDatastructures\ObservableStack.cs" />
     <Compile Include="Models\Memory\PortWithTimerPin4.cs" />

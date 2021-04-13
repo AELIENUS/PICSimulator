@@ -14,7 +14,6 @@ namespace OperationTest
     {
         MemoryService mem;
         LiteralControlOperations opService;
-        FileService fil;
 
         [TestInitialize]
         public void Setup()

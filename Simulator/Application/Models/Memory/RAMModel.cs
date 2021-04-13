@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 
 namespace Application.Models.Memory
 {
-    public class RAMModel : ObservableObject
+    public class RAMModel : ObservableObject, IRAMModel
     {
         #region Fields
         private ObservableCollection<RAMPortion> _RAMList;
@@ -90,7 +90,11 @@ namespace Application.Models.Memory
             }
         }
 
-        public int PCJumpAdress;
+        public int PCJumpAdress
+        {
+            get;
+            set;
+        }
 
         public int PCWithClear
         {

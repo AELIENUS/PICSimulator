@@ -51,7 +51,7 @@ namespace Application.Models.OperationLogic
         public ResultInfo CALL(int address) // call subroutine
         {
             //push whole PC to stack
-            int returnAdress = _memory.RAM.RAMList[0].Byte2.Value + (_memory.RAM.RAMList[0].Byte10.Value << 8) + 1;
+            int returnAdress = _memory.RAM[2] + (_memory.RAM[10] << 8) + 1;
             _memory.PCStack.Push((short)returnAdress);
             return GOTO(address);
         }

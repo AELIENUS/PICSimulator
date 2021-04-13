@@ -47,14 +47,7 @@ namespace Application.Models.Memory
             {
                 SetPort(value.Value);
                 RaisePropertyChanged();
-                RaisePropertyChanged("Pin0");
-                RaisePropertyChanged("Pin1");
-                RaisePropertyChanged("Pin2");
-                RaisePropertyChanged("Pin3");
-                RaisePropertyChanged("Pin4");
-                RaisePropertyChanged("Pin5");
-                RaisePropertyChanged("Pin6");
-                RaisePropertyChanged("Pin7");
+                RaisePropertyChangedForPins();
             }
         }
 
@@ -106,7 +99,7 @@ namespace Application.Models.Memory
             }
         }
 
-        public bool Pin4
+        public virtual bool Pin4
         {
             get
             {
@@ -155,7 +148,7 @@ namespace Application.Models.Memory
             }
         }
 
-        private bool GetPin(int pinNumber)
+        internal bool GetPin(int pinNumber)
         {
             byte mask = 0b0000_0001;
             mask = (byte)(mask << pinNumber);
@@ -170,7 +163,7 @@ namespace Application.Models.Memory
             }
         }
 
-        private void SetPin(bool value, int pinNumber)
+        internal void SetPin(bool value, int pinNumber)
         {
             byte mask = 0b0000_0001;
             mask = (byte)(mask << pinNumber);
@@ -245,40 +238,31 @@ namespace Application.Models.Memory
         {
             _TRISValue = new ObservableByte();
             _portValue = new ObservableByte();
+            _portValue.PropertyChanged += _portValue_PropertyChanged;
+            _TRISValue.PropertyChanged += _TRISValue_PropertyChanged;
         }
-        //public void SetPortAPin4(bool valueToSet)
-        //{
-        //    //PortA PIN 4 ist source von Timer0 
-        //    if ((_RAMModel.RAMList[8].Byte1.Value & 0b0010_0000) > 0)
-        //    {
-        //        if((_RAMModel.RAMList[8].Byte1.Value & 0b0001_0000) == 0)
-        //        {
-        //            //steigende Flanke
-        //            if((valueToSet == true)
-        //                && ((_RAMModel.RAMList[0].Byte5.Value & 0b0001_0000) == 0))
-        //            {
-        //                _RAMModel.IncTimer0();
-        //            }
-        //        }
-        //        else
-        //        {
-        //            //fallende Flanke
-        //            if ((valueToSet == false)
-        //                && ((_RAMModel.RAMList[0].Byte5.Value & 0b0001_0000) > 0))
-        //            {
-        //                _RAMModel.IncTimer0();
-        //            }
-        //        }
-        //    }
-        //    //Wert setzen
-        //    if (valueToSet == true)
-        //    {
-        //        PortValue.Value |= 0b0001_0000;
-        //    }
-        //    else
-        //    {
-        //        PortValue.Value &= 0b1110_1111;
-        //    }
-        //}
+
+        private void _TRISValue_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            RaisePropertyChanged("TRISValue");
+        }
+
+        private void _portValue_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            RaisePropertyChanged("PortValue");
+            RaisePropertyChangedForPins();
+        }
+
+        private void RaisePropertyChangedForPins()
+        {
+            RaisePropertyChanged("Pin0");
+            RaisePropertyChanged("Pin1");
+            RaisePropertyChanged("Pin2");
+            RaisePropertyChanged("Pin3");
+            RaisePropertyChanged("Pin4");
+            RaisePropertyChanged("Pin5");
+            RaisePropertyChanged("Pin6");
+            RaisePropertyChanged("Pin7");
+        }
     }
 }

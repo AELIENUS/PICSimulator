@@ -92,6 +92,7 @@
     <Compile Include="Models\CustomDatastructures\ObservableByte.cs" />
     <Compile Include="Models\Memory\MemoryService.cs" />
     <Compile Include="Models\CustomDatastructures\ObservableStack.cs" />
+    <Compile Include="Models\Memory\PortWithTimerPin4.cs" />
     <Compile Include="Models\Memory\RAMModel.cs" />
     <Compile Include="Models\Memory\RAMPortion.cs" />
     <Compile Include="Models\CodeLogic\SourceFileModel.cs" />

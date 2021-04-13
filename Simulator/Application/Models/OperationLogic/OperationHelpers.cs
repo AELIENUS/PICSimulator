@@ -128,8 +128,8 @@ namespace Application.Models.OperationLogic
 
         public void SetJumpAddress(int jumpAddress)
         {
-            _memory.RAM.PC_was_Jump = true;
-            _memory.RAM.PC_JumpAdress = jumpAddress;
+            _memory.RAM.PCWasJump = true;
+            _memory.RAM.PCJumpAdress = jumpAddress;
         }
     }
 }

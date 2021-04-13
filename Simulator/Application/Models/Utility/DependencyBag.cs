@@ -35,6 +35,7 @@ namespace Application.Models.Utility
 
         public void Create()
         {
+            //TODO: set this to timer port when it is implemented
             PortA = new Port();
             PortB = new Port();
             RAM = new RAMModel(PortA, PortB);

@@ -60,52 +60,86 @@ namespace Application.Models.Memory
             }
         }
 
-        private bool _PC_was_Jump;
+        private bool _PCWasJump;
 
-        public bool PC_was_Jump
+        public bool PCWasJump
         {
             get
             {
-                return _PC_was_Jump;
+                return _PCWasJump;
             }
             set
             {
-                _PC_was_Jump = value;
+                _PCWasJump = value;
                 RaisePropertyChanged();
             }
         }
 
-        private bool _PCL_was_Manipulated;
+        private bool _PCLWasManipulated;
 
-        public bool PCL_was_Manipulated
+        public bool PCLWasManipulated
         {
             get
             {
-                return _PCL_was_Manipulated;
+                return _PCLWasManipulated;
             }
             set
             {
-                _PCL_was_Manipulated = value;
+                _PCLWasManipulated = value;
 
             }
         }
 
-        public int PC_JumpAdress;
+        public int PCJumpAdress;
 
-        public int PC_With_Clear
+        public int PCWithClear
         {
             get
             {
 
-                if (PCL_was_Manipulated == true)
+                if (PCLWasManipulated == true)
                 {
-                    PCL_was_Manipulated = false;
+                    PCLWasManipulated = false;
                     return RAMList[0].Byte2.Value + (RAMList[0].Byte10.Value << 8);
                 }
-                else if (PC_was_Jump == true)
+                else if (PCWasJump == true)
                 {
-                    PC_was_Jump = false;
-                    return PC_JumpAdress;
+                    PCWasJump = false;
+                    return PCJumpAdress;
+                }
+                else
+                {
+                    return RAMList[0].Byte2.Value;
+                }
+            }
+        }
+        public byte PCL
+        {
+            get
+            {
+                return RAMList[0].Byte2.Value;
+            }
+        }
+
+        public byte PCLATH
+        {
+            get
+            {
+                return RAMList[0].Byte10.Value;
+            }
+        }
+
+        public int PCWithoutClear
+        {
+            get
+            {
+                if (PCLWasManipulated == true)
+                {
+                    return RAMList[0].Byte2.Value + (RAMList[0].Byte10.Value << 8);
+                }
+                else if (PCWasJump == true)
+                {
+                    return PCJumpAdress;
                 }
                 else
                 {
@@ -114,26 +148,7 @@ namespace Application.Models.Memory
             }
         }
 
-        public int PC_Without_Clear
-        {
-            get
-            {
-                if (PCL_was_Manipulated == true)
-                {
-                    return RAMList[0].Byte2.Value + (RAMList[0].Byte10.Value << 8);
-                }
-                else if (PC_was_Jump == true)
-                {
-                    return PC_JumpAdress;
-                }
-                else
-                {
-                    return RAMList[0].Byte2.Value;
-                }
-            }
-        }
-
-        public int Z_Flag
+        public int ZFlag
         {
             get
             {
@@ -141,7 +156,7 @@ namespace Application.Models.Memory
             }
         }
 
-        public int C_Flag
+        public int CFlag
         {
             get
             {
@@ -149,7 +164,7 @@ namespace Application.Models.Memory
             }
         }
 
-        public int DC_Flag
+        public int DCFlag
         {
             get
             {
@@ -335,14 +350,16 @@ namespace Application.Models.Memory
                         if (portionIndex == 0)
                         {
                             RAMList[8].Byte2.Value = value;
-                            RaisePropertyChanged("PC_With_Clear");
-                            RaisePropertyChanged("PC_Without_Clear");
+                            RaisePropertyChanged("PCWithClear");
+                            RaisePropertyChanged("PCWithoutClear");
+                            RaisePropertyChanged("PCL");
                         }
                         if (portionIndex == 8)
                         {
                             RAMList[0].Byte2.Value = value;
-                            RaisePropertyChanged("PC_With_Clear");
-                            RaisePropertyChanged("PC_Without_Clear");
+                            RaisePropertyChanged("PCWithClear");
+                            RaisePropertyChanged("PCWithoutClear");
+                            RaisePropertyChanged("PCL");
                         }
                         RAMList[portionIndex].Byte2.Value = value;
                         break;
@@ -350,16 +367,16 @@ namespace Application.Models.Memory
                         if (portionIndex == 0)
                         {
                             RAMList[8].Byte3.Value = value;
-                            RaisePropertyChanged("Z_Flag");
-                            RaisePropertyChanged("C_Flag");
-                            RaisePropertyChanged("DC_Flag");
+                            RaisePropertyChanged("ZFlag");
+                            RaisePropertyChanged("CFlag");
+                            RaisePropertyChanged("DCFlag");
                         }
                         if (portionIndex == 8)
                         {
                             RAMList[0].Byte3.Value = value;
-                            RaisePropertyChanged("Z_Flag");
-                            RaisePropertyChanged("C_Flag");
-                            RaisePropertyChanged("DC_Flag");
+                            RaisePropertyChanged("ZFlag");
+                            RaisePropertyChanged("CFlag");
+                            RaisePropertyChanged("DCFlag");
                         }
                         RAMList[portionIndex].Byte3.Value = value;
                         break;
@@ -394,14 +411,16 @@ namespace Application.Models.Memory
                         if (portionIndex == 0)
                         {
                             RAMList[8].Byte10.Value = value;
-                            RaisePropertyChanged("PC_With_Clear");
-                            RaisePropertyChanged("PC_Without_Clear");
+                            RaisePropertyChanged("PCWithClear");
+                            RaisePropertyChanged("PCWithoutClear");
+                            RaisePropertyChanged("PCLATH");
                         }
                         if (portionIndex == 8)
                         {
                             RAMList[0].Byte10.Value = value;
-                            RaisePropertyChanged("PC_With_Clear");
-                            RaisePropertyChanged("PC_Without_Clear");
+                            RaisePropertyChanged("PCWithClear");
+                            RaisePropertyChanged("PCWithoutClear");
+                            RaisePropertyChanged("PCLATH");
                         }
                         RAMList[portionIndex].Byte10.Value = value;
                         break;

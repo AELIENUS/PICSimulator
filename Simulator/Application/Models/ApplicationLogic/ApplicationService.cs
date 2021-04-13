@@ -22,11 +22,11 @@ namespace Application.Models.ApplicationLogic
             while (true)
             {
                 BeginLoop();
-                _command = _srcModel[_memory.RAM.PC_With_Clear].ProgramCode;
+                _command = _srcModel[_memory.RAM.PCWithClear].ProgramCode;
                 Thread.Sleep(400);
                 ResultInfo result = InvokeCommand(_command);
                 //set current LoC to not executed
-                _srcModel[_memory.RAM.PC_Without_Clear].IsExecuted = false;
+                _srcModel[_memory.RAM.PCWithoutClear].IsExecuted = false;
                 WriteToMemory(result);
             }
         }
@@ -51,7 +51,7 @@ namespace Application.Models.ApplicationLogic
             if (result.BeginLoop)
             {
                 BeginLoop();
-                _srcModel[_memory.RAM.PC_Without_Clear].IsExecuted = false;
+                _srcModel[_memory.RAM.PCWithoutClear].IsExecuted = false;
                 WriteToMemory(_operationService.NOP());
             }
         }
@@ -115,7 +115,7 @@ namespace Application.Models.ApplicationLogic
             int file = (int)_command & 0b_0000_0000_0111_1111;
             if (file == 0x02) //wenn PCL beschrieben wird
             {
-                _memory.RAM.PCL_was_Manipulated = true;
+                _memory.RAM.PCLWasManipulated = true;
             }
             switch (bits11_12)
             {
@@ -279,7 +279,7 @@ namespace Application.Models.ApplicationLogic
         private void Interrupt()
         {
             //Push PC to Stack
-            _memory.PCStack.Push((short)_memory.RAM.PC_Without_Clear);
+            _memory.PCStack.Push((short)_memory.RAM.PCWithoutClear);
             //Set PC to Interrupt Vector
             _memory.RAM[MemoryConstants.PCL_B1] = (byte)MemoryConstants.PERIPHERAL_INTERRUPT_VECTOR_ADDRESS;
             _memory.IsISR = true;
@@ -292,15 +292,15 @@ namespace Application.Models.ApplicationLogic
             {
                 CheckForInterrupts();
             }
-            if (_memory.RAM.PC_Without_Clear == 0x7ff)
+            if (_memory.RAM.PCWithoutClear == 0x7ff)
             {
                 _memory.RAM[MemoryConstants.PCL_B1] = 0;
                 _memory.RAM[MemoryConstants.PCLATH_B1] = 0;
             }
-            _srcModel[_memory.RAM.PC_Without_Clear].IsExecuted = true;
+            _srcModel[_memory.RAM.PCWithoutClear].IsExecuted = true;
             while (true)
             {
-                if (DebugCodes.Pause || _srcModel[_memory.RAM.PC_Without_Clear].IsDebug)
+                if (DebugCodes.Pause || _srcModel[_memory.RAM.PCWithoutClear].IsDebug)
                 {
                     //loop forever
                 }

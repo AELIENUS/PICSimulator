@@ -11,7 +11,7 @@
         >
     <Window.Resources>
         <CompositeCollection x:Key="RAMS">
-            <CollectionContainer Collection="{Binding Memory.RAM}"/>
+            <CollectionContainer Collection="{Binding RAM}"/>
         </CompositeCollection>
     </Window.Resources>
     <Window.DataContext>
@@ -57,9 +57,9 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Quartzfrequency (Hz):" Grid.Row="0" Grid.Column="0"/>
-                    <ComboBox ItemsSource="{Binding Source={x:Static constants:MemoryConstants.QuartzFrequencyList}}" Grid.Column="1" SelectedItem="{Binding Path=Memory.Quartz}">
+                    <ComboBox ItemsSource="{Binding Source={x:Static constants:MemoryConstants.QuartzFrequencyList}}" Grid.Column="1" SelectedItem="{Binding Path=Quartz}">
                     </ComboBox>
-                    <TextBlock Text="{Binding Path=Memory.Runtime, StringFormat='Running time: {0:F2}µs'}" Grid.Row="1" Grid.Column="0"/>
+                    <TextBlock Text="{Binding Path=Runtime, StringFormat='Running time: {0:F2}µs'}" Grid.Row="1" Grid.Column="0"/>
                     
                 </Grid>
 
@@ -77,12 +77,12 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="{Binding Memory.RAM.PC_Without_Clear, StringFormat='PC: {0}'}" Grid.Row="0" Grid.Column="0"/>
-                    <TextBlock Text="{Binding Memory.RAM.RAMList[0].Byte2.Value, StringFormat='PCL: {0}'}" Grid.Row="1" Grid.Column="0"/>
-                    <TextBlock Text="{Binding Memory.RAM.RAMList[0].Byte10.Value, StringFormat='PCLATH: {0}'}" Grid.Row="2" Grid.Column="0"/>
+                    <TextBlock Text="{Binding PCWithoutClear, StringFormat='PC: {0}'}" Grid.Row="0" Grid.Column="0"/>
+                    <TextBlock Text="{Binding PCL, StringFormat='PCL: {0}'}" Grid.Row="1" Grid.Column="0"/>
+                    <TextBlock Text="{Binding PCLATH, StringFormat='PCLATH: {0}'}" Grid.Row="2" Grid.Column="0"/>
                     <TextBlock Text="PC Stack:" Grid.Row="0" Grid.Column="1"/>
 
-                    <ListView ItemsSource="{Binding Memory.PCStack.Collection}" Grid.Row="1" Grid.Column="1" Grid.RowSpan="3">
+                    <ListView ItemsSource="{Binding PCStack.Collection}" Grid.Row="1" Grid.Column="1" Grid.RowSpan="3">
                     </ListView>
                 </Grid>
 
@@ -105,24 +105,24 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Port A" Grid.Row="0" Grid.ColumnSpan="4" VerticalContentAlignment="Bottom"/>
-                    <Label Grid.Row="1" Grid.ColumnSpan="4" Content="{Binding Memory.RAM.PortA.PortValue.Value, Converter={StaticResource ElementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Grid.Row="1" Grid.ColumnSpan="4" Content="{Binding PortAValue, Converter={StaticResource ElementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Label Content="Tris A" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="4" VerticalContentAlignment="Bottom"/>
-                    <Label Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="4" Content="{Binding Memory.RAM.RAMList[8].Byte5.Value, Converter={StaticResource ElementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding Memory.RAM.PortA.Pin7}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Label Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="4" Content="{Binding TRISAValue, Converter={StaticResource ElementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding PortAPin7}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Content="Bit7" VerticalAlignment="Center"></Label>
-                    <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding Memory.RAM.PortA.Pin6}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding PortAPin6}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <Label Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Content="Bit6" VerticalAlignment="Center"></Label>
-                    <CheckBox Grid.Row="2" Grid.Column="2" IsChecked="{Binding Memory.RAM.PortA.Pin5}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <CheckBox Grid.Row="2" Grid.Column="2" IsChecked="{Binding PortAPin5}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                     <Label Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" Content="Bit5" VerticalAlignment="Center"></Label>
-                    <CheckBox Grid.Row="2" Grid.Column="3" IsChecked="{Binding Memory.RAM.PortA.Pin4}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <CheckBox Grid.Row="2" Grid.Column="3" IsChecked="{Binding PortAPin4}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                     <Label Grid.Row="2" Grid.Column="3" HorizontalAlignment="Left" Content="Bit4" VerticalAlignment="Center"></Label>
-                    <CheckBox Grid.Row="2" Grid.Column="4" IsChecked="{Binding Memory.RAM.PortA.Pin3}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <CheckBox Grid.Row="2" Grid.Column="4" IsChecked="{Binding PortAPin3}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                     <Label Grid.Row="2" Grid.Column="4" HorizontalAlignment="Left" Content="Bit3" VerticalAlignment="Center"></Label>
-                    <CheckBox Grid.Row="2" Grid.Column="5" IsChecked="{Binding Memory.RAM.PortA.Pin2}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <CheckBox Grid.Row="2" Grid.Column="5" IsChecked="{Binding PortAPin2}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                     <Label Grid.Row="2" Grid.Column="5" HorizontalAlignment="Left" Content="Bit2" VerticalAlignment="Center"></Label>
-                    <CheckBox Grid.Row="2" Grid.Column="6" IsChecked="{Binding Memory.RAM.PortA.Pin1}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <CheckBox Grid.Row="2" Grid.Column="6" IsChecked="{Binding PortAPin1}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                     <Label Grid.Row="2" Grid.Column="6" HorizontalAlignment="Left" Content="Bit1" VerticalAlignment="Center"></Label>
-                    <CheckBox Grid.Row="2" Grid.Column="7" IsChecked="{Binding Memory.RAM.PortA.Pin0}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <CheckBox Grid.Row="2" Grid.Column="7" IsChecked="{Binding PortAPin0}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                     <Label Grid.Row="2" Grid.Column="7" HorizontalAlignment="Left" Content="Bit0" VerticalAlignment="Center"></Label>
                 </Grid> 
             </GroupBox>
@@ -144,25 +144,25 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Port B" Grid.Row="0" Grid.ColumnSpan="8" VerticalContentAlignment="Bottom"/>
-                    <Label Grid.Row="1" Grid.ColumnSpan="8" Content="{Binding Memory.RAM.PortB.PortValue.Value, Converter={StaticResource ElementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Grid.Row="1" Grid.ColumnSpan="8" Content="{Binding PortBValue, Converter={StaticResource ElementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Label Content="Tris B" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="4" VerticalContentAlignment="Bottom"/>
-                    <Label Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="4" Content="{Binding Memory.RAM.RAMList[8].Byte6.Value, Converter={StaticResource ElementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="4" Content="{Binding TRISBValue, Converter={StaticResource ElementConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Content="Bit7" VerticalAlignment="Center"></Label>
-                    <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding Memory.RAM.PortB.Pin7}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding PortBPin7}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <Label Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Content="Bit6" VerticalAlignment="Center"></Label>
-                    <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding Memory.RAM.PortB.Pin6}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding PortBPin6}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <Label Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" Content="Bit5" VerticalAlignment="Center"></Label>
-                    <CheckBox Grid.Row="2" Grid.Column="2" IsChecked="{Binding Memory.RAM.PortB.Pin5}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <CheckBox Grid.Row="2" Grid.Column="2" IsChecked="{Binding PortBPin5}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <Label Grid.Row="2" Grid.Column="3" HorizontalAlignment="Left" Content="Bit4" VerticalAlignment="Center"></Label>
-                    <CheckBox Grid.Row="2" Grid.Column="3" IsChecked="{Binding Memory.RAM.PortB.Pin4}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <CheckBox Grid.Row="2" Grid.Column="3" IsChecked="{Binding PortBPin4}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <Label Grid.Row="2" Grid.Column="4" HorizontalAlignment="Left" Content="Bit3" VerticalAlignment="Center"></Label>
-                    <CheckBox Grid.Row="2" Grid.Column="4" IsChecked="{Binding Memory.RAM.PortB.Pin3}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <CheckBox Grid.Row="2" Grid.Column="4" IsChecked="{Binding PortBPin3}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <Label Grid.Row="2" Grid.Column="5" HorizontalAlignment="Left" Content="Bit2" VerticalAlignment="Center"></Label>
-                    <CheckBox Grid.Row="2" Grid.Column="5" IsChecked="{Binding Memory.RAM.PortB.Pin2}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <CheckBox Grid.Row="2" Grid.Column="5" IsChecked="{Binding PortBPin2}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <Label Grid.Row="2" Grid.Column="6" HorizontalAlignment="Left" Content="Bit1" VerticalAlignment="Center"></Label>
-                    <CheckBox Grid.Row="2" Grid.Column="6" IsChecked="{Binding Memory.RAM.PortB.Pin1}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <CheckBox Grid.Row="2" Grid.Column="6" IsChecked="{Binding PortBPin1}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <Label Grid.Row="2" Grid.Column="7" HorizontalAlignment="Left" Content="Bit0" VerticalAlignment="Center"></Label>
-                    <CheckBox Grid.Row="2" Grid.Column="7" IsChecked="{Binding Memory.RAM.PortB.Pin0}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <CheckBox Grid.Row="2" Grid.Column="7" IsChecked="{Binding PortBPin0}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
                 </Grid>
             </GroupBox>
@@ -179,13 +179,13 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Label Content="W_Reg" Grid.Row="0" Grid.Column="0"></Label>
-                    <Label Grid.Row="1" Grid.Column="0" Content="{Binding Memory.WReg, Converter={StaticResource ShortConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
+                    <Label Grid.Row="1" Grid.Column="0" Content="{Binding WReg, Converter={StaticResource ShortConverter}}" Height="40" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
                     <Label Content="Z-Flag" Grid.Row="0" Grid.Column="1"/>
-                    <Label Grid.Row="1" Grid.Column="1" Content="{Binding Memory.RAM.Z_Flag}"/>
+                    <Label Grid.Row="1" Grid.Column="1" Content="{Binding ZFlag}"/>
                     <Label Content="DC-Flag" Grid.Row="0" Grid.Column="2"/>
-                    <Label Grid.Row="1" Grid.Column="2" Content="{Binding Memory.RAM.DC_Flag}"/>
+                    <Label Grid.Row="1" Grid.Column="2" Content="{Binding DCFlag}"/>
                     <Label Content="C-Flag" Grid.Row="0" Grid.Column="3"/>
-                    <Label Grid.Row="1" Grid.Column="3" Content="{Binding Memory.RAM.C_Flag}"/>
+                    <Label Grid.Row="1" Grid.Column="3" Content="{Binding CFlag}"/>
                     
                     
                 </Grid>
@@ -213,7 +213,7 @@
                 </DataGrid.RowStyle>
             </DataGrid>
             <DockPanel Grid.Row="4" Grid.Column="2" Grid.RowSpan="5" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DockPanel.Dock="Top">
-                <DataGrid x:Name="memoryGrid" LoadingRow="DataGrid_LoadingRow" ItemsSource="{Binding Memory.RAM.RAMList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
+                <DataGrid x:Name="memoryGrid" LoadingRow="DataGrid_LoadingRow" ItemsSource="{Binding RAM.RAMList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="0xR0" Binding="{Binding Byte0.Value}"/>
                         <DataGridTextColumn Header="0xR1" Binding="{Binding Byte1.Value}"/>

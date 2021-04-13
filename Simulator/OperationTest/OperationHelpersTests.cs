@@ -207,8 +207,8 @@ namespace OperationTest
 
             opHelpers.SetJumpAddress(address);
 
-            Assert.AreEqual(0x_0f, mem.RAM.PC_JumpAdress);
-            Assert.IsTrue(mem.RAM.PC_was_Jump);
+            Assert.AreEqual(0x_0f, mem.RAM.PCJumpAdress);
+            Assert.IsTrue(mem.RAM.PCWasJump);
         }
 
         [TestMethod]

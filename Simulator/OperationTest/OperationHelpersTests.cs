@@ -5,6 +5,7 @@ using Application.Models.CodeLogic;
 using Application.Models.OperationLogic;
 using Application.Models.Memory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace OperationTest
 {
@@ -12,15 +13,13 @@ namespace OperationTest
     public class OperationHelpersTests
     {
         MemoryService mem;
-        SourceFileModel src;
         private OperationHelpers opHelpers;
 
         [TestInitialize]
         public void Setup()
         {
-            mem = new MemoryService(new RAMModel(), new Stack<short>(MemoryConstants.PC_STACK_CAPACITY));
-            src = new SourceFileModel();
-            opHelpers = new OperationHelpers(mem, src);
+            mem = new MemoryService(new RAMModel(new Mock<Port>().Object, new Mock<Port>().Object), new Stack<short>(MemoryConstants.PC_STACK_CAPACITY));
+            opHelpers = new OperationHelpers(mem);
         }
 
         [TestMethod]

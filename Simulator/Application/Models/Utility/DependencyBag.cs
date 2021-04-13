@@ -21,7 +21,9 @@ namespace Application.Models.Utility
         public FileService FileService;
         public DialogService DialogService;
         public ApplicationService ApplicationService;
-        public OperationService OperationService;
+        public BitOperations BitOperations;
+        public ByteOperations ByteOperations;
+        public LiteralControlOperations LiteralControlOperations;
         public OperationHelpers OperationHelpers;
         public ObservableStack<short> PCStack;
         public RAMModel RAM;
@@ -44,9 +46,11 @@ namespace Application.Models.Utility
             SourceFile = new SourceFileModel();
             FileService = new FileService();
             DialogService = new DialogService();
-            OperationHelpers = new OperationHelpers(Memory, SourceFile);
-            OperationService = new OperationService(Memory, SourceFile);
-            ApplicationService = new ApplicationService(Memory, SourceFile, OperationHelpers, OperationService);
+            OperationHelpers = new OperationHelpers(Memory);
+            BitOperations = new BitOperations(Memory);
+            ByteOperations = new ByteOperations(Memory);
+            LiteralControlOperations = new LiteralControlOperations(Memory);
+            ApplicationService = new ApplicationService(Memory, SourceFile, OperationHelpers, BitOperations, ByteOperations, LiteralControlOperations);
         }
     }
 }

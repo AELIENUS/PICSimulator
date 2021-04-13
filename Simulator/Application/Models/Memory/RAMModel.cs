@@ -517,8 +517,8 @@ namespace Application.Models.Memory
             {
                 _RAMList[i] = new RAMPortion();
             }
-            _PortA = new Port();
-            _PortB = new Port();
+            _PortA = portA;
+            _PortB = portB;
             _RAMList[0].Byte5 = _PortA.PortValue;
             _RAMList[8].Byte5 = _PortA.TRISValue; 
             _RAMList[0].Byte6 = _PortB.PortValue;

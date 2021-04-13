@@ -13,7 +13,9 @@ namespace Application.Models.ApplicationLogic
         private MemoryService _memory;
         private SourceFileModel _srcModel;
         private short _command;
-        private readonly OperationService _operationService;
+        private readonly BitOperations _bitOperations;
+        private readonly ByteOperations _byteOperations;
+        private readonly LiteralControlOperations _literalControlOperations;
         private OperationHelpers _operationHelpers;
 
         #region run
@@ -24,7 +26,7 @@ namespace Application.Models.ApplicationLogic
                 BeginLoop();
                 _command = _srcModel[_memory.RAM.PCWithClear].ProgramCode;
                 Thread.Sleep(400);
-                ResultInfo result = InvokeCommand(_command);
+                ResultInfo result = InvokeCommand();
                 //set current LoC to not executed
                 _srcModel[_memory.RAM.PCWithoutClear].IsExecuted = false;
                 WriteToMemory(result);
@@ -52,29 +54,29 @@ namespace Application.Models.ApplicationLogic
             {
                 BeginLoop();
                 _srcModel[_memory.RAM.PCWithoutClear].IsExecuted = false;
-                WriteToMemory(_operationService.NOP());
+                WriteToMemory(_byteOperations.NOP());
             }
         }
 
-        private ResultInfo InvokeCommand(short command)
+        private ResultInfo InvokeCommand()
         {
             switch (_command)
             {
                 case 0b_0000_0000_0000_1000:
-                    return _operationService.RETURN(); //Return from Subroutine
+                    return _literalControlOperations.RETURN(); //Return from Subroutine
                 case 0b_0000_0000_0000_1001:
-                    return _operationService.RETFIE(); //return from interrupt
+                    return _literalControlOperations.RETFIE(); //return from interrupt
                 case 0b_0000_0000_0110_0011:
-                    return _operationService.SLEEP(); //Go to standby mode
+                    return _literalControlOperations.SLEEP(); //Go to standby mode
                 case 0b_0000_0000_0110_0100:
-                    return _operationService.CLRWDT(); //clear watchdog timer
+                    return _literalControlOperations.CLRWDT(); //clear watchdog timer
                 case 0b_0000_0000_0000_0000: // ab hier nop
                 case 0b_0000_0000_0010_0000:
                 case 0b_0000_0000_0100_0000:
                 case 0b_0000_0000_0110_0000:
-                    return _operationService.NOP(); //no operation 
+                    return _byteOperations.NOP(); //no operation 
                 case short n when (n >= 0b_0000_0001_0000_0000 && n <= 0b_0000_0001_0111_1111):
-                    return _operationService.CLRW(); //clear w
+                    return _byteOperations.CLRW(); //clear w
                 default:
                     return AnalyzeNibble3();
             }
@@ -91,11 +93,11 @@ namespace Application.Models.ApplicationLogic
                     int address = (int)_command & 0b_0000_0111_1111_1111;
                     if (bit12 == 0b_0000_1000_0000_0000)
                     {
-                        return _operationService.GOTO(address);
+                        return _literalControlOperations.GOTO(address);
                     }
                     else
                     {
-                        return _operationService.CALL(address);
+                        return _literalControlOperations.CALL(address);
                     }
                 case 0b_0001_0000_0000_0000: //bit oriented operations
                     return AnalyzeBits11_12();
@@ -120,13 +122,13 @@ namespace Application.Models.ApplicationLogic
             switch (bits11_12)
             {
                 case 0:
-                    return _operationService.BCF(file, bits);
+                    return _bitOperations.BCF(file, bits);
                 case 1:
-                    return _operationService.BSF(file, bits);
+                    return _bitOperations.BSF(file, bits);
                 case 2:
-                    return _operationService.BTFSC(file, bits);
+                    return _bitOperations.BTFSC(file, bits);
                 case 3:
-                    return _operationService.BTFSS(file, bits);
+                    return _bitOperations.BTFSS(file, bits);
                 default:
                     return null;
             }
@@ -139,27 +141,27 @@ namespace Application.Models.ApplicationLogic
             switch (nibble2)
             {
                 case 0b_1001_0000_0000:
-                    return _operationService.ANDLW(literal);
+                    return _literalControlOperations.ANDLW(literal);
                 case 0b_1000_0000_0000:
-                    return _operationService.IORLW(literal);
+                    return _literalControlOperations.IORLW(literal);
                 case 0b_1010_0000_0000:
-                    return _operationService.XORLW(literal);
+                    return _literalControlOperations.XORLW(literal);
                 case 0b_1110_0000_0000: //ab hier addlw
                 case 0b_1111_0000_0000:
-                    return _operationService.ADDLW(literal);
+                    return _literalControlOperations.ADDLW(literal);
                 case 0b_1100_0000_0000: //ab hier sublw
                 case 0b_1101_0000_0000:
-                    return _operationService.SUBLW(literal);
+                    return _literalControlOperations.SUBLW(literal);
                 case 0b_0000_0000_0000: //ab hier movlw
                 case 0b_0001_0000_0000:
                 case 0b_0010_0000_0000:
                 case 0b_0011_0000_0000:
-                    return _operationService.MOVLW(literal);
+                    return _literalControlOperations.MOVLW(literal);
                 case 0b_0100_0000_0000: //ab hier retlw
                 case 0b_0101_0000_0000:
                 case 0b_0110_0000_0000:
                 case 0b_0111_0000_0000:
-                    return _operationService.RETLW(literal);
+                    return _literalControlOperations.RETLW(literal);
                 default:
                     return null;
             }
@@ -173,37 +175,37 @@ namespace Application.Models.ApplicationLogic
             switch (nibble2)
             {
                 case 0b_0000_0000_0000_0000:
-                    return _operationService.MOVWF(file);
+                    return _byteOperations.MOVWF(file);
                 case 0b_0000_0001_0000_0000:
-                    return _operationService.CLRF(file);
+                    return _byteOperations.CLRF(file);
                 case 0b_0000_0010_0000_0000:
-                    return _operationService.SUBWF(file, d);
+                    return _byteOperations.SUBWF(file, d);
                 case 0b_0000_0011_0000_0000:
-                    return _operationService.DECF(file, d);
+                    return _byteOperations.DECF(file, d);
                 case 0b_0000_0100_0000_0000:
-                    return _operationService.IORWF(file, d);
+                    return _byteOperations.IORWF(file, d);
                 case 0b_0000_0101_0000_0000:
-                    return _operationService.ANDWF(file, d);
+                    return _byteOperations.ANDWF(file, d);
                 case 0b_0000_0110_0000_0000:
-                    return _operationService.XORWF(file, d);
+                    return _byteOperations.XORWF(file, d);
                 case 0b_0000_0111_0000_0000:
-                    return _operationService.ADDWF(file, d);
+                    return _byteOperations.ADDWF(file, d);
                 case 0b_0000_1000_0000_0000:
-                    return _operationService.MOVF(file, d);
+                    return _byteOperations.MOVF(file, d);
                 case 0b_0000_1001_0000_0000:
-                    return _operationService.COMF(file, d);
+                    return _byteOperations.COMF(file, d);
                 case 0b_0000_1010_0000_0000:
-                    return _operationService.INCF(file, d);
+                    return _byteOperations.INCF(file, d);
                 case 0b_0000_1011_0000_0000:
-                    return _operationService.DECFSZ(file, d);
+                    return _byteOperations.DECFSZ(file, d);
                 case 0b_0000_1100_0000_0000:
-                    return _operationService.RRF(file, d);
+                    return _byteOperations.RRF(file, d);
                 case 0b_0000_1101_0000_0000:
-                    return _operationService.RLF(file, d);
+                    return _byteOperations.RLF(file, d);
                 case 0b_0000_1110_0000_0000:
-                    return _operationService.SWAPF(file, d);
+                    return _byteOperations.SWAPF(file, d);
                 case 0b_0000_1111_0000_0000:
-                    return _operationService.INCFSZ(file, d);
+                    return _byteOperations.INCFSZ(file, d);
                 default:
                     return null;
             }
@@ -312,11 +314,13 @@ namespace Application.Models.ApplicationLogic
         }
     
 
-        public ApplicationService(MemoryService memory, SourceFileModel srcModel, OperationHelpers operationHelpers, OperationService operationService)
+        public ApplicationService(MemoryService memory, SourceFileModel srcModel, OperationHelpers operationHelpers, BitOperations bitOperations, ByteOperations byteOperations, LiteralControlOperations literalControlOperations)
         {
             this._memory = memory;
             this._srcModel = srcModel;
-            _operationService = operationService;
+            _bitOperations = bitOperations;
+            _byteOperations = byteOperations;
+            _literalControlOperations = literalControlOperations;
             _operationHelpers = operationHelpers;
         }
 

@@ -4,28 +4,21 @@ using Application.Models.CodeLogic;
 using Application.Models.Memory;
 using Application.Models.OperationLogic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace OperationTest
 {
     [TestClass]
-    public class BitOrientedTest
+    public class BitOperationsTest
     {
         MemoryService mem;
-        OperationService opService;
-        SourceFileModel src;
-        FileService fil;
+        BitOperations opService;
 
         [TestInitialize]
         public void Setup()
         {
-            mem = new MemoryService(new RAMModel(), new Stack<short>(MemoryConstants.PC_STACK_CAPACITY));
-            src = new SourceFileModel
-            {
-                SourceFile = ""
-            };
-            fil = new FileService();
-            fil.CreateFileList(src);
-            opService = new OperationService(mem, src);
+            mem = new MemoryService(new RAMModel(new Mock<Port>().Object, new Mock<Port>().Object), new Stack<short>(MemoryConstants.PC_STACK_CAPACITY));
+            opService = new BitOperations(mem);
         }
 
         [TestMethod]

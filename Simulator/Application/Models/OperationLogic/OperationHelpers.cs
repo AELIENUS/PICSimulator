@@ -9,12 +9,11 @@ namespace Application.Models.OperationLogic
     public class OperationHelpers
     {
         private MemoryService _memory;
-        private SourceFileModel _srcModel;
 
-        public OperationHelpers(MemoryService memory, SourceFileModel srcModel)
+        public OperationHelpers(MemoryService memory)
         {
             _memory = memory;
-            _srcModel = srcModel;
+
         }
 
         public void CheckZ(int result)

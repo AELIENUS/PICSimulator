@@ -12,28 +12,31 @@ namespace OperationTest
     [TestClass]
     public class LiteralControlOperationsTest
     {
-        MemoryService mem;
-        LiteralControlOperations opService;
+        private Mock<IMemoryService> _mem;
+        private Mock<IRAMModel> _ram;
+        LiteralControlOperations _opService;
 
         [TestInitialize]
         public void Setup()
         {
-            //mocking the ObservableStack would be more complicated than just using a normal stack
-            //the Ports of the memory are mocked, because they contain logic, that is not needed for the operations to work
-            mem = new MemoryService(new RAMModel(new Mock<Port>().Object, new Mock<Port>().Object), new Stack<short>(MemoryConstants.PC_STACK_CAPACITY));
-            
-            opService = new LiteralControlOperations(mem);
+            _mem = new Mock<IMemoryService>().SetupAllProperties();
+            _ram = new Mock<IRAMModel>().SetupAllProperties();
+            _mem.Setup(m => m.RAM).Returns(_ram.Object);
+            Stack<short> _pcStack = new Stack<short>();
+            _mem.Setup(m => m.PCStack).Returns(_pcStack);
+            _opService = new LiteralControlOperations(_mem.Object);
         }
 
         [TestMethod]
         public void ADDLW()
         {
+            _mem.SetupGet(p => p.WReg).Returns(6);
+
             //arrange
             int literal = 10;
-            mem.WReg = 6;
 
             //act
-            ResultInfo op_result = opService.ADDLW(literal);
+            ResultInfo op_result = _opService.ADDLW(literal);
 
             //assert
             Assert.AreEqual(1, op_result.Cycles);
@@ -44,15 +47,18 @@ namespace OperationTest
             Assert.AreEqual("+", op_result.OverflowInfo.Operator);
             Assert.AreEqual(16, op_result.OperationResults[0].Value);
             Assert.AreEqual(MemoryConstants.WRegPlaceholder, op_result.OperationResults[0].Address);
+
+            _mem.Verify(p => p.WReg);
         }
 
         [TestMethod]
         public void ADDLW_Overflow()
         {
-            int literal = 250;
-            mem.WReg = 10;
+            _mem.SetupGet(p => p.WReg).Returns(10);
 
-            ResultInfo op_result = opService.ADDLW(literal);
+            int literal = 250;
+
+            ResultInfo op_result = _opService.ADDLW(literal);
 
             Assert.AreEqual(1, op_result.Cycles);
             Assert.AreEqual(1, op_result.PCIncrement);
@@ -62,75 +68,92 @@ namespace OperationTest
             Assert.AreEqual("+", op_result.OverflowInfo.Operator);
             Assert.AreEqual(260, op_result.OperationResults[0].Value);
             Assert.AreEqual(MemoryConstants.WRegPlaceholder, op_result.OperationResults[0].Address);
+
+            _mem.Verify(p => p.WReg);
         }
 
         [TestMethod]
         public void ANDLW()
         {
-            int literal = 10;
-            mem.WReg = 6;
+            _mem.SetupGet(p => p.WReg).Returns(6);
 
-            ResultInfo op_result = opService.ANDLW(literal);
+            int literal = 10;
+
+            ResultInfo op_result = _opService.ANDLW(literal);
 
             Assert.AreEqual(1, op_result.Cycles);
             Assert.AreEqual(1, op_result.PCIncrement);
             Assert.IsTrue(op_result.CheckZ);
             Assert.AreEqual(2, op_result.OperationResults[0].Value);
             Assert.AreEqual(MemoryConstants.WRegPlaceholder, op_result.OperationResults[0].Address);
+
+            _mem.Verify(p => p.WReg);
         }
 
         [TestMethod]
         public void Call()
         {
+            _ram.SetupGet(p => p[MemoryConstants.PCL_B1]).Returns(1);
+            _ram.SetupGet(p => p[MemoryConstants.PCLATH_B1]).Returns(0);
+
             int address = 0x_0f;
-            int return_address = mem.RAM[MemoryConstants.PCL_B1] + 1;
-            int newPc = address + ((mem.RAM[MemoryConstants.PCLATH_B1] & 0b_0001_1000) << 8);
+            int return_address = 2;
+            int newPc = address;
 
-            ResultInfo op_result = opService.CALL(address);
+            ResultInfo op_result = _opService.CALL(address);
 
-            Assert.AreEqual(return_address, mem.PCStack.Pop());
+            Assert.AreEqual(return_address, _mem.Object.PCStack.Pop());
             Assert.AreEqual(newPc, op_result.JumpAddress);
             Assert.AreEqual(2, op_result.Cycles);
             Assert.AreEqual(0x_0f, op_result.OperationResults[0].Value);
             Assert.AreEqual(MemoryConstants.PCL_B1, op_result.OperationResults[0].Address);
+
+            _ram.Verify(p => p[MemoryConstants.PCL_B1]);
+            _ram.Verify(p => p[MemoryConstants.PCLATH_B1]);
         }
 
         [TestMethod]
         public void Goto()
         {
-            int address = 0x_0f;
-            int newPc = address + ((mem.RAM[MemoryConstants.PCLATH_B1] & 0b_0001_1000) << 8);
+            _ram.SetupGet(p => p[MemoryConstants.PCLATH_B1]).Returns(8);
 
-            ResultInfo op_result = opService.GOTO(address);
+            int address = 0x_0f;
+            int newPc = address + (8 << 8);
+
+            ResultInfo op_result = _opService.GOTO(address);
 
             Assert.AreEqual(newPc, op_result.JumpAddress);
             Assert.AreEqual(2, op_result.Cycles);
             Assert.AreEqual(0x_0f, op_result.OperationResults[0].Value);
             Assert.AreEqual(MemoryConstants.PCL_B1, op_result.OperationResults[0].Address);
+
+            _ram.Verify(p => p[MemoryConstants.PCLATH_B1]);
         }
 
         [TestMethod]
         public void IORLW()
         {
-            int literal = 10;
-            mem.WReg = 6;
+            _mem.SetupGet(p => p.WReg).Returns(6);
 
-            ResultInfo op_result = opService.IORLW(literal);
+            int literal = 10;
+
+            ResultInfo op_result = _opService.IORLW(literal);
 
             Assert.AreEqual(1, op_result.Cycles);
             Assert.AreEqual(1, op_result.PCIncrement);
             Assert.IsTrue(op_result.CheckZ);
             Assert.AreEqual(14, op_result.OperationResults[0].Value);
             Assert.AreEqual(MemoryConstants.WRegPlaceholder, op_result.OperationResults[0].Address);
+
+            _mem.Verify(p => p.WReg);
         }
 
         [TestMethod]
         public void MovLW()
         {
             int literal = 10;
-            mem.WReg = 6;
 
-            ResultInfo op_result = opService.MOVLW(literal);
+            ResultInfo op_result = _opService.MOVLW(literal);
 
             Assert.AreEqual(1, op_result.Cycles);
             Assert.AreEqual(1, op_result.PCIncrement);
@@ -141,10 +164,12 @@ namespace OperationTest
         [TestMethod]
         public void RETFIE_Address()
         {
-            mem.PCStack.Push(0x_0f);
-            int value = mem.RAM[MemoryConstants.INTCON_B1] | 0b_1000_0000;
+            _ram.SetupGet(p => p[MemoryConstants.INTCON_B1]).Returns(5);
 
-            ResultInfo op_result = opService.RETFIE();
+            _mem.Object.PCStack.Push(0x_0f);
+            int value = 5 | 0b_1000_0000;
+
+            ResultInfo op_result = _opService.RETFIE();
 
             Assert.AreEqual(2, op_result.Cycles);
             Assert.IsTrue(op_result.ClearISR);
@@ -152,15 +177,17 @@ namespace OperationTest
             Assert.AreEqual(MemoryConstants.PCL_B1, op_result.OperationResults[0].Address);
             Assert.AreEqual(value, op_result.OperationResults[1].Value);
             Assert.AreEqual(MemoryConstants.INTCON_B1, op_result.OperationResults[1].Address);
+
+            _ram.Verify(p => p[MemoryConstants.INTCON_B1]);
         }
 
         [TestMethod]
         public void RETLW_Wreg()
         {
-            mem.PCStack.Push(0x_0f);
+            _mem.Object.PCStack.Push(0x_0f);
             int literal = 10;
 
-            ResultInfo op_result = opService.RETLW(literal);
+            ResultInfo op_result = _opService.RETLW(literal);
 
             Assert.AreEqual(2, op_result.Cycles);
             Assert.AreEqual(literal, op_result.OperationResults[0].Value);
@@ -172,9 +199,9 @@ namespace OperationTest
         [TestMethod]
         public void RETURN()
         {
-            mem.PCStack.Push(0x_0f);
+            _mem.Object.PCStack.Push(0x_0f);
 
-            ResultInfo op_result = opService.RETURN();
+            ResultInfo op_result = _opService.RETURN();
 
             Assert.AreEqual(2, op_result.Cycles);
             Assert.AreEqual(0x_0f, op_result.OperationResults[0].Value);
@@ -184,23 +211,26 @@ namespace OperationTest
         [TestMethod]
         public void Sleep_PD()
         {
-            mem.RAM[MemoryConstants.STATUS_B1] = 0;
+            _ram.SetupGet(p => p[MemoryConstants.STATUS_B1]).Returns(0);
 
-            ResultInfo op_result = opService.SLEEP();
+            ResultInfo op_result = _opService.SLEEP();
 
             Assert.AreEqual(1, op_result.Cycles);
             Assert.AreEqual(1, op_result.PCIncrement);
             Assert.AreEqual(16, op_result.OperationResults[0].Value);
             Assert.AreEqual(MemoryConstants.STATUS_B1, op_result.OperationResults[0].Address);
+
+            _ram.Verify(p => p[MemoryConstants.STATUS_B1]);
         }
 
         [TestMethod]
         public void SUBLW()
         {
-            int literal = 10;
-            mem.WReg = 6;
+            _mem.SetupGet(p => p.WReg).Returns(6);
 
-            ResultInfo op_result = opService.SUBLW(literal);
+            int literal = 10;
+
+            ResultInfo op_result = _opService.SUBLW(literal);
 
             Assert.AreEqual(1, op_result.Cycles);
             Assert.AreEqual(1, op_result.PCIncrement);
@@ -210,15 +240,18 @@ namespace OperationTest
             Assert.AreEqual("-", op_result.OverflowInfo.Operator);
             Assert.AreEqual(4, op_result.OperationResults[0].Value);
             Assert.AreEqual(MemoryConstants.WRegPlaceholder, op_result.OperationResults[0].Address);
+
+            _mem.Verify(p => p.WReg);
         }
 
         [TestMethod]
         public void SUBLW_Overflow()
         {
-            int literal = 10;
-            mem.WReg = 20;
+            _mem.SetupGet(p => p.WReg).Returns(20);
 
-            ResultInfo op_result = opService.SUBLW(literal);
+            int literal = 10;
+
+            ResultInfo op_result = _opService.SUBLW(literal);
 
             Assert.AreEqual(1, op_result.Cycles);
             Assert.AreEqual(1, op_result.PCIncrement);
@@ -228,21 +261,26 @@ namespace OperationTest
             Assert.AreEqual("-", op_result.OverflowInfo.Operator);
             Assert.AreEqual(-10, op_result.OperationResults[0].Value);
             Assert.AreEqual(MemoryConstants.WRegPlaceholder, op_result.OperationResults[0].Address);
+
+            _mem.Verify(p => p.WReg);
         }
 
         [TestMethod]
         public void XORLW()
         {
-            int literal = 10;
-            mem.WReg = 6;
+            _mem.SetupGet(p => p.WReg).Returns(6);
 
-            ResultInfo op_result = opService.XORLW(literal);
+            int literal = 10;
+
+            ResultInfo op_result = _opService.XORLW(literal);
 
             Assert.AreEqual(1, op_result.Cycles);
             Assert.AreEqual(1, op_result.PCIncrement);
             Assert.IsTrue(op_result.CheckZ);
             Assert.AreEqual(12, op_result.OperationResults[0].Value);
             Assert.AreEqual(MemoryConstants.WRegPlaceholder, op_result.OperationResults[0].Address);
+
+            _mem.Verify(p => p.WReg);
         }
     }
 }

@@ -30,25 +30,28 @@ namespace OperationTest
         [TestMethod]
         public void ADDLW()
         {
-            _mem.SetupGet(p => p.WReg).Returns(6);
+            //Capture Mock
+            _mem.SetupGet(m => m.WReg).Returns(6);
 
-            //arrange
+            //Replay Mock
+            //Arrange
             int literal = 10;
 
-            //act
-            ResultInfo op_result = _opService.ADDLW(literal);
+            //Act
+            ResultInfo operationResultInfo = _opService.ADDLW(literal);
 
-            //assert
-            Assert.AreEqual(1, op_result.Cycles);
-            Assert.AreEqual(1, op_result.PCIncrement);
-            Assert.IsTrue(op_result.CheckZ);
-            Assert.AreEqual(literal, op_result.OverflowInfo.Operand1);
-            Assert.AreEqual(6, op_result.OverflowInfo.Operand2);
-            Assert.AreEqual("+", op_result.OverflowInfo.Operator);
-            Assert.AreEqual(16, op_result.OperationResults[0].Value);
-            Assert.AreEqual(MemoryConstants.WRegPlaceholder, op_result.OperationResults[0].Address);
+            //Assert
+            Assert.AreEqual(1, operationResultInfo.Cycles);
+            Assert.AreEqual(1, operationResultInfo.PCIncrement);
+            Assert.IsTrue(operationResultInfo.CheckZ);
+            Assert.AreEqual(literal, operationResultInfo.OverflowInfo.Operand1);
+            Assert.AreEqual(6, operationResultInfo.OverflowInfo.Operand2);
+            Assert.AreEqual("+", operationResultInfo.OverflowInfo.Operator);
+            Assert.AreEqual(16, operationResultInfo.OperationResults[0].Value);
+            Assert.AreEqual(MemoryConstants.WRegPlaceholder, operationResultInfo.OperationResults[0].Address);
 
-            _mem.Verify(p => p.WReg);
+            //Verify Mock
+            _mem.Verify(m => m.WReg);
         }
 
         [TestMethod]
@@ -151,14 +154,17 @@ namespace OperationTest
         [TestMethod]
         public void MovLW()
         {
+            //Arrange
             int literal = 10;
 
-            ResultInfo op_result = _opService.MOVLW(literal);
+            //Act
+            ResultInfo operationResultInfo = _opService.MOVLW(literal);
 
-            Assert.AreEqual(1, op_result.Cycles);
-            Assert.AreEqual(1, op_result.PCIncrement);
-            Assert.AreEqual(10, op_result.OperationResults[0].Value);
-            Assert.AreEqual(MemoryConstants.WRegPlaceholder, op_result.OperationResults[0].Address);
+            //Assert
+            Assert.AreEqual(1, operationResultInfo.Cycles);
+            Assert.AreEqual(1, operationResultInfo.PCIncrement);
+            Assert.AreEqual(10, operationResultInfo.OperationResults[0].Value);
+            Assert.AreEqual(MemoryConstants.WRegPlaceholder, operationResultInfo.OperationResults[0].Address);
         }
 
         [TestMethod]

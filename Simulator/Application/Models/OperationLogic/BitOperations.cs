@@ -172,9 +172,9 @@ namespace Application.Models.OperationLogic
             };
         }
 
-        private int BitTest(int content, int skip)
-        { // wenn skip = 0 soll bei clear geskipped werden, ist skip = 1, soll bei set geskipped werden
-            if (skip == 0)
+        private int BitTest(int content, int skipIf)
+        { // wenn skipIf = 0 soll bei clear geskipped werden, ist skipIf = 1, soll bei set geskipped werden
+            if (skipIf == 0)
             {
                 if (content == 0)
                 {

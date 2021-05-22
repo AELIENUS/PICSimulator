@@ -106,7 +106,7 @@ namespace Application.ViewModel
         {
             get
             {
-                return _memory.PortAPin5;
+                return _memory.PortAPin0;
             }
             set
             {
@@ -132,7 +132,7 @@ namespace Application.ViewModel
         {
             get
             {
-                return _memory.PortAPin5;
+                return _memory.PortAPin2;
             }
             set
             {

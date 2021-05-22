@@ -2,7 +2,7 @@
 
 namespace Application.Models.CodeLogic
 {
-    public class LineOfCode : ObservableObject
+    public class LineOfCode : ObservableObject, ILineOfCode
     {
         private string _Line;
 

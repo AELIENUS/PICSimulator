@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 
 namespace Application.Models.CodeLogic
 {
-    public interface ISourceFileModel
+    public interface ISourceFileModel<T> : ICodeToExecute<T>
     {
         string SourceFile { get; set; }
-        ObservableCollection<LineOfCode> ListOfCode { get; set; }
-        LineOfCode this[int commandIndex] { get; set; }
+        ObservableCollection<T> ListOfCode { get; set; }
     }
 }

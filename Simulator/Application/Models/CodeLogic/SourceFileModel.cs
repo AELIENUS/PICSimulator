@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace Application.Models.CodeLogic
 {
-    public class SourceFileModel: ObservableObject, ISourceFileModel
+    public class SourceFileModel: ObservableObject, ISourceFileModel<ILineOfCode>
     {
 
         private string _sourceFile;
@@ -29,9 +29,9 @@ namespace Application.Models.CodeLogic
             }
         }
 
-        private ObservableCollection<LineOfCode> _listOfCode;
+        private ObservableCollection<ILineOfCode> _listOfCode;
 
-        public ObservableCollection<LineOfCode> ListOfCode
+        public ObservableCollection<ILineOfCode> ListOfCode
         {
             get
             {
@@ -41,7 +41,7 @@ namespace Application.Models.CodeLogic
             {
                 if(_listOfCode == null)
                 {
-                    _listOfCode = new ObservableCollection<LineOfCode>();
+                    _listOfCode = new ObservableCollection<ILineOfCode>();
                 }
                 _listOfCode = value;
                 RaisePropertyChanged();
@@ -50,7 +50,7 @@ namespace Application.Models.CodeLogic
         
 
         [IndexerName("LoC")]
-        public LineOfCode this[int commandIndex]
+        public ILineOfCode this[int commandIndex]
         {
             get
             {

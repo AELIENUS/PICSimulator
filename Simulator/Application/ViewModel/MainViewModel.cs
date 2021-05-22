@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Threading;
+using System.Windows.Shapes;
 using Application.Constants;
 using Application.Models.ApplicationLogic;
 using Application.Models.CodeLogic;
@@ -400,8 +401,8 @@ namespace Application.ViewModel
             }
         }
 
-        private ISourceFileModel _srcFileModel;
-        public ISourceFileModel SrcFileModel
+        private ISourceFileModel<ILineOfCode> _srcFileModel;
+        public ISourceFileModel<ILineOfCode> SrcFileModel
         {
             get => _srcFileModel;
             set 

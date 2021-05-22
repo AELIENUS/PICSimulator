@@ -15,20 +15,6 @@ using Application.Models.ViewLogic;
 
 namespace Application.Models.Utility
 {
-    public interface IDependencyBag
-    {
-        IMemoryService Memory { get; }
-        ISourceFileModel SourceFile { get; }
-        IFileService FileService { get; }
-        IDialogService DialogService { get; }
-        IApplicationService ApplicationService { get; }
-        IRAMModel RAM { get; }
-        IPort PortA { get; }
-        IPort PortB { get; }
-        Stack<short> PCStack { get; }
-        void Create();
-    }
-
     public class DependencyBag : IDependencyBag
     {
         public IMemoryService Memory
@@ -36,7 +22,7 @@ namespace Application.Models.Utility
             get;
             private set;
         }
-        public ISourceFileModel SourceFile
+        public ISourceFileModel<ILineOfCode> SourceFile
         {
             get;
             private set;

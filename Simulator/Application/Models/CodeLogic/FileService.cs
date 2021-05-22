@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Windows.Shapes;
 
 namespace Application.Models.CodeLogic
 {
@@ -9,9 +10,9 @@ namespace Application.Models.CodeLogic
     {
         private string pattern = @"^[0-9A-F]+\s[0-9A-F]+";
 
-        public void CreateFileList(ISourceFileModel src)
+        public void CreateFileList(ISourceFileModel<ILineOfCode> src)
         {
-            src.ListOfCode = new ObservableCollection<LineOfCode>();
+            src.ListOfCode = new ObservableCollection<ILineOfCode>();
             string temp = src.SourceFile;
             string[] lines = temp.Split(
             new[] { Environment.NewLine },
@@ -37,7 +38,7 @@ namespace Application.Models.CodeLogic
             }
         }
 
-        void IFileService.Reset(ISourceFileModel src)
+        void IFileService.Reset(ISourceFileModel<ILineOfCode> src)
         {
             if (src.ListOfCode != null)
             {

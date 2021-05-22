@@ -87,12 +87,16 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\ApplicationLogic\IApplicationService.cs" />
+    <Compile Include="Models\CodeLogic\ICodeToExecute.cs" />
+    <Compile Include="Models\CodeLogic\ILineOfCode.cs" />
     <Compile Include="Models\CodeLogic\ISourceFileModel.cs" />
     <Compile Include="Models\CustomDatastructures\AbstractByte.cs" />
     <Compile Include="Constants\DebugCodes.cs" />
     <Compile Include="Models\CodeLogic\LineOfCode.cs" />
     <Compile Include="Models\CustomDatastructures\ObservableByte.cs" />
     <Compile Include="Models\Memory\IMemoryService.cs" />
+    <Compile Include="Models\Memory\IPICMemory.cs" />
+    <Compile Include="Models\Memory\IPICRAM.cs" />
     <Compile Include="Models\Memory\IPort.cs" />
     <Compile Include="Models\Memory\IRAMModel.cs" />
     <Compile Include="Models\Memory\MemoryService.cs" />
@@ -109,6 +113,7 @@
     <Compile Include="Models\OperationLogic\ByteOperations.cs" />
     <Compile Include="Models\OperationLogic\LiteralControlOperations.cs" />
     <Compile Include="Models\Utility\DependencyBag.cs" />
+    <Compile Include="Models\Utility\IDependencyBag.cs" />
     <Compile Include="Models\ViewLogic\DialogService.cs" />
     <Compile Include="Models\CodeLogic\FileService.cs" />
     <Compile Include="Models\ViewLogic\IDialogService.cs" />

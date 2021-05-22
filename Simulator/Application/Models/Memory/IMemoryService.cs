@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace Application.Models.Memory
 {
-    public interface IMemoryService : INotifyPropertyChanged
+    public interface IMemoryService : INotifyPropertyChanged, IPICMemory<IRAMModel>
     {
         bool IsISR { get; set; }
         byte TRISAValue { get; set; }
@@ -40,11 +40,9 @@ namespace Application.Models.Memory
         double Quartz { get; set; }
         Stack<short> PCStack { get; set; }
         short WReg { get; set; }
-        IRAMModel RAM { get; set; }
         int PCWithoutClear { get; }
         byte PCL { get; }
         byte PCLATH { get; }
-        void PowerReset();
         void OtherReset();
         void ResetGPR();
     }

@@ -1,8 +1,10 @@
-﻿namespace Application.Models.CodeLogic
+﻿using System.Windows.Shapes;
+
+namespace Application.Models.CodeLogic
 {
     public interface IFileService
     {
-        void CreateFileList(ISourceFileModel src);
-        void Reset(ISourceFileModel src);
+        void CreateFileList(ISourceFileModel<ILineOfCode> src);
+        void Reset(ISourceFileModel<ILineOfCode> src);
     }
 }

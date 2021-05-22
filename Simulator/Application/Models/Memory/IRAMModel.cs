@@ -2,7 +2,7 @@
 
 namespace Application.Models.Memory
 {
-    public interface IRAMModel: INotifyPropertyChanged
+    public interface IRAMModel: INotifyPropertyChanged, IPICRAM
     {
         IPort PortA { get; set; }
         IPort PortB { get; set; }
@@ -17,14 +17,6 @@ namespace Application.Models.Memory
         int DCFlag { get; }
         int PCJumpAdress { get; set; }
         byte PrescaleCounter { get; set; }
-
-        /// <summary>
-        /// accessor for any location in the memory of the PIC
-        /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        byte this[int index] { get; set; }
-
         void IncTimer0();
     }
 }

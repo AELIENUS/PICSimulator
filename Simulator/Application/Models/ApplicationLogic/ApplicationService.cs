@@ -1,6 +1,7 @@
 ﻿using System.Net.Mail;
 using System.Threading;
 using System.Windows.Interactivity;
+using System.Windows.Shapes;
 using Application.Constants;
 using Application.Models.CodeLogic;
 using Application.Models.Memory;
@@ -11,7 +12,7 @@ namespace Application.Models.ApplicationLogic
     public class ApplicationService : IApplicationService
     {
         private IMemoryService _memory;
-        private ISourceFileModel _srcModel;
+        private ISourceFileModel<ILineOfCode> _srcModel;
         private short _command;
         private readonly BitOperations _bitOperations;
         private readonly ByteOperations _byteOperations;
@@ -314,7 +315,7 @@ namespace Application.Models.ApplicationLogic
         }
     
 
-        public ApplicationService(IMemoryService memory, ISourceFileModel srcModel, OperationHelpers operationHelpers, BitOperations bitOperations, ByteOperations byteOperations, LiteralControlOperations literalControlOperations)
+        public ApplicationService(IMemoryService memory, ISourceFileModel<ILineOfCode> srcModel, OperationHelpers operationHelpers, BitOperations bitOperations, ByteOperations byteOperations, LiteralControlOperations literalControlOperations)
         {
             this._memory = memory;
             this._srcModel = srcModel;

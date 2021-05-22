@@ -16,10 +16,10 @@ namespace Application.Models.Utility
 {
     public class DependencyBag
     {
-        public MemoryService Memory;
+        public IMemoryService Memory;
         public SourceFileModel SourceFile;
-        public FileService FileService;
-        public DialogService DialogService;
+        public IFileService FileService;
+        public IDialogService DialogService;
         public ApplicationService ApplicationService;
         public BitOperations BitOperations;
         public ByteOperations ByteOperations;

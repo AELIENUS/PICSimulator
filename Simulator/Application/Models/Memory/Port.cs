@@ -3,7 +3,7 @@ using GalaSoft.MvvmLight;
 
 namespace Application.Models.Memory
 {
-    public class Port : ObservableObject
+    public class Port : ObservableObject, IPort
     {
         private byte _portLatch = 0;
 

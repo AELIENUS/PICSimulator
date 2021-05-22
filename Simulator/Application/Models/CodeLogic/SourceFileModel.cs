@@ -1,10 +1,12 @@
 ﻿using GalaSoft.MvvmLight;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
 namespace Application.Models.CodeLogic
 {
-    public class SourceFileModel: ObservableObject
+    public class SourceFileModel: ObservableObject, ISourceFileModel
     {
 
         private string _sourceFile;
@@ -27,27 +29,27 @@ namespace Application.Models.CodeLogic
             }
         }
 
-        private ObservableCollection<LineOfCode> _ListOfCode;
+        private ObservableCollection<LineOfCode> _listOfCode;
 
         public ObservableCollection<LineOfCode> ListOfCode
         {
             get
             {
-                return _ListOfCode;
+                return _listOfCode;
             }
             set
             {
-                if(_ListOfCode == null)
+                if(_listOfCode == null)
                 {
-                    _ListOfCode = new ObservableCollection<LineOfCode>();
+                    _listOfCode = new ObservableCollection<LineOfCode>();
                 }
-                _ListOfCode = value;
+                _listOfCode = value;
                 RaisePropertyChanged();
             }
         }
         
 
-        [IndexerName("loC")]
+        [IndexerName("LoC")]
         public LineOfCode this[int commandIndex]
         {
             get
@@ -71,7 +73,7 @@ namespace Application.Models.CodeLogic
                         ListOfCode[i] = value;
                     }
                 }
-                RaisePropertyChanged("loC");
+                RaisePropertyChanged("LoC");
             }
         }
 

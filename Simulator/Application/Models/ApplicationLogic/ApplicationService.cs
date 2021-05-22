@@ -8,10 +8,10 @@ using Application.Models.OperationLogic;
 
 namespace Application.Models.ApplicationLogic
 {
-    public class ApplicationService
+    public class ApplicationService : IApplicationService
     {
-        private MemoryService _memory;
-        private SourceFileModel _srcModel;
+        private IMemoryService _memory;
+        private ISourceFileModel _srcModel;
         private short _command;
         private readonly BitOperations _bitOperations;
         private readonly ByteOperations _byteOperations;
@@ -314,7 +314,7 @@ namespace Application.Models.ApplicationLogic
         }
     
 
-        public ApplicationService(MemoryService memory, SourceFileModel srcModel, OperationHelpers operationHelpers, BitOperations bitOperations, ByteOperations byteOperations, LiteralControlOperations literalControlOperations)
+        public ApplicationService(IMemoryService memory, ISourceFileModel srcModel, OperationHelpers operationHelpers, BitOperations bitOperations, ByteOperations byteOperations, LiteralControlOperations literalControlOperations)
         {
             this._memory = memory;
             this._srcModel = srcModel;

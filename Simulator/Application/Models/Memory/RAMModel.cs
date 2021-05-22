@@ -261,7 +261,8 @@ namespace Application.Models.Memory
             get
             {
                 //wenn Status, rp0=1 -> Bank 1
-                if ((RAMList[0].Byte3.Value & 0b0010_0000) >0)
+                // there are cases where rp0 is flipped but the index is already on bank2 because in code we are using constants to call this. Therefore we have to check if the index is already higher than 0x0F
+                if ((RAMList[0].Byte3.Value & 0b0010_0000) >0 && index < 0x80)
                 {
                     index += 0x80;
                 } 

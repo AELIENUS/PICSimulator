@@ -2,7 +2,7 @@
 {
     public interface IFileService
     {
-        void CreateFileList(SourceFileModel src);
-        void Reset(SourceFileModel src);
+        void CreateFileList(ISourceFileModel src);
+        void Reset(ISourceFileModel src);
     }
 }

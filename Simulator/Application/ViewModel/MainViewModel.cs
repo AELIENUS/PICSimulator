@@ -18,7 +18,7 @@ namespace Application.ViewModel
     {
         #region fields
         private IDialogService _dialogService;
-        private ApplicationService _applicationService;
+        private IApplicationService _applicationService;
         private IFileService _fileService;
         private Thread _threadRun;
         #endregion
@@ -389,8 +389,8 @@ namespace Application.ViewModel
             }
         }
 
-        private MemoryService _memory;
-        public MemoryService Memory
+        private IMemoryService _memory;
+        public IMemoryService Memory
         {
             get => _memory;
             set
@@ -400,8 +400,8 @@ namespace Application.ViewModel
             }
         }
 
-        private SourceFileModel _srcFileModel;
-        public SourceFileModel SrcFileModel
+        private ISourceFileModel _srcFileModel;
+        public ISourceFileModel SrcFileModel
         {
             get => _srcFileModel;
             set 
@@ -555,7 +555,7 @@ namespace Application.ViewModel
         public MainViewModel()
         {
             // make dependency bag singleton
-            DependencyBag bag = new DependencyBag();
+            IDependencyBag bag = new DependencyBag();
             bag.Create();
             _memory = bag.Memory;
             _srcFileModel = bag.SourceFile;

@@ -2,10 +2,10 @@
 
 namespace Application.Models.Memory
 {
-    public interface IRAMModel
+    public interface IRAMModel: INotifyPropertyChanged
     {
-        Port PortA { get; set; }
-        Port PortB { get; set; }
+        IPort PortA { get; set; }
+        IPort PortB { get; set; }
         bool PCWasJump { get; set; }
         bool PCLWasManipulated { get; set; }
         int PCWithClear { get; }
@@ -26,7 +26,5 @@ namespace Application.Models.Memory
         byte this[int index] { get; set; }
 
         void IncTimer0();
-
-        event PropertyChangedEventHandler PropertyChanged;
     }
 }

@@ -23,8 +23,8 @@ namespace Application.Models.Memory
             }
         }
 
-        private Port _PortA;
-        public Port PortA
+        private IPort _PortA;
+        public IPort PortA
         {
             get
             {
@@ -41,9 +41,9 @@ namespace Application.Models.Memory
             }
         }
 
-        private Port _PortB;
+        private IPort _PortB;
 
-        public Port PortB
+        public IPort PortB
         {
             get
             {
@@ -515,7 +515,7 @@ namespace Application.Models.Memory
         }
         #endregion
 
-        public RAMModel(Port portA, Port portB)
+        public RAMModel(IPort portA, IPort portB)
         {
             _RAMList = new ObservableCollection<RAMPortion>(new RAMPortion[16]);
             for (int i = 0; i < 16; i++)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,26 +15,71 @@ using Application.Models.ViewLogic;
 
 namespace Application.Models.Utility
 {
-    public class DependencyBag
+    public interface IDependencyBag
     {
-        public IMemoryService Memory;
-        public SourceFileModel SourceFile;
-        public IFileService FileService;
-        public IDialogService DialogService;
-        public ApplicationService ApplicationService;
-        public BitOperations BitOperations;
-        public ByteOperations ByteOperations;
-        public LiteralControlOperations LiteralControlOperations;
-        public OperationHelpers OperationHelpers;
-        public ObservableStack<short> PCStack;
-        public RAMModel RAM;
-        public Port PortA;
-        public Port PortB;
+        IMemoryService Memory { get; }
+        ISourceFileModel SourceFile { get; }
+        IFileService FileService { get; }
+        IDialogService DialogService { get; }
+        IApplicationService ApplicationService { get; }
+        IRAMModel RAM { get; }
+        IPort PortA { get; }
+        IPort PortB { get; }
+        Stack<short> PCStack { get; }
+        void Create();
+    }
 
-        public DependencyBag()
+    public class DependencyBag : IDependencyBag
+    {
+        public IMemoryService Memory
         {
-                
+            get;
+            private set;
         }
+        public ISourceFileModel SourceFile
+        {
+            get;
+            private set;
+        }
+        public IFileService FileService
+        {
+            get;
+            private set;
+        }
+        public IDialogService DialogService
+        {
+            get;
+            private set;
+        }
+        public IApplicationService ApplicationService
+        {
+            get;
+            private set;
+        }
+        public IRAMModel RAM
+        {
+            get;
+            private set;
+        }
+        public IPort PortA
+        {
+            get;
+            private set;
+        }
+        public IPort PortB
+        {
+            get;
+            private set;
+        }
+        public Stack<short> PCStack
+        {
+            get;
+            private set;
+        }
+        private BitOperations BitOperations;
+        private ByteOperations ByteOperations;
+        private LiteralControlOperations LiteralControlOperations;
+        private OperationHelpers OperationHelpers;
 
         public void Create()
         {

@@ -1,8 +1,9 @@
-﻿using Application.Models.CustomDatastructures;
+﻿using System.ComponentModel;
+using Application.Models.CustomDatastructures;
 
 namespace Application.Models.Memory
 {
-    public interface IPort
+    public interface IPort : INotifyPropertyChanged
     {
         byte PortLatch { get; set; }
         ObservableByte TRISValue { get; set; }

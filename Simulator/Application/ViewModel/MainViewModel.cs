@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Threading;
@@ -73,6 +74,19 @@ namespace Application.ViewModel
             set
             {
                 _memory.RAM = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public ObservableCollection<RAMPortion> RAMList
+        {
+            get
+            {
+                return _memory.RAMList;
+            }
+            set
+            {
+                _memory.RAMList = value;
                 RaisePropertyChanged();
             }
         }

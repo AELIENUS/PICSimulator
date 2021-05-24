@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Application.Constants;
 using Application.Models.CustomDatastructures;
 
@@ -272,6 +273,19 @@ namespace Application.Models.Memory
             set
             {
                 _ram.PortB.Pin7 = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public ObservableCollection<RAMPortion> RAMList
+        {
+            get
+            {
+                return RAM.RAMList;
+            }
+            set
+            {
+                RAM.RAMList = value;
                 RaisePropertyChanged();
             }
         }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace Application.Models.Memory
 {
@@ -18,5 +19,6 @@ namespace Application.Models.Memory
         int PCJumpAdress { get; set; }
         byte PrescaleCounter { get; set; }
         void IncTimer0();
+        ObservableCollection<RAMPortion> RAMList { get; set; }
     }
 }

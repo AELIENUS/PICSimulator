@@ -213,7 +213,7 @@
                 </DataGrid.RowStyle>
             </DataGrid>
             <DockPanel Grid.Row="4" Grid.Column="2" Grid.RowSpan="5" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DockPanel.Dock="Top">
-                <DataGrid x:Name="memoryGrid" LoadingRow="DataGrid_LoadingRow" ItemsSource="{Binding RAM.RAMList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
+                <DataGrid x:Name="memoryGrid" LoadingRow="DataGrid_LoadingRow" ItemsSource="{Binding RAMList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="0xR0" Binding="{Binding Byte0.Value}"/>
                         <DataGridTextColumn Header="0xR1" Binding="{Binding Byte1.Value}"/>

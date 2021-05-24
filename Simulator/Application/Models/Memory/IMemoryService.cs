@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace Application.Models.Memory
@@ -30,13 +31,12 @@ namespace Application.Models.Memory
         int ZFlag { get; }
         int DCFlag { get; }
         int CFlag { get; }
-
         double Runtime //in µs
         {
             get;
             set;
         }
-
+        ObservableCollection<RAMPortion> RAMList { get; set; }
         double Quartz { get; set; }
         Stack<short> PCStack { get; set; }
         short WReg { get; set; }

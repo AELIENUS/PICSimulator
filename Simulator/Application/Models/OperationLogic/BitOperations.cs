@@ -14,75 +14,26 @@ namespace Application.Models.OperationLogic
 
         public ResultInfo BCF(int file, int bit) //bit clear f
         {
-            int result;
-            switch (bit)
-            {
-                case 0:
-                    result = _memory.RAM[file] & 0b_1111_1110;
-                    break;
-                case 1:
-                    result = _memory.RAM[file] & 0b_1111_1101;
-                    break;
-                case 2:
-                    result = _memory.RAM[file] & 0b_1111_1011;
-                    break;
-                case 3:
-                    result = _memory.RAM[file] & 0b_1111_0111;
-                    break;
-                case 4:
-                    result = _memory.RAM[file] & 0b_1110_1111;
-                    break;
-                case 5:
-                    result = _memory.RAM[file] & 0b_1101_1111;
-                    break;
-                case 6:
-                    result = _memory.RAM[file] & 0b_1011_1111;
-                    break;
-                default: // bit = 7
-                    result = _memory.RAM[file] & 0b_0111_1111;
-                    break;
-            }
-            return new ResultInfo()
-            {
-                PCIncrement = 1,
-                Cycles = 1,
-                OperationResults = new List<OperationResult>()
-                {
-                    new OperationResult()
-                        {Value = result, Address = file}
-                },
-            };
+            return BXF(file, bit, false);
         }
 
         public ResultInfo BSF(int file, int bit)//bit set f
         {
+            return BXF(file, bit, true);
+        }
+
+        private ResultInfo BXF(int file, int bit, bool set)
+        {
             int result;
-            switch (bit)
+            byte mask = 0b0000_0001;
+            mask = (byte) (mask << bit);
+            if (set)
             {
-                case 0:
-                    result = _memory.RAM[file] | 0b_0000_0001;
-                    break;
-                case 1:
-                    result = _memory.RAM[file] | 0b_0000_0010;
-                    break;
-                case 2:
-                    result = _memory.RAM[file] | 0b_0000_0100;
-                    break;
-                case 3:
-                    result = _memory.RAM[file] | 0b_0000_1000;
-                    break;
-                case 4:
-                    result = _memory.RAM[file] | 0b_0001_0000;
-                    break;
-                case 5:
-                    result = _memory.RAM[file] | 0b_0010_0000;
-                    break;
-                case 6:
-                    result = _memory.RAM[file] | 0b_0100_0000;
-                    break;
-                default: // bit = 7
-                    result = _memory.RAM[file] | 0b_1000_0000;
-                    break;
+                result = _memory.RAM[file] | mask;
+            }
+            else
+            {
+                result = _memory.RAM[file] & mask;
             }
             return new ResultInfo()
             {
@@ -99,33 +50,7 @@ namespace Application.Models.OperationLogic
         public ResultInfo BTFSC(int file, int bit) //bit test f, skip if clear
         {
             int summand;
-            switch (bit)
-            {
-                case 0:
-                    summand = BitTest(_memory.RAM[file] & 0b_0000_0001, 0);
-                    break;
-                case 1:
-                    summand = BitTest(_memory.RAM[file] & 0b_0000_0010, 0);
-                    break;
-                case 2:
-                    summand = BitTest(_memory.RAM[file] & 0b_0000_0100, 0);
-                    break;
-                case 3:
-                    summand = BitTest(_memory.RAM[file] & 0b_0000_1000, 0);
-                    break;
-                case 4:
-                    summand = BitTest(_memory.RAM[file] & 0b_0001_0000, 0);
-                    break;
-                case 5:
-                    summand = BitTest(_memory.RAM[file] & 0b_0010_0000, 0);
-                    break;
-                case 6:
-                    summand = BitTest(_memory.RAM[file] & 0b_0100_0000, 0);
-                    break;
-                default: // bit = 7
-                    summand = BitTest(_memory.RAM[file] & 0b_1000_0000, 0);
-                    break;
-            }
+            summand = BTFSX(file, bit, 0);
             return new ResultInfo()
             {
                 PCIncrement = 1,
@@ -137,33 +62,7 @@ namespace Application.Models.OperationLogic
         public ResultInfo BTFSS(int file, int bit) //bit test f, skip if set
         {
             int summand;
-            switch (bit)
-            {
-                case 0:
-                    summand = BitTest(_memory.RAM[file] & 0b_0000_0001, 1);
-                    break;
-                case 1:
-                    summand = BitTest(_memory.RAM[file] & 0b_0000_0010, 1);
-                    break;
-                case 2:
-                    summand = BitTest(_memory.RAM[file] & 0b_0000_0100, 1);
-                    break;
-                case 3:
-                    summand = BitTest(_memory.RAM[file] & 0b_0000_1000, 1);
-                    break;
-                case 4:
-                    summand = BitTest(_memory.RAM[file] & 0b_0001_0000, 1);
-                    break;
-                case 5:
-                    summand = BitTest(_memory.RAM[file] & 0b_0010_0000, 1);
-                    break;
-                case 6:
-                    summand = BitTest(_memory.RAM[file] & 0b_0100_0000, 1);
-                    break;
-                default: // bit = 7
-                    summand = BitTest(_memory.RAM[file] & 0b_1000_0000, 1);
-                    break;
-            }
+            summand = BTFSX(file, bit, 1);
             return new ResultInfo()
             {
                 PCIncrement = 1,
@@ -172,21 +71,24 @@ namespace Application.Models.OperationLogic
             };
         }
 
-        private int BitTest(int content, int skipIf)
-        { // wenn skipIf = 0 soll bei clear geskipped werden, ist skipIf = 1, soll bei set geskipped werden
+        private int BTFSX(int file, int bit, int skipIf)
+        {
+            byte mask = 0b0000_0001;
+            mask = (byte)(mask << bit);
             if (skipIf == 0)
             {
-                if (content == 0)
+                if ((_memory.RAM[file] & mask) == 0)
                 {
                     return 2;
                 }
                 return 1;
             }
-            if (content == 0)
+            if ((_memory.RAM[file] & mask) == 0)
             {
                 return 1;
             }
             return 2;
         }
+
     }
 }

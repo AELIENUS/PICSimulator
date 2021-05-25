@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 namespace Application.Models.Memory
 {
     /// <summary>
-    /// Defines the interface for RAM classes for PIC controllers. RAM has to be directly addressable via an index. 
+    /// Defines the interface for RAM classes for PIC controllers.
+    /// RAM has to be directly addressable via an index. 
     /// </summary>
     public interface IPICRAM
     {

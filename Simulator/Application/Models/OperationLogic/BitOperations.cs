@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Application.Models.Memory;
 
 namespace Application.Models.OperationLogic
@@ -50,45 +51,33 @@ namespace Application.Models.OperationLogic
 
         public ResultInfo BTFSC(int file, int bit) //bit test f, skip if clear
         {
-            int summand;
-            summand = BTFSX(file, bit, 0);
-            return new ResultInfo()
-            {
-                PCIncrement = 1,
-                Cycles = 1,
-                BeginLoop = summand == 2,
-            };
+            return BTFSX(file, bit, 0);
         }
 
         public ResultInfo BTFSS(int file, int bit) //bit test f, skip if set
         {
-            int summand;
-            summand = BTFSX(file, bit, 1);
-            return new ResultInfo()
-            {
-                PCIncrement = 1,
-                Cycles = 1,
-                BeginLoop = summand == 2,
-            };
+            return BTFSX(file, bit, 1);
         }
 
-        private int BTFSX(int file, int bit, int skipIf)
+        private ResultInfo BTFSX(int file, int bit, int skipIf)
         {
+            bool skip;
             byte mask = 0b0000_0001;
             mask = (byte)(mask << bit);
             if (skipIf == 0)
             {
-                if ((_memory.RAM[file] & mask) == 0)
-                {
-                    return 2;
-                }
-                return 1;
+                skip = (_memory.RAM[file] & mask) == 0;
             }
-            if ((_memory.RAM[file] & mask) == 0)
+            else
             {
-                return 1;
+                skip = (_memory.RAM[file] & mask) == 1;
             }
-            return 2;
+            return new ResultInfo()
+            {
+                PCIncrement = 1,
+                Cycles = 1,
+                BeginLoop = skip,
+            };
         }
 
     }

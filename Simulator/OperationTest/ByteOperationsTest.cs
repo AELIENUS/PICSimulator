@@ -34,28 +34,6 @@ namespace OperationTest
         public void ADDWF_d0()
         {
             _ram.SetupGet(p => p[_file]).Returns(10);
-            _mem.SetupGet(p => p.WReg).Returns(6);
-
-            ResultInfo op_result = _opService.ADDWF(_file, _d0);
-
-            Assert.AreEqual(10, op_result.OverflowInfo.Operand1);
-            Assert.AreEqual(6, op_result.OverflowInfo.Operand2);
-            Assert.AreEqual("+", op_result.OverflowInfo.Operator);
-            Assert.AreEqual(1, op_result.Cycles);
-            Assert.AreEqual(1, op_result.PCIncrement);
-            Assert.IsTrue(op_result.CheckZ);
-            Assert.AreEqual(16, op_result.OperationResults[0].Value);
-            Assert.AreEqual(MemoryConstants.WRegPlaceholder, op_result.OperationResults[0].Address);
-
-            _ram.Verify(p => p[_file]);
-            _mem.Verify(p => p.WReg);
-        }
-
-
-        [TestMethod]
-        public void ADDWF_d1_Overflow()
-        {
-            _ram.SetupGet(p => p[_file]).Returns(10);
             _mem.SetupGet(p => p.WReg).Returns(250);
 
             ResultInfo op_result = _opService.ADDWF(_file, _d1);
@@ -161,6 +139,22 @@ namespace OperationTest
             Assert.AreEqual(1, op_result.PCIncrement);
             Assert.IsTrue(op_result.CheckZ);
             Assert.AreEqual(12, op_result.OperationResults[0].Value);
+            Assert.AreEqual(_file, op_result.OperationResults[0].Address);
+
+            _ram.Verify(p => p[_file]);
+        }
+
+        [TestMethod]
+        public void DECF_underflow()
+        {
+            _ram.SetupGet(p => p[_file]).Returns(0);
+
+            ResultInfo op_result = _opService.DECF(_file, _d1);
+
+            Assert.AreEqual(1, op_result.Cycles);
+            Assert.AreEqual(1, op_result.PCIncrement);
+            Assert.IsTrue(op_result.CheckZ);
+            Assert.AreEqual(255, op_result.OperationResults[0].Value);
             Assert.AreEqual(_file, op_result.OperationResults[0].Address);
 
             _ram.Verify(p => p[_file]);

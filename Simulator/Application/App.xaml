@@ -11,7 +11,6 @@
         <ResourceDictionary>
             <vm:MainViewModel x:Key="Main" />
             <converters:ByteConverter x:Key="ElementConverter"/>
-            <converters:ByteBitToBoolConverter x:Key="BitToBoolConverter"/>
             <converters:ShortToBinary x:Key="ShortConverter"/>
         </ResourceDictionary>
     </Application.Resources>

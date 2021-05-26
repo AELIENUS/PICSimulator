@@ -437,79 +437,33 @@ namespace Application.Models.Memory
 
         private void PortB_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            switch (e.PropertyName)
+            if (e.PropertyName == "TRISValue")
             {
-                case "TRISValue":
-                    RaisePropertyChanged("TRISBValue");
-                    break;
-                case "PortValue":
-                    RaisePropertyChanged("PortBValue");
-                    break;
-                case "Pin0":
-                    RaisePropertyChanged("PortBPin0");
-                    break;
-                case "Pin1":
-                    RaisePropertyChanged("PortBPin1");
-                    break;
-                case "Pin2":
-                    RaisePropertyChanged("PortBPin2");
-                    break;
-                case "Pin3":
-                    RaisePropertyChanged("PortBPin3");
-                    break;
-                case "Pin4":
-                    RaisePropertyChanged("PortBPin4");
-                    break;
-                case "Pin5":
-                    RaisePropertyChanged("PortBPin5");
-                    break;
-                case "Pin6":
-                    RaisePropertyChanged("PortBPin6");
-                    break;
-                case "Pin7":
-                    RaisePropertyChanged("PortBPin7");
-                    break;
-                default:
-                    break;
+                RaisePropertyChanged("TRISBValue");
+            }
+            else if (e.PropertyName == "PortValue")
+            {
+                RaisePropertyChanged("PortBValue");
+            }
+            else
+            {
+                RaisePropertyChanged("PortB" + e.PropertyName);
             }
         }
 
         private void PortA_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            switch (e.PropertyName)
+            if (e.PropertyName == "TRISValue")
             {
-                case "TRISValue":
-                    RaisePropertyChanged("TRISAValue");
-                    break;
-                case "PortValue":
-                    RaisePropertyChanged("PortAValue");
-                    break;
-                case "Pin0":
-                    RaisePropertyChanged("PortAPin0");
-                    break;
-                case "Pin1":
-                    RaisePropertyChanged("PortAPin1");
-                    break;
-                case "Pin2":
-                    RaisePropertyChanged("PortAPin2");
-                    break;
-                case "Pin3":
-                    RaisePropertyChanged("PortAPin3");
-                    break;
-                case "Pin4":
-                    RaisePropertyChanged("PortAPin4");
-                    break;
-                case "Pin5":
-                    RaisePropertyChanged("PortAPin5");
-                    break;
-                case "Pin6":
-                    RaisePropertyChanged("PortAPin6");
-                    break;
-                case "Pin7":
-                    RaisePropertyChanged("PortAPin7");
-                    break;
-                default:
-                    break;
+                RaisePropertyChanged("TRISAValue");
+            }
+            else if (e.PropertyName == "PortValue")
+            {
+                RaisePropertyChanged("PortAValue");
+            }
+            else
+            {
+                RaisePropertyChanged("PortA"+e.PropertyName);
             }
         }
 

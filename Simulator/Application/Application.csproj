@@ -105,7 +105,6 @@
     <Compile Include="Models\Memory\RAMModel.cs" />
     <Compile Include="Models\Memory\RAMPortion.cs" />
     <Compile Include="Models\CodeLogic\SourceFileModel.cs" />
-    <Compile Include="Models\Converters\ByteBitToBoolConverter.cs" />
     <Compile Include="Models\Converters\ByteConverter.cs" />
     <Compile Include="Models\ApplicationLogic\ApplicationService.cs" />
     <Compile Include="Constants\MemoryConstants.cs" />

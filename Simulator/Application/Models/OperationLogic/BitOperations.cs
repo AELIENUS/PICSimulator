@@ -33,6 +33,7 @@ namespace Application.Models.OperationLogic
             }
             else
             {
+                mask = (byte)~mask;
                 result = _memory.RAM[file] & mask;
             }
             return new ResultInfo()

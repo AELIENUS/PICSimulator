@@ -99,7 +99,7 @@ namespace Application.Models.Memory
             }
         }
 
-        public virtual bool Pin4
+        public bool Pin4
         {
             get
             {
@@ -108,7 +108,6 @@ namespace Application.Models.Memory
             set
             {
                 SetPin(value, 4);
-                //SetPortAPin4(value);
             }
         }
 

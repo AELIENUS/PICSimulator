@@ -1,59 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Models.CustomDatastructures;
 
 namespace Application.Models.Memory
 {
-    class PortWithTimerPin : Port
+    class PortWithTimerPin : IPort
     {
-        public override bool Pin4
+        public byte PortLatch { get; set; }
+        public ObservableByte TRISValue { get; set; }
+        public ObservableByte PortValue { get; set; }
+        public bool Pin0 { get; set; }
+        public bool Pin1 { get; set; }
+        public bool Pin2 { get; set; }
+        public bool Pin3 { get; set; }
+        public bool Pin4 { get; set; }
+        public bool Pin5 { get; set; }
+        public bool Pin6 { get; set; }
+        public bool Pin7 { get; set; }
+
+        private void SetPortAPin4(bool valueToSet)
         {
-            get
-            {
-                return base.GetPin(4);
-            }
-            set
-            {
-                SetPortAPin4(value);
-                RaisePropertyChanged();
-            }
         }
 
-        public void SetPortAPin4(bool valueToSet)
-        {
-            ////PortA PIN 4 ist source von Timer0 
-            //if ((_RAMModel.RAMList[8].Byte1.Value & 0b0010_0000) > 0)
-            //{
-            //    if ((_RAMModel.RAMList[8].Byte1.Value & 0b0001_0000) == 0)
-            //    {
-            //        //steigende Flanke
-            //        if ((valueToSet == true)
-            //            && ((_RAMModel.RAMList[0].Byte5.Value & 0b0001_0000) == 0))
-            //        {
-            //            _RAMModel.IncTimer0();
-            //        }
-            //    }
-            //    else
-            //    {
-            //        //fallende Flanke
-            //        if ((valueToSet == false)
-            //            && ((_RAMModel.RAMList[0].Byte5.Value & 0b0001_0000) > 0))
-            //        {
-            //            _RAMModel.IncTimer0();
-            //        }
-            //    }
-            //}
-            ////Wert setzen
-            //if (valueToSet == true)
-            //{
-            //    PortValue.Value |= 0b0001_0000;
-            //}
-            //else
-            //{
-            //    PortValue.Value &= 0b1110_1111;
-            //}
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
